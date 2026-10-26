@@ -43,7 +43,13 @@ let cached: BundleState | null = null;
  */
 function loadBundle(): BundleState {
   if (cached) return cached;
-  const path = resolve(process.cwd(), process.env.BANDIT_BUNDLE_PATH ?? "ml/bandit.json");
+  // turbopackIgnore: path dari env tidak bisa dilacak secara statis, dan tanpa
+  // komentar ini Turbopack menelusuri seluruh proyek. Berkasnya sendiri sudah
+  // dimasukkan lewat outputFileTracingIncludes di next.config.ts.
+  const path = resolve(
+    /* turbopackIgnore: true */ process.cwd(),
+    process.env.BANDIT_BUNDLE_PATH ?? "ml/bandit.json",
+  );
   try {
     const bundle = parseBanditBundle(JSON.parse(readFileSync(path, "utf8")));
     const blocker = servingBlocker(bundle, {
