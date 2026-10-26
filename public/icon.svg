@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Gacha Makan">
+  <rect width="512" height="512" rx="112" fill="#f43f5e"/>
+  <circle cx="256" cy="222" r="112" fill="none" stroke="#fff" stroke-width="26"/>
+  <path d="M144 222h224" stroke="#fff" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="256" cy="222" r="34" fill="#fff"/>
+  <path d="M136 330h240c0 58-54 96-120 96s-120-38-120-96z" fill="#fff"/>
+  <path d="M120 330h272" stroke="#fff" stroke-width="26" stroke-linecap="round"/>
+</svg>
