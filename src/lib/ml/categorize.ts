@@ -123,6 +123,26 @@ export function buildUserMessage(batch: CategorizeInput[]): string {
   return `Tentukan slot untuk ${batch.length} tempat berikut (satu JSON per baris):\n\n${lines.join("\n")}`;
 }
 
+/**
+ * Badan permintaan untuk `POST /api/chat` Ollama.
+ *
+ * `format` diisi skema JSON yang sama dengan yang dipakai untuk Claude, jadi
+ * model lokal pun dipaksa menjawab dengan bentuk dan enum slot yang sama.
+ * Temperatur 0 supaya dua kali jalan memberi hasil yang bisa dibandingkan.
+ */
+export function buildOllamaRequest(batch: CategorizeInput[], model: string) {
+  return {
+    model,
+    stream: false,
+    format: SUGGESTION_SCHEMA,
+    options: { temperature: 0 },
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: buildUserMessage(batch) },
+    ],
+  };
+}
+
 export interface ValidationResult {
   suggestions: CategorySuggestion[];
   /** Id dari batch yang tidak mendapat jawaban sah. */

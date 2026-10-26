@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  buildOllamaRequest,
   buildUserMessage,
   isApplicable,
   needsCategorization,
@@ -57,6 +58,18 @@ describe("buildUserMessage", () => {
     for (const row of batch) {
       expect(message.split(`"id":"${row.id}"`).length - 1).toBe(1);
     }
+  });
+});
+
+describe("buildOllamaRequest", () => {
+  it("memakai skema dan prompt yang sama dengan Claude, tanpa streaming", () => {
+    const body = buildOllamaRequest(batch, "qwen2.5:7b");
+    expect(body.model).toBe("qwen2.5:7b");
+    expect(body.stream).toBe(false);
+    expect(body.format).toBe(SUGGESTION_SCHEMA);
+    expect(body.options.temperature).toBe(0);
+    expect(body.messages[0].role).toBe("system");
+    expect(body.messages[1].content).toBe(buildUserMessage(batch));
   });
 });
 

@@ -41,7 +41,7 @@ Ada dua jenis AI di sini, dengan peran yang sengaja dipisah:
 
 | | Tugas | Kenapa jenis ini |
 |---|---|---|
-| **LLM (Claude)** | Membereskan data: menebak kategori masakan dari nama warung | Masalah bahasa. "Ayam Crisbar" itu warung ayam — tidak butuh statistik |
+| **LLM (Ollama lokal atau Claude)** | Membereskan data: menebak kategori masakan dari nama warung | Masalah bahasa. "Ayam Crisbar" itu warung ayam — tidak butuh statistik |
 | **Bandit (Thompson Sampling)** | Memilih warung yang ditayangkan | Masalah keputusan berulang dengan umpan balik. Harus bisa dievaluasi dan diaudit |
 
 LLM tidak pernah memilih warung. Alasannya bukan soal kemampuan: pilihan yang
@@ -49,7 +49,7 @@ dibuat LLM tidak punya peluang yang bisa dicatat, dan tanpa peluang itu log-nya
 tidak bisa dipakai untuk evaluasi yang jujur.
 
 ```
-kurasi kategori (Claude) ─▶ katalog yang lebih kaya
+kurasi kategori (LLM) ───▶ katalog yang lebih kaya
                                    │
                    /api/spin ─▶ spin_events  (konteks + peluang + semua kandidat)
                                    │
@@ -82,7 +82,7 @@ tidak ada container tambahan: inferensinya cuma perkalian matriks-vektor 26×26.
 | `src/lib/ml/evaluation.ts` | IPS, SNIPS, interval bootstrap, ESS |
 | `src/lib/ml/serve.ts` | Penyajian di `/api/spin` |
 | `src/lib/ml/categorize.ts` | Prompt, validasi, dan pembuatan SQL untuk kurasi LLM |
-| `scripts/categorize-llm.ts` | Memanggil Claude untuk kurasi kategori |
+| `scripts/categorize-llm.ts` | Memanggil LLM (Ollama atau Claude) untuk kurasi kategori |
 | `scripts/train-bandit.ts`, `evaluate-bandit.ts` | Pelatihan dan evaluasi dari ekspor |
 | `scripts/synthesize-spins.ts` | Log sintetis untuk mencoba alurnya |
 | `scripts/lib/spin-export.ts` | Pembaca ekspor CSV/JSON dan kueri ekspornya |
@@ -198,13 +198,25 @@ modelnya sudah dipakai orang.
 
 ## Kurasi kategori dengan LLM
 
-**Status: alat selesai, belum dijalankan ke data nyata.**
+**Status: alat selesai, belum dijalankan ke data nyata.** Per 26 Oktober 2026,
+16 dari 32 tempat di database (50%) masih jatuh ke `lainnya`.
 
 Sebagian besar katalog berkategori "Restaurant" polos, yang jatuh ke slot
 `lainnya`. Selama itu belum dikurasi, **12 dari 26 dimensi fitur praktis
 kosong.** `scripts/categorize-llm.ts` mengirim nama tiap tempat yang sekarang
-jatuh ke `lainnya` ke Claude (`claude-opus-5-5`, effort `low`), 40 per
-permintaan, dengan structured outputs yang membatasi jawaban ke 12 slot.
+jatuh ke `lainnya` ke LLM, dengan skema JSON yang membatasi jawaban ke 12 slot.
+
+Dua provider, dengan prompt, skema, dan validasi yang sama persis:
+
+| Provider | Model | Batch | Biaya | Catatan |
+|---|---|---|---|---|
+| `ollama` (default) | `qwen2.5:7b` di laptop | 10 | Gratis | Jalan di CPU; lebih sering salah untuk nama yang samar |
+| `claude` | `claude-opus-5-5`, effort `low` | 40 | Beberapa sen per 100 tempat | Butuh `ANTHROPIC_API_KEY` dan saldo |
+
+Qwen 2.5 dipilih untuk default karena dukungan bahasa Indonesianya baik di
+ukuran yang muat di RAM laptop. Model lain bisa dipakai lewat `OLLAMA_MODEL`.
+Karena keluarannya tetap SQL untuk direview, model yang lebih lemah tidak
+langsung merusak data — ia cuma membuat berkas review perlu dibaca lebih teliti.
 
 Bentuknya sama dengan ingest OSM — **SQL untuk direview, tidak pernah menulis
 langsung**:
@@ -218,9 +230,10 @@ langsung**:
 - **Label yang ditulis dikunci tes**: `toCuisineSlot(label)` harus kembali ke
   slot yang dimaksud, karena label yang jatuh ke slot lain akan diam-diam
   merusak fitur
-- **Penolakan model ditangani.** `fallbacks: "default"` mengulang permintaan
-  di model cadangan kalau classifier keamanan salah menolak; batch yang tetap
-  gagal tercatat sebagai "tanpa jawaban" di berkas review, bukan dibuang diam-diam
+- **Kegagalan tidak dibuang diam-diam.** Jawaban yang bukan JSON sah, id yang
+  salah salin, atau penolakan model tercatat sebagai "tanpa jawaban" di berkas
+  review. Untuk Claude, `fallbacks: "default"` mengulang permintaan di model
+  cadangan kalau classifier keamanan salah menolak
 
 Katalog dibaca dengan anon key, karena memang publik.
 
@@ -375,14 +388,28 @@ menyajikan**.
 
 ### Kurasi kategori
 
-Butuh `ANTHROPIC_API_KEY` (atau profil `ant auth login`) dan env Supabase di
-`.env.local`.
+Butuh env Supabase di `.env.local`. Project URL ditulis **tanpa** `/rest/v1/`
+di belakangnya — library Supabase menambahkannya sendiri, dan kalau ikut
+ditulis hasilnya error "Invalid path specified in request URL".
+
+**Dengan Ollama (gratis).** Pasang sekali:
 
 ```bash
-npm run ml:categorize -- --dry-run      # lihat yang akan dikirim, tanpa API
-npm run ml:categorize -- --limit=20     # coba sedikit dulu
+curl -fsSL https://ollama.com/install.sh | sh
+ollama pull qwen2.5:7b
+```
+
+Unduhan modelnya ~4,7 GB. Di Linux, installer memasang Ollama sebagai service
+yang langsung berjalan; kalau tidak, jalankan `ollama serve` di terminal lain.
+
+```bash
+npm run ml:categorize -- --dry-run      # lihat yang akan dikirim, tanpa model
+npm run ml:categorize -- --limit=10     # coba satu batch dulu
 npm run ml:categorize                   # semuanya
 ```
+
+**Dengan Claude.** Isi `ANTHROPIC_API_KEY` di `.env.local`, lalu tambahkan
+`--provider=claude` ke perintah di atas.
 
 Baca `supabase/generated/kategori-llm.review.md`, lalu tempel
 `kategori-llm.sql` ke SQL Editor.
