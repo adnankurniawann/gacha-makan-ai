@@ -16,7 +16,7 @@ export const BUNDLE_FORMAT_VERSION = 1;
 /**
  * Jumlah contoh minimum sebelum bundle boleh menyajikan.
  *
- * ML.md: di bawah ~500 spin tidak ada yang bisa dipelajari, dan model yang
+ * docs/PENGEMBANGAN-AI.md: di bawah ~500 spin tidak ada yang bisa dipelajari, dan model yang
  * dilatih dari segelintir baris hanya menghafal kebetulan.
  */
 export const MIN_SERVING_EXAMPLES = 500;

@@ -109,7 +109,7 @@ grant select, insert on public.spin_misses to authenticated;
 --
 --    Tidak ada panel admin. Supabase Studio sudah panel admin yang bagus, dan
 --    membangun sendiri berarti merawat halaman yang cuma dilihat lima orang.
---    View ini dipakai dari SQL Editor — lihat supabase/METRIK.md.
+--    View ini dipakai dari SQL Editor — lihat docs/PENGEMBANGAN-AI.md#metrik.
 --
 --    View memakai security_invoker, jadi anggota tim melihat lewat RLS: dengan
 --    akun biasa yang terlihat hanya baris sendiri. Untuk angka seluruh

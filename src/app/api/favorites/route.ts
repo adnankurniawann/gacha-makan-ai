@@ -4,7 +4,8 @@
  *
  * Sesi anonim pun boleh menyimpan: `user_id`-nya sungguhan, dan kalau nanti
  * pengguna mengaitkan email, daftar ini ikut terbawa karena `user_id`-nya
- * tidak berubah (lihat supabase/AUTH.md).
+ * tidak berubah — `AuthPanel` memakai `updateUser`, bukan `signInWithOtp`,
+ * yang akan membuat user baru dan membuang riwayatnya.
  */
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";

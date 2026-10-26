@@ -85,7 +85,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-public-key>
 # ENABLE_WEATHER_CONTEXT=true
 
 # Opsional. Porsi pengguna yang dilayani bandit (0..1); mati kalau tidak diisi.
-# Butuh ml/bandit.json yang dilatih dari data nyata — lihat supabase/ML.md.
+# Butuh ml/bandit.json yang dilatih dari data nyata — lihat docs/PENGEMBANGAN-AI.md.
 # BANDIT_ROLLOUT=0.1
 
 # Hanya untuk `npm run ml:categorize`; aplikasinya sendiri tidak memakainya.
@@ -137,7 +137,17 @@ Dua hal yang **wajib**, dan keduanya tidak bisa diatur dari kode:
   ada `user_id`, jadi riwayat spin dan favorit **tidak akan pernah tercatat**.
   Ini penyebab paling umum halaman riwayat terlihat kosong terus
 - **Database → Extensions → `pg_cron`**, lalu jadwalkan penanda spin
-  terabaikan — lihat [LOOP.md](supabase/LOOP.md)
+  terabaikan dari SQL Editor:
+
+  ```sql
+  select cron.schedule(
+    'tandai-spin-terabaikan', '*/5 * * * *',
+    $job$ select public.mark_ignored_spins(); $job$
+  );
+  ```
+
+  Tanpa ini tidak ada yang rusak — `spin_events_labeled` tetap memperlakukan
+  penayangan lewat 5 menit sebagai `ignored` — tapi tabelnya tidak rapi
 
 ### 5. Buktikan RLS-nya benar
 
@@ -204,21 +214,15 @@ src/lib/
   ml/               Fitur, bandit, simulator, evaluasi, penyajian, kurasi LLM
   rate-limit.ts     Sliding window per IP
 src/utils/          Logika murni: seleksi gacha, geo
-supabase/           Skema, migrasi, dan catatan keputusan
-scripts/            Ingest, verifikasi, pengukuran
+supabase/           Skema dan migrasi
+scripts/            Ingest, verifikasi, pengukuran, pipeline ML
+docs/               Dokumentasi pengembangan
 data/               Template kurasi manual
 ```
 
-Catatan lengkap tiap keputusan ada di `supabase/`:
-
-| Berkas | Isi |
-|---|---|
-| [KEAMANAN.md](supabase/KEAMANAN.md) | RLS, apa yang bocor sebelumnya, dan apa yang masih lemah |
-| [DATA.md](supabase/DATA.md) | Sumber data, deduplikasi, jam buka |
-| [AUTH.md](supabase/AUTH.md) | Sesi anonim, izin lokasi, PWA, ukuran bundle |
-| [LOOP.md](supabase/LOOP.md) | `spin_events`, aturan pencatatan, integritas |
-| [METRIK.md](supabase/METRIK.md) | Kueri retensi dan metrik lain |
-| [ML.md](supabase/ML.md) | Status roadmap model, hasil simulasi, batasannya |
+Bagian AI dan machine learning — arsitektur, keputusan, cara menjalankan,
+metrik, dan rencana berikutnya — ada di
+[docs/PENGEMBANGAN-AI.md](docs/PENGEMBANGAN-AI.md).
 
 ---
 
@@ -287,8 +291,9 @@ sering dipakai. Ingest 300 tempat **tidak** langsung membuat katalog spin jadi
 
 ## Metrik
 
-Tidak ada panel admin; Supabase Studio sudah cukup. Kueri lengkap di
-[METRIK.md](supabase/METRIK.md).
+Tidak ada panel admin; Supabase Studio sudah cukup. Kueri lainnya — A/B per
+kebijakan, cakupan katalog, kandidat kosong, latensi — ada di
+[docs/PENGEMBANGAN-AI.md](docs/PENGEMBANGAN-AI.md#metrik).
 
 Satu angka yang paling menentukan sekarang:
 
@@ -324,29 +329,12 @@ besar katalog berkategori "Restaurant" polos, yang membuat 12 dari 26 dimensi
 fitur kosong. Hasilnya SQL untuk direview, bukan tulisan langsung — yang tidak
 yakin tidak ditulis.
 
-Hasil simulasi (1.500 ronde, benih tetap — jalankan `npm test` untuk mencetak
-ulang):
+Di simulasi, Thompson menurunkan cumulative regret **79% dibanding acak
+seragam** — tapi hasil simulasi bukan bukti sistem bekerja pada manusia.
+Buktinya baru datang dari evaluasi pada data nyata, dan itu butuh ~500 spin.
 
-| Kebijakan | Accept | Regret | Coverage |
-|---|---|---|---|
-| *oracle (batas atas)* | *72,1%* | *0* | — |
-| LinUCB | 65,7% | **70,6** | 57% |
-| Thompson Sampling | 65,0% | 89,6 | **77%** |
-| ε-greedy | 64,7% | 111,3 | 100% |
-| Jarak terdekat | 55,9% | 266,1 | 37% |
-| Uniform random | 44,9% | 428,5 | 100% |
-
-Thompson menurunkan cumulative regret **79% dibanding acak seragam** — yaitu
-kebijakan yang sekarang benar-benar dipakai aplikasi.
-
-**Hasil simulasi bukan bukti sistem bekerja pada manusia.** Pengguna sintetis
-di sana linear dan stasioner; manusia tidak. Buktinya baru datang dari evaluasi
-pada data nyata, dan itu butuh ~500 spin dulu.
-
-Satu koreksi penting terhadap rencana awalnya: aplikasi ini **tidak** memilih
-secara acak seragam — pemilihannya berbobot terhadap selisih budget. Karena itu
-tiap baris log menyimpan `policy_score`, supaya evaluasi nanti bisa membagi
-biasnya kembali. Selengkapnya di [ML.md](supabase/ML.md).
+Arsitektur, hasil lengkap, batasan, dan rencana berikutnya:
+[docs/PENGEMBANGAN-AI.md](docs/PENGEMBANGAN-AI.md).
 
 ---
 
@@ -371,6 +359,17 @@ Yang jujur perlu disebut:
 - **Belum ada backup otomatis** — Supabase free tier tidak menyediakannya.
   Ambil dump manual sebelum data spin mulai berarti
 - **Belum di-deploy**
+
+### Sebelum menyebar link
+
+Kolom yang tidak dicatat sekarang hilang selamanya — tidak ada cara
+menambahkan kolom ke peristiwa yang sudah terjadi.
+
+- [ ] Semua migrasi dijalankan
+- [ ] Anonymous sign-ins aktif — tanpa ini **nol baris** tercatat
+- [ ] `pg_cron` aktif dan `mark_ignored_spins()` terjadwal
+- [ ] `select count(*) from spin_events` naik setelah kamu spin sendiri
+- [ ] `policy_score` terisi, bukan null
 
 ---
 
@@ -403,7 +402,11 @@ Beberapa hal yang mudah tanpa sadar dirusak:
   statis di root layout menambah ~60 kB ke setiap halaman
 - **Jangan mengubah urutan `FEATURE_NAMES`** tanpa melatih ulang model; artefak
   yang susunannya tidak cocok akan ditolak saat dimuat
-- **Ganti `SPIN_POLICY`** setiap kali aturan pemilihan berubah, supaya baris
-  dari perilaku lama dan baru tetap bisa dipisahkan
+- **Ganti `SPIN_POLICY` atau `BANDIT_POLICY`** setiap kali aturan pemilihan
+  berubah, supaya baris dari perilaku lama dan baru tetap bisa dipisahkan
+- **Naikkan `VERSION` di `public/sw.js`** setiap kali berkas itu diubah — nomor
+  itu yang memicu pembersihan cache lama
 
-Jangan commit `.env.local`.
+Jangan commit `.env.local`. Kalau sebuah key pernah ter-commit, rotasi di
+Supabase Dashboard → Settings → API Keys; menghapusnya dari berkas tidak ada
+gunanya karena riwayat git tetap menyimpannya.

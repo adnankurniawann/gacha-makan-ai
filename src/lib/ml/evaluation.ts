@@ -1,5 +1,5 @@
 /**
- * Evaluasi off-policy dari log — Fase 4 di ML.md.
+ * Evaluasi off-policy dari log — lihat docs/PENGEMBANGAN-AI.md.
  *
  * Pertanyaannya: seandainya kebijakan baru yang memilih pada penayangan yang
  * sudah tercatat, berapa accept rate-nya? Dijawab tanpa menayangkan apa pun
