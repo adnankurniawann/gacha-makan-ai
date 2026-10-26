@@ -11,7 +11,9 @@
     "ml:categorize": "tsx scripts/categorize-llm.ts",
     "ml:synthesize": "tsx scripts/synthesize-spins.ts",
     "ml:train": "tsx scripts/train-bandit.ts",
-    "ml:evaluate": "tsx scripts/evaluate-bandit.ts"
+    "ml:evaluate": "tsx scripts/evaluate-bandit.ts",
+    "ml:eval-categorize": "tsx scripts/eval-categorize.ts",
+    "ml:snapshot-osm": "tsx scripts/snapshot-osm-cuisine.ts"
   },
   "dependencies": {
     "@once-ui-system/core": "^1.7.3",

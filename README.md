@@ -53,8 +53,8 @@ sudah berjalan.
 | Styling | Tailwind CSS 4, primitif shadcn |
 | Huruf & ikon | Plus Jakarta Sans, lucide-react |
 | Animasi | Framer Motion (dimuat setelah halaman siap) |
-| Uji | Vitest — **360 tes** |
-| ML & AI | Bandit TypeScript sendiri; LLM (Ollama lokal atau Claude) untuk kurasi kategori |
+| Uji | Vitest — **377 tes** |
+| ML & AI | Bandit TypeScript sendiri; LLM (Ollama lokal, Gemini, atau Claude) untuk kurasi kategori, dengan harness evaluasi |
 
 Tidak ada layanan terpisah. Bahkan model rekomendasinya dirancang muat di
 dalam route handler yang sudah ada.
@@ -91,6 +91,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-public-key>
 # Hanya untuk `npm run ml:categorize -- --provider=claude`. Default-nya Ollama
 # lokal yang gratis dan tidak butuh key — lihat docs/PENGEMBANGAN-AI.md.
 # ANTHROPIC_API_KEY=<key>
+# GEMINI_API_KEY=<key>      # --provider=gemini
 ```
 
 **Jangan pernah menaruh `service_role` key di sini atau di mana pun.** Aplikasi
@@ -175,7 +176,7 @@ npm run dev
 
 ```bash
 npm run dev                                     # server pengembangan
-npm test                                        # 360 tes
+npm test                                        # 377 tes
 npm run lint                                    # eslint
 npm run build                                   # build produksi
 
@@ -185,6 +186,7 @@ node scripts/ingest-osm.mjs --area=jatinangor   # tarik data dari OpenStreetMap
 node scripts/csv-to-seed.mjs                    # ubah kurasi manual jadi SQL
 
 npm run ml:categorize                           # kurasi kategori dengan LLM lokal → SQL
+npm run ml:eval-categorize                      # bandingkan baseline vs LLM di test set OSM
 npm run ml:evaluate -- --input=... --restaurants=...  # evaluasi off-policy
 npm run ml:train -- --input=...                 # latih bandit → ml/bandit.json
 npm run ml:synthesize                           # log sintetis untuk mencoba alurnya

@@ -19,6 +19,7 @@ berikutnya bukan menulis kode, melainkan mengumpulkan data — lihat
 - [Data dan instrumentasi](#data-dan-instrumentasi)
 - [Fungsi fitur](#fungsi-fitur)
 - [Kurasi kategori dengan LLM](#kurasi-kategori-dengan-llm)
+- [Evaluasi kategorisasi](#evaluasi-kategorisasi)
 - [Model: Thompson Sampling](#model-thompson-sampling)
 - [Evaluasi off-policy](#evaluasi-off-policy)
 - [Penyajian di belakang flag](#penyajian-di-belakang-flag)
@@ -41,7 +42,7 @@ Ada dua jenis AI di sini, dengan peran yang sengaja dipisah:
 
 | | Tugas | Kenapa jenis ini |
 |---|---|---|
-| **LLM (Ollama lokal atau Claude)** | Membereskan data: menebak kategori masakan dari nama warung | Masalah bahasa. "Ayam Crisbar" itu warung ayam — tidak butuh statistik |
+| **LLM (Ollama lokal, Gemini, atau Claude)** | Membereskan data: menebak kategori masakan dari nama warung | Masalah bahasa. "Ayam Crisbar" itu warung ayam — tidak butuh statistik |
 | **Bandit (Thompson Sampling)** | Memilih warung yang ditayangkan | Masalah keputusan berulang dengan umpan balik. Harus bisa dievaluasi dan diaudit |
 
 LLM tidak pernah memilih warung. Alasannya bukan soal kemampuan: pilihan yang
@@ -82,7 +83,13 @@ tidak ada container tambahan: inferensinya cuma perkalian matriks-vektor 26×26.
 | `src/lib/ml/evaluation.ts` | IPS, SNIPS, interval bootstrap, ESS |
 | `src/lib/ml/serve.ts` | Penyajian di `/api/spin` |
 | `src/lib/ml/categorize.ts` | Prompt, validasi, dan pembuatan SQL untuk kurasi LLM |
-| `scripts/categorize-llm.ts` | Memanggil LLM (Ollama atau Claude) untuk kurasi kategori |
+| `scripts/categorize-llm.ts` | Memanggil LLM untuk kurasi kategori → SQL untuk direview |
+| `scripts/lib/llm-providers.ts` | Provider Ollama, Gemini, dan Claude, dipakai kurasi dan evaluasi |
+| `src/lib/ml/eval/dataset.ts` | Pedoman label OSM, dedup, split, sampel berimbang |
+| `src/lib/ml/eval/naive-bayes.ts` | Baseline Naive Bayes n-gram huruf |
+| `src/lib/ml/eval/metrics.ts` | Akurasi, macro-F1, confusion, bootstrap, McNemar, titik operasi |
+| `scripts/snapshot-osm-cuisine.ts` | Membekukan nama + `cuisine` OSM se-Indonesia ke `ml/eval/` |
+| `scripts/eval-categorize.ts` | Harness evaluasi; laporan di `ml/eval/results.test.md` |
 | `scripts/train-bandit.ts`, `evaluate-bandit.ts` | Pelatihan dan evaluasi dari ekspor |
 | `scripts/synthesize-spins.ts` | Log sintetis untuk mencoba alurnya |
 | `scripts/lib/spin-export.ts` | Pembaca ekspor CSV/JSON dan kueri ekspornya |
@@ -198,20 +205,28 @@ modelnya sudah dipakai orang.
 
 ## Kurasi kategori dengan LLM
 
-**Status: alat selesai, belum dijalankan ke data nyata.** Per 26 Oktober 2026,
-16 dari 32 tempat di database (50%) masih jatuh ke `lainnya`.
+**Status: alat selesai dan sedang dievaluasi, belum dijalankan ke data nyata.**
+Per 26 Oktober 2026, 16 dari 32 tempat di database (50%) masih jatuh ke
+`lainnya`. Cakupan aplikasi diperluas ke Bandung, dan di skala itu kurasi
+tangan tidak lagi realistis — itulah alasan kurasi otomatis ini ada. Di 32
+warung, melabel tangan 15 menit lebih masuk akal daripada LLM.
 
 Sebagian besar katalog berkategori "Restaurant" polos, yang jatuh ke slot
 `lainnya`. Selama itu belum dikurasi, **12 dari 26 dimensi fitur praktis
 kosong.** `scripts/categorize-llm.ts` mengirim nama tiap tempat yang sekarang
 jatuh ke `lainnya` ke LLM, dengan skema JSON yang membatasi jawaban ke 12 slot.
 
-Dua provider, dengan prompt, skema, dan validasi yang sama persis:
+Tiga provider di `scripts/lib/llm-providers.ts`, dengan prompt, skema, dan
+validasi yang sama persis:
 
 | Provider | Model | Batch | Biaya | Catatan |
 |---|---|---|---|---|
-| `ollama` (default) | `qwen2.5:7b` di laptop | 10 | Gratis | Jalan di CPU; lebih sering salah untuk nama yang samar |
-| `claude` | `claude-opus-5-5`, effort `low` | 40 | Beberapa sen per 100 tempat | Butuh `ANTHROPIC_API_KEY` dan saldo |
+| `ollama` (default) | `qwen2.5:7b` di laptop | 10 | Gratis | Jalan di CPU, ~14 detik per nama di laptop pengembang; di-stream supaya tidak kena batas 300 detik `fetch`, dan mencoba ulang kalau Ollama mati. **Kalah dari baseline Naive Bayes di evaluasi** |
+| `gemini` | `gemini-3.5-flash-lite` | 40 | Free tier; berbayar $0,30/$2,50 per 1 juta token (dicek 26 Okt 2026) | Interactions API. Data free tier dipakai Google untuk meningkatkan produknya — boleh untuk nama OSM publik, **jangan untuk teks pengguna**. Tidak ada pengaturan temperatur yang terdokumentasi |
+| `claude` | `claude-opus-5-5`, effort `low` | 40 | Berbayar | Butuh `ANTHROPIC_API_KEY` dan saldo |
+
+Mana yang dipakai ditentukan oleh [evaluasi](#evaluasi-kategorisasi), bukan
+oleh reputasi modelnya.
 
 Qwen 2.5 dipilih untuk default karena dukungan bahasa Indonesianya baik di
 ukuran yang muat di RAM laptop. Model lain bisa dipakai lewat `OLLAMA_MODEL`.
@@ -239,6 +254,179 @@ Katalog dibaca dengan anon key, karena memang publik.
 
 **Yang sengaja tidak dilakukan LLM: menebak harga.** Harga adalah filter yang
 paling sering dipakai, dan menebaknya berarti membohongi filter itu.
+
+---
+
+## Evaluasi kategorisasi
+
+**Pertanyaannya: apakah LLM layak dipakai untuk kurasi kategori, dan yang
+mana?** Dijawab dengan membandingkan beberapa pendekatan di test set yang sama,
+dengan label yang dibuat manusia, bukan dengan contoh pilihan.
+
+```bash
+npm run ml:eval-categorize                                  # baseline + laporan
+npm run ml:eval-categorize -- --provider=ollama             # + qwen2.5:7b
+npm run ml:eval-categorize -- --provider=ollama --model=qwen2.5:3b
+npm run ml:eval-categorize -- --provider=gemini
+npm run ml:snapshot-osm                                     # perbarui snapshot (jarang)
+```
+
+### Data dan label
+
+Sumbernya tag `cuisine` OpenStreetMap: **12.174 tempat makan bernama di
+Indonesia** (snapshot 26 Oktober 2026, `ml/eval/osm-cuisine.json`, ODbL —
+lihat `ml/eval/ATTRIBUTION.md`). Evaluasi membaca berkas ini, bukan Overpass,
+supaya angkanya bisa diulang persis.
+
+Tagnya tidak bersih, jadi label emas ditentukan **pedoman eksplisit**
+(`GOLD_MAP` di `src/lib/ml/eval/dataset.ts`), bukan pencocokan kata kunci:
+
+- Ada 700+ nilai berbeda. Nilai yang bukan masakan atau terlalu umum
+  (`asian`, `local`, `international`, `breakfast`) diabaikan
+- Nilai yang tidak ada di pedoman → baris dibuang, dan dihitung
+- `nusantara` + satu slot spesifik → slot spesifiknya (`indonesian;sundanese`
+  → `sunda`). Dua slot spesifik (`chicken;burger`) → dibuang, karena memilih
+  salah satu berarti menghukum model untuk ambiguitas yang ada di label
+- **Satu item per nama unik.** KFC muncul 340 kali; tanpa dedup, test set
+  didominasi segelintir merek dan pengklasifikasi cukup menghafal nama.
+  Nama yang sama dengan label berbeda dipakai kalau ≥70% labelnya sepakat
+- **Split dari hash nama** (train 70 / dev 10 / test 20). Nama yang sama selalu
+  jatuh ke split yang sama, termasuk setelah snapshot diperbarui
+
+Hasilnya 7.346 nama unik (train 5.102, dev 765, test 1.479). Yang dibuang:
+993 multi-slot, 644 hanya nilai umum, 550 tidak dipetakan, 268 label
+bertentangan.
+
+Definisi slot di prompt (`SLOT_GUIDE`) diselaraskan dengan pedoman ini —
+misalnya KFC masuk `ayam`, bukan `barat`. Itu bukan mengajari model jawaban
+test: anotator dan model harus memakai definisi kelas yang sama, kalau tidak
+model dihukum karena mengikuti instruksinya.
+
+### Subset
+
+LLM hanya dinilai di **subset berimbang**: paling banyak 50 nama per slot dari
+split test, 509 nama. Distribusi aslinya didominasi `nusantara` dan
+`kopi_minuman`; tanpa pembatasan, menebak kelas mayoritas sudah memberi akurasi
+lumayan. Tiap metrik dilaporkan untuk tiga irisan:
+
+| Irisan | Isi | Kenapa |
+|---|---|---|
+| `semua` | 509 nama | Angka utama |
+| `tanpa_kata_kunci` | 323 nama yang tidak menyebut makanannya (`toCuisineSlot(nama)` → `lainnya`) | Di sinilah LLM harus menang. Kalau tidak, aturan kata kunci sudah cukup |
+| `non_waralaba` | 497 nama yang muncul < 3 kali di OSM | Paling mirip warung yang benar-benar dikurasi |
+
+### Metode
+
+| Metode | Isi |
+|---|---|
+| `keyword` | `toCuisineSlot(nama)` — aturan kata kunci yang sudah dipakai aplikasi |
+| `naive-bayes` | Multinomial NB atas n-gram huruf 2–4 + kata, dilatih di train, α dipilih dari macro-F1 di dev. ~100 baris TypeScript, dilatih dalam 1 detik |
+| LLM | Lewat provider yang sama dengan produksi, nama dikirim dengan `kategori_sekarang: "Restaurant"` seperti kondisi aslinya |
+
+### Metrik
+
+- **Macro-F1 sebagai angka utama**, akurasi di sampingnya, keduanya dengan
+  interval 95% bootstrap
+- **Presisi pada saran yang akan ditulis** — bukan `lainnya` dan confidence ≥
+  `sedang`, aturan yang sama dengan `suggestionsToSql`. Ini metrik yang paling
+  dekat dengan produksi: saran yang tidak ditulis cuma membiarkan warung di
+  `lainnya`, saran salah yang ditulis meracuni fitur bandit sebagai fakta
+- **Tingkat gagal** (JSON rusak, id hilang, penolakan) dihitung sebagai salah,
+  bukan dibuang dari penyebut
+- **Uji McNemar eksak** untuk membandingkan dua metode pada item yang sama.
+  Lebih tepat daripada membandingkan dua interval, karena kesalahan dua metode
+  pada item yang sama saling berkorelasi
+- **Biaya per 1.000 warung** dari token yang dilaporkan provider × harga resmi
+  yang dicek pada tanggal yang tertulis; **latensi** p50/p95 per batch dan
+  waktu per 1.000 warung
+
+Jawaban LLM di-cache per item di `ml/eval/cache/`, ditandai sidik prompt.
+Mengubah prompt membuat cache lama tidak dipakai; laporan bisa dibuat ulang
+tanpa biaya. **Prompt diutak-atik di `--split=dev`, angka akhir dari `test`.**
+
+### Hasil
+
+Split test, subset berimbang 509 nama, 27 Oktober 2026. Laporan lengkap
+(irisan lain, F1 per slot, confusion matrix) di `ml/eval/results.test.md`.
+
+| Metode | Akurasi (95% CI) | Macro-F1 (95% CI) | Gagal | Ditulis ≥ `sedang` → presisi | Ditulis ≥ `tinggi` → presisi |
+|---|---|---|---|---|---|
+| keyword | 37,1% (32,8–41,5) | 0,39 (0,33–0,44) | 0% | 36,5% → 76,3% | 36,5% → 76,3% |
+| naive-bayes (α=0,3) | 56,4% (52,1–60,5) | 0,52 (0,47–0,56) | 0% | 85,5% → 57,9% | 80,0% → 59,7% |
+| **gemini-3.5-flash-lite** | **64,0%** (60,1–68,2) | **0,65** (0,60–0,69) | 0% | 75,2% → 72,8% | 51,5% → **82,4%** |
+| qwen2.5:7b (Ollama, CPU) | 47,0% (42,6–51,3) | 0,46 (0,41–0,50) | 0% | 78,8% → 54,6% | 54,0% → 67,6% |
+| qwen2.5:3b (Ollama, CPU) | 20,2% (16,9–23,8) | 0,23 (0,19–0,27) | 34,6% | 32,0% → 51,5% | 15,1% → 67,5% |
+
+Di irisan **tanpa kata kunci** (323 nama yang tidak menyebut makanannya),
+macro-F1: Gemini 0,53, Naive Bayes 0,41, Qwen 7B 0,26, Qwen 3B 0,10, keyword
+0,02.
+
+| Metode | Token in/out per nama | USD per 1.000 warung | Waktu per 1.000 warung |
+|---|---|---|---|
+| gemini-3.5-flash-lite | 45 / 62 | $0,17 (harga berbayar; free tier $0) | 14 menit |
+| qwen2.5:7b | 90 / 44 | $0 + listrik | 3,8 jam |
+| qwen2.5:3b | 90 / 33 | $0 + listrik | 1,5 jam |
+| keyword, naive-bayes | — | $0 | < 1 detik |
+
+Semua perbedaan berpasangan signifikan menurut McNemar (p < 0,01). Yang
+paling penting, dan paling tipis: Gemini vs Naive Bayes, 88 lawan 49 item yang
+hanya benar di salah satunya (p = 0,0011).
+
+**Kesimpulan**
+
+1. **Gemini 3.5 Flash-Lite dipakai untuk kurasi Bandung**, dengan
+   `--min-confidence=tinggi`. Ia satu-satunya metode yang lebih baik dari Naive
+   Bayes, dan biayanya praktis nol di skala ini
+2. **Review manusia tetap wajib.** Bahkan di ambang `tinggi`, kira-kira 1 dari
+   6 saran yang ditulis salah. Ambang `tinggi` dipilih sambil melihat angka
+   test, jadi presisi 82% ini sedikit optimistis — konfirmasi di split dev
+   sebelum dijadikan default
+3. **Model lokal kalah dari baseline yang dilatih.** Qwen 7B di bawah Naive
+   Bayes 100 baris, dan butuh hampir 4 jam. Untuk tugas sesempit ini, data
+   latih yang relevan mengalahkan model umum yang kecil
+4. **Ambang confidence lebih menentukan daripada pilihan model** untuk
+   kualitas data yang masuk. Naik dari `sedang` ke `tinggi` menaikkan presisi
+   Gemini 10 poin dengan mengorbankan cakupan
+
+**Mode gagal yang ditemukan** — lebih berguna untuk interview daripada angka
+akurasinya:
+
+- **Qwen 3B berhenti setelah satu jawaban.** Di 18 dari 51 batch, ia mengisi
+  array dengan id pertama lalu menutupnya. JSON-nya sah dan sesuai skema, jadi
+  structured output tidak mencegahnya: skema menjamin *bentuk*, bukan
+  *kelengkapan*. Deterministik di temperatur 0. Perbaikan yang bisa dicoba:
+  `minItems`/`maxItems` sebesar batch di skema (Ollama memaksakannya lewat
+  grammar), atau batch 1 untuk model kecil
+- **Qwen 7B membuang keraguan ke `nusantara`/`sedang`** (82 dari 509 jawaban)
+  alih-alih `lainnya`/`rendah`. Karena `sedang` lolos ambang tulis, tebakan ini
+  masuk ke SQL: dari 109 tebakan `nusantara`, hanya 26 yang benar
+- **Alasan bisa salah walau slotnya benar.** Qwen 7B menulis "CFC adalah
+  singkatan dari Chicken Fast Food" (seharusnya California Fried Chicken) dan
+  "Yoshinoya adalah merek mie instan Jepang". Kolom `reason` di berkas review
+  bukan bukti
+- **Ollama 7B dibunuh OOM killer** setelah 2 jam, saat proses model memakai
+  7,4 GB di laptop 14 GB yang juga menjalankan browser. Provider Ollama sekarang
+  mencoba ulang saat koneksi putus. "Gratis" di laptop tanpa GPU berarti RAM
+  habis, CPU 100% berjam-jam, dan run yang bisa mati di tengah jalan
+
+**Sebagian kesalahan adalah batas taksonomi, bukan kebodohan model.** Di semua
+metode, kebingungan terbesar sama: `chinese` ↔ `mie` (bakmi, kwetiau),
+`seafood` ↔ `nusantara` ("RM Bahari"), `lainnya` ↔ `barat` (masakan asing).
+Model yang lebih besar tidak akan menghapusnya; definisi slot yang lebih tegas
+bisa.
+
+### Batasan
+
+- **Slot `sunda` hampir tidak terukur**: hanya 36 nama di seluruh dataset, 7 di
+  subset test. Warung Sunda di OSM kebanyakan ditag `indonesian` atau
+  `regional`. Ironisnya ini slot terpenting untuk Bandung. Butuh test set kecil
+  berlabel tangan dari Bandung untuk mengukurnya
+- **Distribution shift**: nama OSM yang punya tag `cuisine` kemungkinan lebih
+  mudah daripada warung "Restaurant" yang benar-benar perlu dikurasi
+- **Label OSM juga bisa salah.** Akurasi di sini adalah kecocokan dengan
+  penanda OSM, bukan kebenaran mutlak
+- Ukuran batch berbeda antar provider (10 lokal, 40 API), mengikuti
+  konfigurasi produksi masing-masing
 
 ---
 
@@ -532,7 +720,12 @@ yang paling menarik dikerjakan.
 
 ### Tahap 1 — Bereskan data (bisa sekarang)
 
-- [ ] Jalankan `ml:categorize`, review, tempel SQL-nya
+- [x] Evaluasi pendekatan kategorisasi di test set OSM
+- [ ] Ingest Bandung dari OSM. Harga yang tidak diketahui tampil sebagai
+      "harga belum diketahui", tidak ditebak
+- [ ] Konfirmasi ambang `tinggi` untuk Gemini di split dev
+- [ ] Jalankan `ml:categorize -- --provider=gemini --min-confidence=tinggi`,
+      review, tempel SQL-nya
 - [ ] Ukur hasilnya: berapa persen katalog yang masih jatuh ke `lainnya`
       sebelum dan sesudah. Targetnya di bawah 25%
 - [ ] Ulangi simulasi dengan proporsi `lainnya` yang baru, untuk memperkirakan

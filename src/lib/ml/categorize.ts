@@ -82,18 +82,18 @@ export const SUGGESTION_SCHEMA = {
 } as const;
 
 const SLOT_GUIDE: Record<CuisineSlot, string> = {
-  ayam: "ayam goreng/geprek/penyet/bakar sebagai menu utama",
+  ayam: "ayam goreng/geprek/penyet/bakar sebagai menu utama, termasuk ayam goreng cepat saji (KFC, CFC)",
   mie: "mie ayam, bakso, ramen, bakmi, kwetiau kuah",
-  nusantara: "warteg, warung nasi, prasmanan, masakan Jawa/Indonesia umum",
+  nusantara: "warteg, warung nasi, prasmanan, soto, sate, nasi goreng, masakan Indonesia umum dan masakan daerah selain Sunda dan Padang",
   sunda: "masakan Sunda: nasi liwet, pepes, lalapan, sambal khas Sunda",
   padang: "nasi Padang, masakan Minang",
   chinese: "masakan Tionghoa, dimsum, capcay",
   jepang_korea: "masakan Jepang atau Korea",
-  barat: "burger, pizza, steak, pasta, ayam goreng cepat saji gaya Barat",
+  barat: "burger, pizza, steak, pasta, roti lapis, masakan Eropa dan Amerika",
   seafood: "ikan, udang, kerang, seafood sebagai menu utama",
   kopi_minuman: "kedai kopi, kafe, warkop, minuman sebagai jualan utama",
   manis_roti: "roti, kue, martabak, dessert, es krim",
-  lainnya: "tidak bisa ditentukan dari nama, atau tidak cocok di slot mana pun",
+  lainnya: "masakan asing tanpa slot sendiri (Thai, India, Meksiko, Timur Tengah), atau tidak bisa ditentukan dari nama",
 };
 
 /**
@@ -101,7 +101,7 @@ const SLOT_GUIDE: Record<CuisineSlot, string> = {
  * jalan bisa dibandingkan.
  */
 export const SYSTEM_PROMPT = [
-  "Kamu membantu mengkurasi katalog warung makan di sekitar kampus Jatinangor, Jawa Barat.",
+  "Kamu membantu mengkurasi katalog tempat makan di Indonesia, dari warung kaki lima sampai jaringan waralaba.",
   "Untuk tiap tempat, pilih SATU slot masakan berdasarkan nama tempatnya.",
   "",
   "Slot yang tersedia:",
@@ -129,11 +129,12 @@ export function buildUserMessage(batch: CategorizeInput[]): string {
  * `format` diisi skema JSON yang sama dengan yang dipakai untuk Claude, jadi
  * model lokal pun dipaksa menjawab dengan bentuk dan enum slot yang sama.
  * Temperatur 0 supaya dua kali jalan memberi hasil yang bisa dibandingkan.
+ * Di-stream supaya jawaban yang lama di CPU tidak memicu batas waktu header.
  */
 export function buildOllamaRequest(batch: CategorizeInput[], model: string) {
   return {
     model,
-    stream: false,
+    stream: true,
     format: SUGGESTION_SCHEMA,
     options: { temperature: 0 },
     messages: [

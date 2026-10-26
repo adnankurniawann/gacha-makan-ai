@@ -62,10 +62,10 @@ describe("buildUserMessage", () => {
 });
 
 describe("buildOllamaRequest", () => {
-  it("memakai skema dan prompt yang sama dengan Claude, tanpa streaming", () => {
+  it("memakai skema dan prompt yang sama dengan Claude", () => {
     const body = buildOllamaRequest(batch, "qwen2.5:7b");
     expect(body.model).toBe("qwen2.5:7b");
-    expect(body.stream).toBe(false);
+    expect(body.stream).toBe(true);
     expect(body.format).toBe(SUGGESTION_SCHEMA);
     expect(body.options.temperature).toBe(0);
     expect(body.messages[0].role).toBe("system");
