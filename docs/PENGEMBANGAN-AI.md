@@ -378,9 +378,10 @@ hanya benar di salah satunya (p = 0,0011).
    `--min-confidence=tinggi`. Ia satu-satunya metode yang lebih baik dari Naive
    Bayes, dan biayanya praktis nol di skala ini
 2. **Review manusia tetap wajib.** Bahkan di ambang `tinggi`, kira-kira 1 dari
-   6 saran yang ditulis salah. Ambang `tinggi` dipilih sambil melihat angka
-   test, jadi presisi 82% ini sedikit optimistis — konfirmasi di split dev
-   sebelum dijadikan default
+   6 saran yang ditulis salah. Ambang `tinggi` awalnya dipilih sambil melihat
+   angka test, jadi dikonfirmasi ulang di split dev yang belum pernah dipakai
+   memilih apa pun (402 nama, `ml/eval/results.dev.md`): **54,7% ditulis,
+   presisi 83,6%** (184 dari 220), sejalan dengan 51,5% → 82,4% di test
 3. **Model lokal kalah dari baseline yang dilatih.** Qwen 7B di bawah Naive
    Bayes 100 baris, dan butuh hampir 4 jam. Untuk tugas sesempit ini, data
    latih yang relevan mengalahkan model umum yang kecil
@@ -723,7 +724,7 @@ yang paling menarik dikerjakan.
 - [x] Evaluasi pendekatan kategorisasi di test set OSM
 - [ ] Ingest Bandung dari OSM. Harga yang tidak diketahui tampil sebagai
       "harga belum diketahui", tidak ditebak
-- [ ] Konfirmasi ambang `tinggi` untuk Gemini di split dev
+- [x] Konfirmasi ambang `tinggi` untuk Gemini di split dev (presisi 83,6%)
 - [ ] Jalankan `ml:categorize -- --provider=gemini --min-confidence=tinggi`,
       review, tempel SQL-nya
 - [ ] Ukur hasilnya: berapa persen katalog yang masih jatuh ke `lainnya`
