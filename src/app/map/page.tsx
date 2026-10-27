@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
+import { formatHygieneScore } from "@/utils/hygiene";
 import { formatPrice } from "@/utils/price";
 
 const RestaurantMap = dynamic(
@@ -210,7 +211,8 @@ function MapPageContent() {
   const sortedRestaurants = useMemo(
     () =>
       [...uniqueRestaurants].sort(
-        (left, right) => right.hygiene_score - left.hygiene_score,
+        // Belum ada laporan (null) di paling bawah.
+        (left, right) => (right.hygiene_score ?? -1) - (left.hygiene_score ?? -1),
       ),
     [uniqueRestaurants],
   );
@@ -445,13 +447,19 @@ function MapPageContent() {
                         <span>•</span>
                         <span
                           className={
-                            restaurant.hygiene_status === "GREEN"
-                              ? "text-emerald-600"
-                              : "text-rose-600"
+                            restaurant.hygiene_score === null
+                              ? "text-slate-400"
+                              : restaurant.hygiene_status === "GREEN"
+                                ? "text-emerald-600"
+                                : "text-rose-600"
                           }
                         >
-                          {restaurant.hygiene_status === "GREEN" ? "✓" : "⚠"}{" "}
-                          {restaurant.hygiene_score}
+                          {restaurant.hygiene_score === null
+                            ? ""
+                            : restaurant.hygiene_status === "GREEN"
+                              ? "✓ "
+                              : "⚠ "}
+                          {formatHygieneScore(restaurant.hygiene_score)}
                         </span>
                       </div>
                     </button>
@@ -505,8 +513,10 @@ function MapPageContent() {
                   <p className="text-[11px] font-medium text-slate-500">
                     Skor Kebersihan
                   </p>
-                  <p className="mt-1 text-3xl font-bold text-slate-800">
-                    {selectedRestaurant.hygiene_score}
+                  <p
+                    className={`mt-1 font-bold text-slate-800 ${selectedRestaurant.hygiene_score === null ? "text-base" : "text-3xl"}`}
+                  >
+                    {formatHygieneScore(selectedRestaurant.hygiene_score)}
                   </p>
                 </div>
                 <div className="rounded-xl border border-slate-100 bg-slate-50 p-4">

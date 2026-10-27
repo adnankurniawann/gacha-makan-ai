@@ -8,6 +8,7 @@ import { AppHeader } from "@/components/home/app-header";
 import { BottomNav } from "@/components/home/bottom-nav";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { formatPrice, isKnownPrice } from "@/utils/price";
+import { formatHygieneScore } from "@/utils/hygiene";
 
 type SpinResult = {
   id: string;
@@ -15,7 +16,7 @@ type SpinResult = {
   category: string | null;
   price_tier: number | null;
   distance: number;
-  hygiene_score: number;
+  hygiene_score: number | null;
 };
 
 const DEFAULT_LOCATION = { lat: -6.9262, lng: 107.7717 };
@@ -314,7 +315,7 @@ export default function BlindPage() {
                         </div>
                         <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex flex-col justify-center">
                           <p className="mb-1 text-xs font-medium text-slate-500">Skor Kebersihan</p>
-                          <p className="flex items-center gap-1.5 text-lg font-semibold text-emerald-600"><ShieldCheck className="h-4 w-4" aria-hidden="true" />{result.hygiene_score} / 100</p>
+                          <p className="flex items-center gap-1.5 text-lg font-semibold text-emerald-600"><ShieldCheck className="h-4 w-4" aria-hidden="true" />{formatHygieneScore(result.hygiene_score)}{result.hygiene_score !== null && " / 100"}</p>
                         </div>
                       </div>
 

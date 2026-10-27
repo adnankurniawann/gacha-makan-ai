@@ -264,7 +264,7 @@ export function buildSql(area, inserts, enrichments) {
         .map(
           (item) =>
             `  (${sqlString(item.name)}, ${sqlString(item.category)}, ${sqlNumber(item.priceTier)}, ` +
-            `ST_GeographyFromText('POINT(${item.lng} ${item.lat})'), 100, false, ` +
+            `ST_GeographyFromText('POINT(${item.lng} ${item.lat})'), null, false, ` +
             `${sqlString(item.address)}, ${sqlString(item.osmId)}, 'osm', now())`,
         )
         .join(",\n"),

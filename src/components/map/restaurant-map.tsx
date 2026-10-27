@@ -11,13 +11,14 @@ import {
   useMap,
 } from "react-leaflet";
 import L from "leaflet";
+import { formatHygieneScore } from "@/utils/hygiene";
 
 export type RestaurantMapItem = {
   id: string;
   name: string;
   category: string | null;
   price_tier: number | null;
-  hygiene_score: number;
+  hygiene_score: number | null;
   hygiene_status: "RED" | "GREEN";
   lat: number;
   lng: number;
@@ -36,7 +37,10 @@ const JATINANGOR_CENTER: L.LatLngExpression = [-6.9262, 107.7717];
 const DEFAULT_ZOOM = 15;
 
 function isRedFlag(restaurant: RestaurantMapItem): boolean {
-  return restaurant.hygiene_status === "RED" || restaurant.hygiene_score < 50;
+  return (
+    restaurant.hygiene_status === "RED" ||
+    (restaurant.hygiene_score !== null && restaurant.hygiene_score < 50)
+  );
 }
 
 function MapViewportController({
@@ -158,7 +162,7 @@ export function RestaurantMap({
                   <p className="font-bold text-slate-900">{restaurant.name}</p>
                   <p className="text-slate-600">
                     {restaurant.category ?? "Umum"} · Skor{" "}
-                    {restaurant.hygiene_score}
+                    {formatHygieneScore(restaurant.hygiene_score)}
                   </p>
                   <p
                     className={

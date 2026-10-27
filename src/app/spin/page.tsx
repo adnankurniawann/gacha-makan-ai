@@ -27,6 +27,7 @@ import {
   saveFilters,
 } from "@/lib/spin-session";
 import { ShareResultButton } from "@/components/spin/share-result-button";
+import { formatHygieneScore } from "@/utils/hygiene";
 import { formatPrice, isKnownPrice } from "@/utils/price";
 
 type SpinResult = {
@@ -35,7 +36,7 @@ type SpinResult = {
   category: string | null;
   price_tier: number | null;
   distance: number;
-  hygiene_score: number;
+  hygiene_score: number | null;
   /** `null` berarti jam bukanya belum terdata, bukan berarti tutup. */
   is_open: boolean | null;
 };
@@ -583,7 +584,7 @@ export default function SpinPage() {
                           <UtensilsCrossed className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" /> {result.category ?? "Umum"}
                         </span>
                         <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700">
-                          <ShieldCheck className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" /> {result.hygiene_score}
+                          <ShieldCheck className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" /> {formatHygieneScore(result.hygiene_score)}
                         </span>
                         {/* Tiga keadaan, bukan dua: "belum terdata" tidak boleh
                             menyamar jadi "buka". */}

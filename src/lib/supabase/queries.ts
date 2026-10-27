@@ -21,7 +21,8 @@ export interface Restaurant {
   /** Harga dalam rupiah, atau `null` kalau belum diketahui — jangan ditebak. */
   price_tier: number | null;
   location: unknown; // PostGIS geography — parsed by the Query Layer
-  hygiene_score: number;
+  /** `null` kalau belum ada laporan — bukan berarti bersih. */
+  hygiene_score: number | null;
   is_verified_safe: boolean;
   created_at: string;
 }
@@ -33,7 +34,8 @@ export interface RestaurantWithDistance {
   category: string | null;
   /** Harga dalam rupiah, atau `null` kalau belum diketahui — jangan ditebak. */
   price_tier: number | null;
-  hygiene_score: number;
+  /** `null` kalau belum ada laporan — bukan berarti bersih. */
+  hygiene_score: number | null;
   distance: number; // integer meters, rounded
   /**
    * `true` open, `false` closed, `null` opening hours not recorded yet.
@@ -52,12 +54,13 @@ interface EligibleRestaurantRecord {
   category: string | null;
   /** Harga dalam rupiah, atau `null` kalau belum diketahui — jangan ditebak. */
   price_tier: number | null;
-  hygiene_score: number;
+  /** `null` kalau belum ada laporan — bukan berarti bersih. */
+  hygiene_score: number | null;
   distance: number;
   is_open: boolean | null;
 }
 
-/** Aggregated counts for dashboard statistics (matches map hygiene_status rules). */
+/** Aggregated counts for dashboard statistics. */
 export interface RestaurantStats {
   total: number;
   safe: number;
@@ -102,7 +105,8 @@ export interface RestaurantWithCoords {
   category: string | null;
   /** Harga dalam rupiah, atau `null` kalau belum diketahui — jangan ditebak. */
   price_tier: number | null;
-  hygiene_score: number;
+  /** `null` kalau belum ada laporan — bukan berarti bersih. */
+  hygiene_score: number | null;
   is_verified_safe: boolean;
   lat: number;
   lng: number;
@@ -261,9 +265,15 @@ export function parsePostGISPoint(
 // Query functions
 // ---------------------------------------------------------------------------
 
+/** RED only when reports pushed the score below 50; unreported is not a red flag. */
+function hygieneStatus(score: number | null): "RED" | "GREEN" {
+  return score !== null && score < 50 ? "RED" : "GREEN";
+}
+
 /**
  * Returns restaurant counts for the home dashboard.
- * Safe / Red Flag use the same rule as map API: GREEN if hygiene_score >= 50.
+ * Safe counts only places with a score >= 50; places nobody has reported yet
+ * (null) are in total but neither safe nor red flag.
  */
 export async function getRestaurantStats(): Promise<RestaurantStats> {
   const [totalResult, safeResult, redFlagResult] = await Promise.all([
@@ -411,8 +421,7 @@ export async function getAllRestaurants(): Promise<RestaurantWithCoords[]> {
 
   return rows.map((row) => {
     const { lat, lng } = parsePostGISPoint(row.location);
-    const hygiene_status: "RED" | "GREEN" =
-      row.hygiene_score >= 50 ? "GREEN" : "RED";
+    const hygiene_status = hygieneStatus(row.hygiene_score);
 
     return {
       id: row.id,
@@ -465,13 +474,13 @@ export async function getRestaurantById(
     is_verified_safe: row.is_verified_safe,
     lat,
     lng,
-    hygiene_status: row.hygiene_score >= 50 ? "GREEN" : "RED",
+    hygiene_status: hygieneStatus(row.hygiene_score),
   };
 }
 
 /**
  * Returns restaurants eligible for the gacha spin, filtered by:
- *   - hygiene_score >= 50 (absolute safety filter)
+ *   - hygiene_score >= 50, atau belum ada laporan (null)
  *   - price_tier <= budget, atau price_tier belum diketahui (null)
  *   - distance from user location <= radiusMeters (computed in PostGIS)
  *

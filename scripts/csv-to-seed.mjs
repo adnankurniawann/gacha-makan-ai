@@ -171,7 +171,7 @@ function main() {
     "   address, data_source, last_verified_at)",
     "select v.name, v.category, v.price_tier,",
     "       ST_GeographyFromText('POINT(' || v.lng || ' ' || v.lat || ')'),",
-    "       100, false, v.address, 'manual', now()",
+    "       null, false, v.address, 'manual', now()",
     "from (values",
     accepted
       .map(

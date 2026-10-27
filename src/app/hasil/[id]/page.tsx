@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Dices, MapPin, ShieldCheck, UtensilsCrossed } from "lucide-react";
 
 import { getRestaurantById } from "@/lib/supabase/queries";
+import { formatHygieneScore } from "@/utils/hygiene";
 import { formatPrice } from "@/utils/price";
 
 /**
@@ -61,7 +62,7 @@ export default async function HasilPage({ params }: Params) {
               <UtensilsCrossed className="mr-1 inline h-3.5 w-3.5 text-slate-400" aria-hidden="true" />{restaurant.category ?? "Umum"}
             </span>
             <span className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700">
-              <ShieldCheck className="mr-1 inline h-3.5 w-3.5 text-slate-400" aria-hidden="true" />{restaurant.hygiene_score}
+              <ShieldCheck className="mr-1 inline h-3.5 w-3.5 text-slate-400" aria-hidden="true" />{formatHygieneScore(restaurant.hygiene_score)}
             </span>
           </div>
         </div>

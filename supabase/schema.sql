@@ -18,7 +18,7 @@ create table if not exists restaurants (
   category text, -- e.g., 'Ayam', 'Mie', 'Warteg'
   price_tier int, -- Estimasi harga maksimal (misal: 15000, 25000)
   location geography(point) not null, -- Kordinat lokasi untuk perhitungan jarak
-  hygiene_score int default 100, -- Base score 100
+  hygiene_score int, -- null = belum ada laporan (migrasi 20261027000004)
   is_verified_safe boolean default false,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
