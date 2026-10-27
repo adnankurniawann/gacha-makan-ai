@@ -23,32 +23,24 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // 1. Cek saldo saat ini
-    const { data: wallet, error: fetchError } = await supabase
-      .from('wallets')
-      .select('current_balance')
-      .eq('user_id', user.id)
-      .single();
+    // Satu UPDATE di database, supaya dua potongan yang berbarengan tidak
+    // saling menimpa (lihat migrasi 20261027000003).
+    const { data: newBalance, error: deductError } = await supabase.rpc(
+      "deduct_wallet",
+      { p_amount: amount }
+    );
 
-    if (fetchError || !wallet) {
+    if (deductError) {
+      console.error("[POST /api/wallet/deduct]", deductError.message);
+      return NextResponse.json({ error: "Gagal memotong saldo" }, { status: 500 });
+    }
+
+    if (newBalance === null) {
       return NextResponse.json({ error: "Dompet tidak ditemukan" }, { status: 404 });
     }
 
-    // 2. Kalkulasi saldo baru
-    const newBalance = wallet.current_balance - amount;
-
-    // 3. Update database
-    const { error: updateError } = await supabase
-      .from('wallets')
-      .update({ current_balance: newBalance })
-      .eq('user_id', user.id);
-
-    if (updateError) {
-      return NextResponse.json({ error: updateError.message }, { status: 500 });
-    }
-
     return NextResponse.json({ success: true, newBalance });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Terjadi kesalahan sistem" }, { status: 500 });
   }
 }

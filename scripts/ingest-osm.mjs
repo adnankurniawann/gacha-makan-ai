@@ -182,18 +182,28 @@ async function fetchExisting(env) {
     );
   }
 
-  const response = await fetch(
-    `${url.replace(/\/+$/, "")}/rest/v1/restaurants?select=id,name,location,osm_id,category,address,price_tier`,
-    { headers: { apikey: key, Authorization: `Bearer ${key}` } },
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      `Gagal membaca restaurants: HTTP ${response.status} — ${(await response.text()).slice(0, 200)}`,
+  // Supabase memotong tiap respons di 1.000 baris tanpa memberi tahu. Tanpa
+  // paging, baris setelah yang ke-1.000 tidak ikut dicocokkan dan bisa
+  // tersisip lagi sebagai tempat baru.
+  const PAGE = 1000;
+  const rows = [];
+  for (let offset = 0; ; offset += PAGE) {
+    const response = await fetch(
+      `${url.replace(/\/+$/, "")}/rest/v1/restaurants?select=id,name,location,osm_id,category,address,price_tier` +
+        `&order=id&limit=${PAGE}&offset=${offset}`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` } },
     );
-  }
 
-  const rows = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        `Gagal membaca restaurants: HTTP ${response.status} — ${(await response.text()).slice(0, 200)}`,
+      );
+    }
+
+    const page = await response.json();
+    rows.push(...page);
+    if (page.length < PAGE) break;
+  }
 
   return rows.map((row) => {
     const { lat, lng } = parseEwkbHexPoint(row.location);

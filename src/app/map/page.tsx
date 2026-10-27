@@ -109,6 +109,14 @@ function MapPageContent() {
       const nextRestaurants = payload.data ?? [];
       setRestaurants(nextRestaurants);
 
+      // Datang dari tautan "Lihat di Peta": pastikan warungnya tidak
+      // tersembunyi filter. Bukan saat auto-refresh, supaya pencarian
+      // pengguna tidak terhapus.
+      if (preferredRestaurantId && nextRestaurants.some((item) => item.id === preferredRestaurantId)) {
+        setStatusFilter("ALL");
+        setQuery("");
+      }
+
       const targetId = preferredRestaurantId ?? restaurantIdFromUrl;
       setSelectedRestaurant((current) => {
         if (targetId) {
@@ -156,18 +164,6 @@ function MapPageContent() {
     return () => window.cancelAnimationFrame(frame);
   }, [restaurantIdFromUrl]);
 
-  useEffect(() => {
-    if (!restaurantIdFromUrl || restaurants.length === 0) {
-      return;
-    }
-
-    const matched = restaurants.find((item) => item.id === restaurantIdFromUrl);
-    if (matched) {
-      setSelectedRestaurant(matched);
-      setStatusFilter("ALL");
-      setQuery("");
-    }
-  }, [restaurantIdFromUrl, restaurants]);
 
   useEffect(() => {
     if (!navigator.geolocation) {

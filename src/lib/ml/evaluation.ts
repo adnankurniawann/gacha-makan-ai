@@ -41,6 +41,15 @@ export interface EvaluationOptions {
   evaluateFrom?: string;
   seed?: number;
   bootstrapSamples?: number;
+  /**
+   * Batas atas bobot IPS, default 100. Pengguna bisa menyisipkan baris
+   * spin_events sendiri lewat anon key; satu baris palsu dengan
+   * policy_score 0,001 dan action accepted akan berbobot 1.000 dan
+   * menentukan seluruh hasil. Membatasi bobot menukar sedikit bias dengan
+   * ketahanan terhadap itu — dan terhadap baris asli yang propensity-nya
+   * kebetulan sangat kecil.
+   */
+  maxWeight?: number;
 }
 
 export interface EvaluationResult {
@@ -60,6 +69,8 @@ export interface EvaluationResult {
    * sedikit.
    */
   effectiveSampleSize: number;
+  /** Baris yang bobotnya dipotong ke `maxWeight`. Kalau banyak, hasilnya bias. */
+  clipped: number;
 }
 
 interface Scored {
@@ -102,6 +113,8 @@ export function evaluatePolicy(
   const rng = createRng(options.seed ?? 20261026);
   const tracker = new PriorTracker();
   const evaluateFrom = options.evaluateFrom ? Date.parse(options.evaluateFrom) : -Infinity;
+  const maxWeight = options.maxWeight ?? 100;
+  let clipped = 0;
 
   const scored: Scored[] = [];
   const skipped: Record<string, number> = {};
@@ -149,10 +162,9 @@ export function evaluatePolicy(
         });
 
         const probabilities = policy(xs, rng);
-        scored.push({
-          weight: probabilities[loggedIndex] / row.policy_score,
-          reward: accepted ? 1 : 0,
-        });
+        const weight = probabilities[loggedIndex] / row.policy_score;
+        if (weight > maxWeight) clipped += 1;
+        scored.push({ weight: Math.min(weight, maxWeight), reward: accepted ? 1 : 0 });
         if (accepted) loggedAccepts += 1;
       }
     }
@@ -191,6 +203,7 @@ export function evaluatePolicy(
     snips: snipsOf(scored),
     snipsCi: [quantile(estimates, 0.025), quantile(estimates, 0.975)],
     effectiveSampleSize: sumW2 > 0 ? (sumW * sumW) / sumW2 : 0,
+    clipped,
   };
 }
 

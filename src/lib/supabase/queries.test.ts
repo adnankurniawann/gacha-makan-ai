@@ -180,24 +180,52 @@ describe("getAllRestaurants", () => {
     vi.clearAllMocks();
   });
 
-  it("parses coordinates and derives hygiene status", async () => {
-    const selectMock = vi.fn().mockResolvedValue({
-      data: [
-        {
-          id: "11111111-1111-1111-1111-111111111111",
-          name: "Ayam Geprek",
-          category: "Ayam",
-          price_tier: 15000,
-          location: "POINT(107.77 -6.92)",
-          hygiene_score: 90,
-          is_verified_safe: true,
-          created_at: "2026-05-10T00:00:00Z",
-        },
-      ],
-      error: null,
+  /** Supabase query chain `select().order().range()` returning the given pages in turn. */
+  function mockPages(...pages: unknown[][]) {
+    const rangeMock = vi.fn();
+    for (const page of pages) rangeMock.mockResolvedValueOnce({ data: page, error: null });
+    fromMock.mockReturnValue({
+      select: () => ({ order: () => ({ range: rangeMock }) }),
     });
+    return rangeMock;
+  }
 
-    fromMock.mockReturnValue({ select: selectMock });
+  it("keeps paging past Supabase's 1,000-row cap", async () => {
+    const row = (i: number) => ({
+      id: `id-${i}`,
+      name: `Warung ${i}`,
+      category: null,
+      price_tier: null,
+      location: "POINT(107.77 -6.92)",
+      hygiene_score: 90,
+      is_verified_safe: false,
+      created_at: "2026-05-10T00:00:00Z",
+    });
+    const rangeMock = mockPages(
+      Array.from({ length: 1000 }, (_, i) => row(i)),
+      [row(1000), row(1001)],
+    );
+
+    const result = await getAllRestaurants();
+
+    expect(result).toHaveLength(1002);
+    expect(rangeMock).toHaveBeenNthCalledWith(1, 0, 999);
+    expect(rangeMock).toHaveBeenNthCalledWith(2, 1000, 1999);
+  });
+
+  it("parses coordinates and derives hygiene status", async () => {
+    mockPages([
+      {
+        id: "11111111-1111-1111-1111-111111111111",
+        name: "Ayam Geprek",
+        category: "Ayam",
+        price_tier: 15000,
+        location: "POINT(107.77 -6.92)",
+        hygiene_score: 90,
+        is_verified_safe: true,
+        created_at: "2026-05-10T00:00:00Z",
+      },
+    ]);
 
     await expect(getAllRestaurants()).resolves.toEqual([
       {

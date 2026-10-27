@@ -16,14 +16,11 @@
 
 import { HygieneReportError, submitHygieneReport } from "@/lib/supabase/queries";
 import { clientIp, rateLimit, rateLimitHeaders } from "@/lib/rate-limit";
+import { UUID_REGEX } from "@/lib/uuid";
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
-
-/** UUID v4 format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx */
-const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const VALID_REPORT_TYPES = ["RED_FLAG", "CLEAN"] as const;
 type ReportType = (typeof VALID_REPORT_TYPES)[number];

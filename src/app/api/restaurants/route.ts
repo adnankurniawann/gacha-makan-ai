@@ -12,10 +12,13 @@ export async function GET(): Promise<Response> {
     const restaurants = await getAllRestaurants();
     return Response.json({ data: restaurants }, { status: 200 });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Unknown database error";
+    console.error(
+      "[GET /api/restaurants]",
+      error instanceof Error ? error.message : error
+    );
+    // Pesan Postgres mentah cuma untuk log server, bukan untuk klien.
     return Response.json(
-      { error: message, code: "DATABASE_ERROR" },
+      { error: "Database error while fetching restaurants.", code: "DATABASE_ERROR" },
       { status: 500 }
     );
   }

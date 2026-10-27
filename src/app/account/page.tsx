@@ -72,41 +72,28 @@ export default function AccountPage() {
 
   const clearAvatarSelection = () => {
     setAvatarFile(null);
+    if (avatarPreviewUrl) URL.revokeObjectURL(avatarPreviewUrl);
     setAvatarPreviewUrl(null);
     if (avatarInputRef.current) {
       avatarInputRef.current.value = "";
     }
   };
 
-  useEffect(() => {
-    if (!session) {
-      setProfileForm({ fullName: "", bio: "", avatarUrl: "" });
-      clearAvatarSelection();
-      setSavedAvatarUrl(null);
-      return;
-    }
-
+  // Isi form mengikuti sesi. Disesuaikan saat render, bukan di efek, supaya
+  // tidak ada render tambahan dengan form yang masih berisi sesi lama.
+  const [formSession, setFormSession] = useState<Session | null>(null);
+  if (session !== formSession) {
+    setFormSession(session);
     const metadata = getUserMetadata(session);
     setProfileForm({
       fullName: String(metadata.full_name ?? metadata.name ?? ""),
       bio: String(metadata.bio ?? ""),
       avatarUrl: String(metadata.avatar_url ?? ""),
     });
-    clearAvatarSelection();
+    setAvatarFile(null);
+    setAvatarPreviewUrl(null);
     setSavedAvatarUrl(String(metadata.avatar_url ?? "") || null);
-  }, [session]);
-
-  useEffect(() => {
-    if (!avatarFile) {
-      setAvatarPreviewUrl(null);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(avatarFile);
-    setAvatarPreviewUrl(objectUrl);
-
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [avatarFile]);
+  }
 
   useEffect(() => {
     let isMounted = true;
@@ -149,6 +136,8 @@ export default function AccountPage() {
   const handleAvatarFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null;
     setAvatarFile(file);
+    if (avatarPreviewUrl) URL.revokeObjectURL(avatarPreviewUrl);
+    setAvatarPreviewUrl(file ? URL.createObjectURL(file) : null);
     if (file) {
       setProfileForm((current) => ({
         ...current,

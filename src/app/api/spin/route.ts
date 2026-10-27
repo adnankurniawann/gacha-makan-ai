@@ -16,14 +16,11 @@ import {
   SPIN_POLICY,
 } from "@/utils/gacha";
 import { clientIp, rateLimit, rateLimitHeaders } from "@/lib/rate-limit";
+import { UUID_REGEX } from "@/lib/uuid";
 import { recordSpinEvent, recordSpinMiss } from "@/lib/supabase/events";
 import { currentIsRaining, needsRefresh, refreshWeather } from "@/lib/weather";
 import { chooseWithBandit, prepareBandit } from "@/lib/ml/serve";
 import { BANDIT_POLICY } from "@/lib/ml/policy";
-
-/** UUID apa pun versinya — session_id dibuat oleh crypto.randomUUID di klien. */
-const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -288,9 +285,10 @@ export async function POST(request: Request): Promise<Response> {
       const message =
         dbError instanceof Error ? dbError.message : String(dbError);
       console.error("[POST /api/spin] Database error:", message);
+      // Pesan Postgres mentah cuma untuk log server, bukan untuk klien.
       return Response.json(
         {
-          error: `Database error while fetching restaurants: ${message}`,
+          error: "Database error while fetching restaurants.",
           code: "DATABASE_ERROR",
         },
         { status: 500 }

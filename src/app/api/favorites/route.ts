@@ -10,9 +10,7 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { clientIp, rateLimit, rateLimitHeaders } from "@/lib/rate-limit";
-
-const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+import { UUID_REGEX } from "@/lib/uuid";
 
 const RATE_LIMIT = 60;
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;

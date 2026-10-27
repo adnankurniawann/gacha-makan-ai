@@ -59,7 +59,7 @@ describe("GET /api/restaurants", () => {
     expect(response.status).toBe(500);
     await expect(response.json()).resolves.toMatchObject({
       code: "DATABASE_ERROR",
-      error: "database down",
+      error: "Database error while fetching restaurants.",
     });
   });
 });

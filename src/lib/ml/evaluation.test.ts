@@ -63,6 +63,26 @@ describe("evaluatePolicy", () => {
     expect(result.snipsCi[1]).toBeGreaterThan(result.snips);
   });
 
+  it("satu baris palsu berpropensity kecil tidak menentukan hasil", () => {
+    const rows = biasedLog(600);
+    // Pengguna bisa menyisipkan spin_events sendiri lewat anon key.
+    rows.push({
+      ...rows[rows.length - 1],
+      id: "palsu",
+      shown_at: new Date(Date.UTC(2027, 0, 1)).toISOString(),
+      restaurant_id: "B",
+      policy_score: 0.0001,
+      effective_action: "accepted",
+    });
+    const farthest: CandidatePolicy = (xs) => xs.map((_, i) => (i === 1 ? 1 : 0));
+
+    const result = evaluatePolicy(rows, catalog, farthest, { bootstrapSamples: 50 });
+
+    expect(result.clipped).toBe(1);
+    // Tanpa batas, bobot 10.000 membuat SNIPS ≈ 1. Nilai sebenarnya 0,2.
+    expect(result.snips).toBeLessThan(0.4);
+  });
+
   it("kebijakan seragam bernilai rata-rata kedua warung", () => {
     const result = evaluatePolicy(biasedLog(6000), catalog, uniformPolicy, {
       bootstrapSamples: 50,

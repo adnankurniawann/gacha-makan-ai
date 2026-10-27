@@ -523,6 +523,12 @@ SNIPS = Σ w·r / Σ w
   bawah 10% n. Kebijakan lama berbobot harga, jadi kandidat mahal punya
   `policy_score` kecil dan bobot IPS besar — hasilnya bisa ditentukan segelintir
   baris
+- **Bobot dibatasi di 100** (`maxWeight`), dan jumlah baris yang terpotong
+  dicetak. Pengguna bisa menyisipkan baris `spin_events` sendiri lewat anon
+  key; tanpa batas, satu baris palsu dengan `policy_score` 0,0001 dan
+  `accepted` berbobot 10.000 dan menentukan seluruh SNIPS. Batas menukar
+  sedikit bias dengan ketahanan; penutup penuhnya butuh jalur tulis khusus
+  server, yang bentrok dengan aturan tanpa `service_role`
 
 Tesnya membangun dunia dengan jawaban yang diketahui: kebijakan pengumpul yang
 hanya 25% memilih warung yang bagus. Accept rate yang tercatat 0,35; estimator

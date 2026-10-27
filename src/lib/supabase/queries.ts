@@ -372,6 +372,9 @@ export async function getRecentHygieneReports(
     .filter((row): row is RecentHygieneReport => row !== null);
 }
 
+/** Supabase's default `max-rows`; a larger page would be cut to this anyway. */
+const RESTAURANT_PAGE_SIZE = 1000;
+
 /**
  * Fetches all restaurants from the database and enriches each row with
  * parsed coordinates and a derived hygiene status.
@@ -382,16 +385,29 @@ export async function getRecentHygieneReports(
  * Requirements: 9.2, 4.1, 4.2, 4.3
  */
 export async function getAllRestaurants(): Promise<RestaurantWithCoords[]> {
-  const { data, error } = await supabase.from("restaurants").select("*");
+  // Supabase caps every response at 1,000 rows without saying so; page until
+  // a short page comes back. Ordered by id so pages never overlap or skip.
+  // shortcut: loads the whole catalogue, switch to a bounding-box query when
+  // the map gets slow (around 10k rows).
+  const rows: Restaurant[] = [];
+  for (let from = 0; ; from += RESTAURANT_PAGE_SIZE) {
+    const { data, error } = await supabase
+      .from("restaurants")
+      .select("*")
+      .order("id")
+      .range(from, from + RESTAURANT_PAGE_SIZE - 1);
 
-  if (error) {
-    throw new Error(
-      `getAllRestaurants: failed to fetch restaurants from database. ` +
-        `Supabase error: ${error.message} (code: ${error.code})`
-    );
+    if (error) {
+      throw new Error(
+        `getAllRestaurants: failed to fetch restaurants from database. ` +
+          `Supabase error: ${error.message} (code: ${error.code})`
+      );
+    }
+
+    const page = (data ?? []) as Restaurant[];
+    rows.push(...page);
+    if (page.length < RESTAURANT_PAGE_SIZE) break;
   }
-
-  const rows = (data ?? []) as Restaurant[];
 
   return rows.map((row) => {
     const { lat, lng } = parsePostGISPoint(row.location);

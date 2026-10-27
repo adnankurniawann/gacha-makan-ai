@@ -50,10 +50,10 @@ sudah berjalan.
 | Framework | Next.js 16 (App Router), monolith |
 | Database | Supabase Postgres + PostGIS |
 | Auth | Supabase, anonymous sign-in |
-| Styling | Tailwind CSS 4, primitif shadcn |
+| Styling | Tailwind CSS 4 |
 | Huruf & ikon | Plus Jakarta Sans, lucide-react |
 | Animasi | Framer Motion (dimuat setelah halaman siap) |
-| Uji | Vitest — **387 tes** |
+| Uji | Vitest — **392 tes** |
 | ML & AI | Bandit TypeScript sendiri; LLM (Ollama lokal, Gemini, atau Claude) untuk kurasi kategori, dengan harness evaluasi |
 
 Tidak ada layanan terpisah. Bahkan model rekomendasinya dirancang muat di
@@ -176,7 +176,7 @@ npm run dev
 
 ```bash
 npm run dev                                     # server pengembangan
-npm test                                        # 387 tes
+npm test                                        # 392 tes
 npm run lint                                    # eslint
 npm run build                                   # build produksi
 
@@ -209,7 +209,7 @@ src/app/            Halaman dan route handler
   dompet/           Budget makan bulanan
   hasil/[id]/       Halaman hasil yang bisa dibagikan, plus Open Graph image
 src/components/
-  ui/               Primitif bersama: shadcn + surface.tsx milik aplikasi
+  ui/               Primitif bersama (surface.tsx)
   home/             Header, navigasi bawah, hero, panduan, feed
 src/lib/
   supabase/         Klien, query, pencatatan peristiwa, sesi

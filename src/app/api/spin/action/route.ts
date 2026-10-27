@@ -10,9 +10,7 @@
 
 import { recordSpinAction, type SpinAction } from "@/lib/supabase/events";
 import { clientIp, rateLimit, rateLimitHeaders } from "@/lib/rate-limit";
-
-const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+import { UUID_REGEX } from "@/lib/uuid";
 
 const VALID_ACTIONS = ["accepted", "respun", "saved"] as const;
 

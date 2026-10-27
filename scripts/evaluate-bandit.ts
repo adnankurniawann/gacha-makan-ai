@@ -96,6 +96,9 @@ function main(): void {
       ? "\nBatas bawah interval Thompson di atas kebijakan sekarang."
       : "\nInterval Thompson masih menyentuh kebijakan sekarang — belum bisa dibedakan dari kebetulan.",
   );
+  if (reference.clipped > 0) {
+    console.log(`${reference.clipped} baris berbobot di atas batas dan dipotong — cek baris dengan policy_score sangat kecil.`);
+  }
   if (reference.effectiveSampleSize < reference.n / 10) {
     console.log("ESS kurang dari 10% n: hasilnya ditentukan segelintir baris berbobot besar.");
   }

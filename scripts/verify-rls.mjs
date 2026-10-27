@@ -252,6 +252,12 @@ async function main() {
     }),
   );
 
+  // Pekerjaan sistem (pg_cron). Jendela 100 tahun: kalau aksesnya ternyata
+  // terbuka, panggilan ini tetap tidak mengenai baris apa pun.
+  await check("rpc mark_ignored_spins ditolak untuk anon", ["denied"], () =>
+    request("POST", "/rpc/mark_ignored_spins", { body: { p_older_than: "100 years" } }),
+  );
+
   // --- Tabel milik pengguna: anon tidak boleh menyentuh ---------------------
 
   for (const table of ["users", "user_history", "wallets"]) {

@@ -77,13 +77,23 @@ async function loadCatalog(): Promise<CategorizeInput[]> {
   // Anon key cukup: katalog restoran memang boleh dibaca publik. Skrip ini
   // tidak butuh — dan tidak boleh memakai — service_role.
   const supabase = createClient(url, key, { auth: { persistSession: false } });
-  const { data, error } = await supabase
-    .from("restaurants")
-    .select("id, name, category")
-    .order("name");
 
-  if (error) throw new Error(`Gagal membaca katalog: ${error.message}`);
-  return (data ?? []) as CategorizeInput[];
+  // Supabase memotong tiap respons di 1.000 baris tanpa memberi tahu, jadi
+  // dibaca per halaman. Urut id supaya halamannya tidak tumpang tindih.
+  const PAGE = 1000;
+  const rows: CategorizeInput[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await supabase
+      .from("restaurants")
+      .select("id, name, category")
+      .order("id")
+      .range(from, from + PAGE - 1);
+
+    if (error) throw new Error(`Gagal membaca katalog: ${error.message}`);
+    rows.push(...((data ?? []) as CategorizeInput[]));
+    if ((data ?? []).length < PAGE) break;
+  }
+  return rows.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 async function main(): Promise<void> {
