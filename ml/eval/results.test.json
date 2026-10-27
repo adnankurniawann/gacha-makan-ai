@@ -24,7 +24,7 @@
       "tanpaKataKunci": 323,
       "nonWaralaba": 497
     },
-    "promptHash": "05555da87498",
+    "promptHash": "5988fb42f0d5",
     "prices": {
       "gemini/gemini-3.5-flash-lite": {
         "input": 0.3,
@@ -634,48 +634,48 @@
       {
         "label": "gemini/gemini-3.5-flash-lite",
         "n": 509,
-        "accuracy": 0.6404715127701375,
+        "accuracy": 0.6542239685658153,
         "accuracyCI": [
-          0.6011787819253438,
-          0.6817288801571709
+          0.6110019646365422,
+          0.693516699410609
         ],
-        "macroF1": 0.6514647047219013,
+        "macroF1": 0.6637808994541657,
         "macroF1CI": [
-          0.6044918792560927,
-          0.6918716241387995
+          0.6169236490650146,
+          0.7039645402355644
         ],
         "failureRate": 0,
         "write": {
-          "written": 383,
-          "coverage": 0.7524557956777996,
-          "precision": 0.7284595300261096
+          "written": 374,
+          "coverage": 0.7347740667976425,
+          "precision": 0.7352941176470589
         },
         "writeHigh": {
-          "written": 262,
-          "coverage": 0.5147347740667977,
-          "precision": 0.8244274809160306
+          "written": 253,
+          "coverage": 0.49705304518664045,
+          "precision": 0.841897233201581
         },
         "perClass": [
           {
             "slot": "ayam",
             "support": 50,
-            "precision": 0.9230769230769231,
-            "recall": 0.72,
-            "f1": 0.8089887640449438
+            "precision": 0.925,
+            "recall": 0.74,
+            "f1": 0.8222222222222222
           },
           {
             "slot": "mie",
             "support": 50,
-            "precision": 0.7755102040816326,
-            "recall": 0.76,
-            "f1": 0.7676767676767676
+            "precision": 0.7872340425531915,
+            "recall": 0.74,
+            "f1": 0.7628865979381443
           },
           {
             "slot": "nusantara",
             "support": 50,
-            "precision": 0.35365853658536583,
-            "recall": 0.58,
-            "f1": 0.4393939393939394
+            "precision": 0.345679012345679,
+            "recall": 0.56,
+            "f1": 0.42748091603053434
           },
           {
             "slot": "sunda",
@@ -694,58 +694,58 @@
           {
             "slot": "chinese",
             "support": 50,
-            "precision": 0.8846153846153846,
-            "recall": 0.46,
-            "f1": 0.605263157894737
+            "precision": 0.8888888888888888,
+            "recall": 0.48,
+            "f1": 0.6233766233766234
           },
           {
             "slot": "jepang_korea",
             "support": 50,
-            "precision": 0.9090909090909091,
-            "recall": 0.8,
-            "f1": 0.8510638297872342
+            "precision": 0.9512195121951219,
+            "recall": 0.78,
+            "f1": 0.8571428571428571
           },
           {
             "slot": "barat",
             "support": 50,
-            "precision": 0.7,
-            "recall": 0.56,
-            "f1": 0.6222222222222222
+            "precision": 0.8529411764705882,
+            "recall": 0.58,
+            "f1": 0.6904761904761905
           },
           {
             "slot": "seafood",
             "support": 50,
-            "precision": 0.92,
-            "recall": 0.46,
-            "f1": 0.6133333333333333
+            "precision": 0.9230769230769231,
+            "recall": 0.48,
+            "f1": 0.631578947368421
           },
           {
             "slot": "kopi_minuman",
             "support": 50,
-            "precision": 0.6363636363636364,
+            "precision": 0.625,
             "recall": 0.7,
-            "f1": 0.6666666666666666
+            "f1": 0.6603773584905661
           },
           {
             "slot": "manis_roti",
             "support": 34,
-            "precision": 0.8125,
+            "precision": 0.7878787878787878,
             "recall": 0.7647058823529411,
-            "f1": 0.787878787878788
+            "f1": 0.7761194029850745
           },
           {
             "slot": "lainnya",
             "support": 50,
-            "precision": 0.3368421052631579,
-            "recall": 0.64,
-            "f1": 0.4413793103448276
+            "precision": 0.37254901960784315,
+            "recall": 0.76,
+            "f1": 0.5
           }
         ],
         "confusion": {
           "ayam": {
-            "ayam": 36,
-            "mie": 1,
-            "nusantara": 9,
+            "ayam": 37,
+            "mie": 0,
+            "nusantara": 8,
             "sunda": 1,
             "padang": 0,
             "chinese": 1,
@@ -754,20 +754,20 @@
             "seafood": 0,
             "kopi_minuman": 0,
             "manis_roti": 0,
-            "lainnya": 2,
+            "lainnya": 3,
             "tanpa_jawaban": 0
           },
           "mie": {
             "ayam": 0,
-            "mie": 38,
-            "nusantara": 3,
+            "mie": 37,
+            "nusantara": 4,
             "sunda": 0,
             "padang": 0,
             "chinese": 0,
-            "jepang_korea": 3,
+            "jepang_korea": 2,
             "barat": 0,
             "seafood": 0,
-            "kopi_minuman": 1,
+            "kopi_minuman": 2,
             "manis_roti": 1,
             "lainnya": 4,
             "tanpa_jawaban": 0
@@ -775,22 +775,22 @@
           "nusantara": {
             "ayam": 3,
             "mie": 0,
-            "nusantara": 29,
+            "nusantara": 28,
             "sunda": 2,
             "padang": 0,
             "chinese": 1,
             "jepang_korea": 0,
-            "barat": 1,
+            "barat": 0,
             "seafood": 2,
             "kopi_minuman": 4,
             "manis_roti": 2,
-            "lainnya": 6,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "sunda": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 2,
+            "nusantara": 1,
             "sunda": 3,
             "padang": 0,
             "chinese": 0,
@@ -799,14 +799,14 @@
             "seafood": 0,
             "kopi_minuman": 1,
             "manis_roti": 0,
-            "lainnya": 1,
+            "lainnya": 2,
             "tanpa_jawaban": 0
           },
           "padang": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 2,
-            "sunda": 0,
+            "nusantara": 1,
+            "sunda": 1,
             "padang": 13,
             "chinese": 0,
             "jepang_korea": 0,
@@ -819,62 +819,62 @@
           },
           "chinese": {
             "ayam": 0,
-            "mie": 9,
-            "nusantara": 9,
+            "mie": 8,
+            "nusantara": 8,
             "sunda": 0,
             "padang": 0,
-            "chinese": 23,
+            "chinese": 24,
             "jepang_korea": 0,
             "barat": 0,
             "seafood": 0,
             "kopi_minuman": 1,
             "manis_roti": 0,
-            "lainnya": 8,
+            "lainnya": 9,
             "tanpa_jawaban": 0
           },
           "jepang_korea": {
             "ayam": 0,
             "mie": 1,
-            "nusantara": 0,
+            "nusantara": 1,
             "sunda": 0,
             "padang": 0,
             "chinese": 1,
-            "jepang_korea": 40,
-            "barat": 0,
+            "jepang_korea": 39,
+            "barat": 1,
             "seafood": 0,
             "kopi_minuman": 0,
             "manis_roti": 1,
-            "lainnya": 7,
+            "lainnya": 6,
             "tanpa_jawaban": 0
           },
           "barat": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 3,
+            "nusantara": 5,
             "sunda": 0,
             "padang": 0,
             "chinese": 0,
             "jepang_korea": 0,
-            "barat": 28,
+            "barat": 29,
             "seafood": 0,
             "kopi_minuman": 6,
-            "manis_roti": 1,
-            "lainnya": 12,
+            "manis_roti": 2,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "seafood": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 15,
-            "sunda": 2,
+            "nusantara": 14,
+            "sunda": 1,
             "padang": 0,
             "chinese": 0,
             "jepang_korea": 0,
             "barat": 0,
-            "seafood": 23,
+            "seafood": 24,
             "kopi_minuman": 3,
             "manis_roti": 0,
-            "lainnya": 7,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "kopi_minuman": {
@@ -909,635 +909,29 @@
           },
           "lainnya": {
             "ayam": 0,
-            "mie": 0,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 1,
-            "barat": 10,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 32,
-            "tanpa_jawaban": 0
-          }
-        },
-        "latency": {
-          "batchP50s": 26.793,
-          "batchP95s": 49.643,
-          "secondsPer1000": 866.9037328094265
-        },
-        "cost": {
-          "inputTokensPerItem": 45.15520628683716,
-          "outputTokensPerItem": 61.81335952848714,
-          "usdPer1000": 0.16807996070726897
-        }
-      },
-      {
-        "label": "ollama/qwen2.5:3b",
-        "n": 509,
-        "accuracy": 0.20235756385068762,
-        "accuracyCI": [
-          0.16895874263261296,
-          0.23772102161100198
-        ],
-        "macroF1": 0.23221575428480504,
-        "macroF1CI": [
-          0.19336664492914493,
-          0.26745559796394824
-        ],
-        "failureRate": 0.34577603143418467,
-        "write": {
-          "written": 163,
-          "coverage": 0.32023575638506874,
-          "precision": 0.5153374233128835
-        },
-        "writeHigh": {
-          "written": 77,
-          "coverage": 0.1512770137524558,
-          "precision": 0.6753246753246753
-        },
-        "perClass": [
-          {
-            "slot": "ayam",
-            "support": 50,
-            "precision": 0.75,
-            "recall": 0.18,
-            "f1": 0.2903225806451613
-          },
-          {
-            "slot": "mie",
-            "support": 50,
-            "precision": 0.76,
-            "recall": 0.38,
-            "f1": 0.5066666666666666
-          },
-          {
-            "slot": "nusantara",
-            "support": 50,
-            "precision": 0.2222222222222222,
-            "recall": 0.2,
-            "f1": 0.2105263157894737
-          },
-          {
-            "slot": "sunda",
-            "support": 7,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "padang",
-            "support": 18,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "chinese",
-            "support": 50,
-            "precision": 0.375,
-            "recall": 0.12,
-            "f1": 0.18181818181818182
-          },
-          {
-            "slot": "jepang_korea",
-            "support": 50,
-            "precision": 0.7142857142857143,
-            "recall": 0.1,
-            "f1": 0.1754385964912281
-          },
-          {
-            "slot": "barat",
-            "support": 50,
-            "precision": 0.5,
-            "recall": 0.26,
-            "f1": 0.34210526315789475
-          },
-          {
-            "slot": "seafood",
-            "support": 50,
-            "precision": 0.8333333333333334,
-            "recall": 0.2,
-            "f1": 0.3225806451612903
-          },
-          {
-            "slot": "kopi_minuman",
-            "support": 50,
-            "precision": 0.41379310344827586,
-            "recall": 0.24,
-            "f1": 0.3037974683544304
-          },
-          {
-            "slot": "manis_roti",
-            "support": 34,
-            "precision": 0.875,
-            "recall": 0.20588235294117646,
-            "f1": 0.33333333333333337
-          },
-          {
-            "slot": "lainnya",
-            "support": 50,
-            "precision": 0.08,
-            "recall": 0.24,
-            "f1": 0.11999999999999998
-          }
-        ],
-        "confusion": {
-          "ayam": {
-            "ayam": 9,
-            "mie": 0,
-            "nusantara": 9,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 12,
-            "tanpa_jawaban": 19
-          },
-          "mie": {
-            "ayam": 0,
-            "mie": 19,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 1,
-            "lainnya": 9,
-            "tanpa_jawaban": 16
-          },
-          "nusantara": {
-            "ayam": 1,
-            "mie": 0,
-            "nusantara": 10,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 1,
-            "barat": 1,
-            "seafood": 0,
-            "kopi_minuman": 2,
-            "manis_roti": 0,
-            "lainnya": 20,
-            "tanpa_jawaban": 15
-          },
-          "sunda": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 1,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 2,
-            "tanpa_jawaban": 4
-          },
-          "padang": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 2,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 3,
-            "tanpa_jawaban": 8
-          },
-          "chinese": {
-            "ayam": 0,
-            "mie": 2,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 6,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 1,
-            "kopi_minuman": 2,
-            "manis_roti": 0,
-            "lainnya": 23,
-            "tanpa_jawaban": 12
-          },
-          "jepang_korea": {
-            "ayam": 1,
-            "mie": 2,
-            "nusantara": 2,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 4,
-            "jepang_korea": 5,
-            "barat": 2,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 18,
-            "tanpa_jawaban": 16
-          },
-          "barat": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 1,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 5,
-            "jepang_korea": 0,
-            "barat": 13,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 15,
-            "tanpa_jawaban": 13
-          },
-          "seafood": {
-            "ayam": 1,
-            "mie": 0,
+            "mie": 1,
             "nusantara": 5,
             "sunda": 0,
             "padang": 0,
             "chinese": 0,
-            "jepang_korea": 1,
-            "barat": 5,
-            "seafood": 10,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 13,
-            "tanpa_jawaban": 15
-          },
-          "kopi_minuman": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 2,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 12,
-            "manis_roti": 0,
-            "lainnya": 14,
-            "tanpa_jawaban": 22
-          },
-          "manis_roti": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 0,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 5,
-            "manis_roti": 7,
-            "lainnya": 9,
-            "tanpa_jawaban": 13
-          },
-          "lainnya": {
-            "ayam": 0,
-            "mie": 2,
-            "nusantara": 2,
-            "sunda": 1,
-            "padang": 0,
-            "chinese": 1,
-            "jepang_korea": 0,
-            "barat": 5,
-            "seafood": 1,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 12,
-            "tanpa_jawaban": 23
-          }
-        },
-        "latency": {
-          "batchP50s": 68.537,
-          "batchP95s": 75.92,
-          "secondsPer1000": 5359.013752455803
-        },
-        "cost": {
-          "inputTokensPerItem": 90.23772102161101,
-          "outputTokensPerItem": 33.353634577603096,
-          "usdPer1000": null
-        }
-      },
-      {
-        "label": "ollama/qwen2.5:7b",
-        "n": 509,
-        "accuracy": 0.46954813359528486,
-        "accuracyCI": [
-          0.4263261296660118,
-          0.5127701375245579
-        ],
-        "macroF1": 0.45751950825380266,
-        "macroF1CI": [
-          0.4113847474091659,
-          0.49655856503962964
-        ],
-        "failureRate": 0,
-        "write": {
-          "written": 401,
-          "coverage": 0.787819253438114,
-          "precision": 0.5461346633416458
-        },
-        "writeHigh": {
-          "written": 275,
-          "coverage": 0.5402750491159135,
-          "precision": 0.6763636363636364
-        },
-        "perClass": [
-          {
-            "slot": "ayam",
-            "support": 50,
-            "precision": 0.8611111111111112,
-            "recall": 0.62,
-            "f1": 0.7209302325581396
-          },
-          {
-            "slot": "mie",
-            "support": 50,
-            "precision": 0.8064516129032258,
-            "recall": 0.5,
-            "f1": 0.6172839506172839
-          },
-          {
-            "slot": "nusantara",
-            "support": 50,
-            "precision": 0.23853211009174313,
-            "recall": 0.52,
-            "f1": 0.32704402515723274
-          },
-          {
-            "slot": "sunda",
-            "support": 7,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "padang",
-            "support": 18,
-            "precision": 0.7272727272727273,
-            "recall": 0.4444444444444444,
-            "f1": 0.5517241379310345
-          },
-          {
-            "slot": "chinese",
-            "support": 50,
-            "precision": 0.4583333333333333,
-            "recall": 0.22,
-            "f1": 0.29729729729729726
-          },
-          {
-            "slot": "jepang_korea",
-            "support": 50,
-            "precision": 0.7142857142857143,
-            "recall": 0.5,
-            "f1": 0.588235294117647
-          },
-          {
-            "slot": "barat",
-            "support": 50,
-            "precision": 0.44776119402985076,
-            "recall": 0.6,
-            "f1": 0.5128205128205128
-          },
-          {
-            "slot": "seafood",
-            "support": 50,
-            "precision": 0.7857142857142857,
-            "recall": 0.44,
-            "f1": 0.5641025641025641
-          },
-          {
-            "slot": "kopi_minuman",
-            "support": 50,
-            "precision": 0.56,
-            "recall": 0.56,
-            "f1": 0.56
-          },
-          {
-            "slot": "manis_roti",
-            "support": 34,
-            "precision": 0.5555555555555556,
-            "recall": 0.4411764705882353,
-            "f1": 0.49180327868852464
-          },
-          {
-            "slot": "lainnya",
-            "support": 50,
-            "precision": 0.20224719101123595,
-            "recall": 0.36,
-            "f1": 0.25899280575539574
-          }
-        ],
-        "confusion": {
-          "ayam": {
-            "ayam": 31,
-            "mie": 0,
-            "nusantara": 8,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 2,
-            "jepang_korea": 0,
-            "barat": 1,
-            "seafood": 1,
-            "kopi_minuman": 1,
-            "manis_roti": 3,
-            "lainnya": 3,
-            "tanpa_jawaban": 0
-          },
-          "mie": {
-            "ayam": 0,
-            "mie": 25,
-            "nusantara": 10,
-            "sunda": 1,
-            "padang": 0,
-            "chinese": 1,
-            "jepang_korea": 6,
-            "barat": 2,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 1,
-            "lainnya": 3,
-            "tanpa_jawaban": 0
-          },
-          "nusantara": {
-            "ayam": 4,
-            "mie": 0,
-            "nusantara": 26,
-            "sunda": 1,
-            "padang": 1,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 4,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 1,
-            "lainnya": 10,
-            "tanpa_jawaban": 0
-          },
-          "sunda": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 2,
-            "tanpa_jawaban": 0
-          },
-          "padang": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 6,
-            "sunda": 0,
-            "padang": 8,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 4,
-            "tanpa_jawaban": 0
-          },
-          "chinese": {
-            "ayam": 0,
-            "mie": 4,
-            "nusantara": 11,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 11,
-            "jepang_korea": 1,
-            "barat": 4,
-            "seafood": 0,
-            "kopi_minuman": 4,
-            "manis_roti": 2,
-            "lainnya": 13,
-            "tanpa_jawaban": 0
-          },
-          "jepang_korea": {
-            "ayam": 0,
-            "mie": 2,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 4,
-            "jepang_korea": 25,
-            "barat": 7,
-            "seafood": 1,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 4,
-            "tanpa_jawaban": 0
-          },
-          "barat": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 3,
-            "sunda": 0,
-            "padang": 1,
-            "chinese": 1,
-            "jepang_korea": 1,
-            "barat": 30,
-            "seafood": 0,
-            "kopi_minuman": 5,
-            "manis_roti": 2,
-            "lainnya": 7,
-            "tanpa_jawaban": 0
-          },
-          "seafood": {
-            "ayam": 1,
-            "mie": 0,
-            "nusantara": 20,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 2,
-            "seafood": 22,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 5,
-            "tanpa_jawaban": 0
-          },
-          "kopi_minuman": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 1,
             "jepang_korea": 0,
             "barat": 3,
             "seafood": 0,
-            "kopi_minuman": 28,
-            "manis_roti": 1,
-            "lainnya": 12,
-            "tanpa_jawaban": 0
-          },
-          "manis_roti": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 2,
-            "jepang_korea": 1,
-            "barat": 0,
-            "seafood": 0,
             "kopi_minuman": 3,
-            "manis_roti": 15,
-            "lainnya": 8,
-            "tanpa_jawaban": 0
-          },
-          "lainnya": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 7,
-            "sunda": 0,
-            "padang": 1,
-            "chinese": 2,
-            "jepang_korea": 1,
-            "barat": 14,
-            "seafood": 4,
-            "kopi_minuman": 1,
-            "manis_roti": 2,
-            "lainnya": 18,
+            "manis_roti": 0,
+            "lainnya": 38,
             "tanpa_jawaban": 0
           }
         },
         "latency": {
-          "batchP50s": 130.476,
-          "batchP95s": 173.663,
-          "secondsPer1000": 13776.70137524555
+          "batchP50s": 5.715,
+          "batchP95s": 6.866,
+          "secondsPer1000": 147.50098231827033
         },
         "cost": {
-          "inputTokensPerItem": 90.23772102161101,
-          "outputTokensPerItem": 43.62475442043211,
-          "usdPer1000": null
+          "inputTokensPerItem": 46.074656188605005,
+          "outputTokensPerItem": 60.312377210216084,
+          "usdPer1000": 0.16460333988212172
         }
       }
     ],
@@ -2135,26 +1529,26 @@
       {
         "label": "gemini/gemini-3.5-flash-lite",
         "n": 323,
-        "accuracy": 0.5263157894736842,
+        "accuracy": 0.541795665634675,
         "accuracyCI": [
-          0.47368421052631576,
-          0.5820433436532507
+          0.4891640866873065,
+          0.5913312693498453
         ],
-        "macroF1": 0.5250540486005603,
+        "macroF1": 0.5327605706318002,
         "macroF1CI": [
-          0.4552880708838604,
-          0.5809781727953762
+          0.4589510451484852,
+          0.5909014361369724
         ],
         "failureRate": 0,
         "write": {
-          "written": 200,
-          "coverage": 0.6191950464396285,
-          "precision": 0.62
+          "written": 190,
+          "coverage": 0.5882352941176471,
+          "precision": 0.6210526315789474
         },
         "writeHigh": {
-          "written": 92,
-          "coverage": 0.2848297213622291,
-          "precision": 0.7391304347826086
+          "written": 85,
+          "coverage": 0.2631578947368421,
+          "precision": 0.7294117647058823
         },
         "perClass": [
           {
@@ -2174,9 +1568,9 @@
           {
             "slot": "nusantara",
             "support": 40,
-            "precision": 0.3380281690140845,
-            "recall": 0.6,
-            "f1": 0.4324324324324324
+            "precision": 0.323943661971831,
+            "recall": 0.575,
+            "f1": 0.41441441441441446
           },
           {
             "slot": "sunda",
@@ -2189,8 +1583,8 @@
             "slot": "padang",
             "support": 9,
             "precision": 1,
-            "recall": 0.6666666666666666,
-            "f1": 0.8
+            "recall": 0.5555555555555556,
+            "f1": 0.7142857142857143
           },
           {
             "slot": "chinese",
@@ -2202,23 +1596,23 @@
           {
             "slot": "jepang_korea",
             "support": 38,
-            "precision": 0.90625,
-            "recall": 0.7631578947368421,
-            "f1": 0.8285714285714286
+            "precision": 0.9655172413793104,
+            "recall": 0.7368421052631579,
+            "f1": 0.835820895522388
           },
           {
             "slot": "barat",
             "support": 26,
-            "precision": 0.42105263157894735,
-            "recall": 0.3076923076923077,
-            "f1": 0.35555555555555557
+            "precision": 0.6923076923076923,
+            "recall": 0.34615384615384615,
+            "f1": 0.46153846153846156
           },
           {
             "slot": "seafood",
             "support": 32,
-            "precision": 0.875,
-            "recall": 0.21875,
-            "f1": 0.35
+            "precision": 0.8888888888888888,
+            "recall": 0.25,
+            "f1": 0.3902439024390244
           },
           {
             "slot": "kopi_minuman",
@@ -2230,22 +1624,22 @@
           {
             "slot": "manis_roti",
             "support": 29,
-            "precision": 0.8076923076923077,
+            "precision": 0.7777777777777778,
             "recall": 0.7241379310344828,
-            "f1": 0.7636363636363636
+            "f1": 0.75
           },
           {
             "slot": "lainnya",
             "support": 47,
-            "precision": 0.34408602150537637,
-            "recall": 0.6808510638297872,
-            "f1": 0.4571428571428572
+            "precision": 0.37623762376237624,
+            "recall": 0.8085106382978723,
+            "f1": 0.5135135135135135
           }
         ],
         "confusion": {
           "ayam": {
             "ayam": 10,
-            "mie": 1,
+            "mie": 0,
             "nusantara": 7,
             "sunda": 1,
             "padang": 0,
@@ -2255,7 +1649,7 @@
             "seafood": 0,
             "kopi_minuman": 0,
             "manis_roti": 0,
-            "lainnya": 2,
+            "lainnya": 3,
             "tanpa_jawaban": 0
           },
           "mie": {
@@ -2265,33 +1659,33 @@
             "sunda": 0,
             "padang": 0,
             "chinese": 0,
-            "jepang_korea": 2,
+            "jepang_korea": 1,
             "barat": 0,
             "seafood": 0,
             "kopi_minuman": 1,
             "manis_roti": 0,
-            "lainnya": 2,
+            "lainnya": 3,
             "tanpa_jawaban": 0
           },
           "nusantara": {
             "ayam": 1,
             "mie": 0,
-            "nusantara": 24,
+            "nusantara": 23,
             "sunda": 2,
             "padang": 0,
             "chinese": 1,
             "jepang_korea": 0,
-            "barat": 1,
+            "barat": 0,
             "seafood": 1,
             "kopi_minuman": 2,
             "manis_roti": 2,
-            "lainnya": 6,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "sunda": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 2,
+            "nusantara": 1,
             "sunda": 2,
             "padang": 0,
             "chinese": 0,
@@ -2300,15 +1694,15 @@
             "seafood": 0,
             "kopi_minuman": 1,
             "manis_roti": 0,
-            "lainnya": 1,
+            "lainnya": 2,
             "tanpa_jawaban": 0
           },
           "padang": {
             "ayam": 0,
             "mie": 0,
             "nusantara": 0,
-            "sunda": 0,
-            "padang": 6,
+            "sunda": 1,
+            "padang": 5,
             "chinese": 0,
             "jepang_korea": 0,
             "barat": 0,
@@ -2321,7 +1715,7 @@
           "chinese": {
             "ayam": 0,
             "mie": 4,
-            "nusantara": 9,
+            "nusantara": 8,
             "sunda": 0,
             "padang": 0,
             "chinese": 18,
@@ -2330,52 +1724,52 @@
             "seafood": 0,
             "kopi_minuman": 0,
             "manis_roti": 0,
-            "lainnya": 8,
+            "lainnya": 9,
             "tanpa_jawaban": 0
           },
           "jepang_korea": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 0,
+            "nusantara": 1,
             "sunda": 0,
             "padang": 0,
             "chinese": 1,
-            "jepang_korea": 29,
-            "barat": 0,
+            "jepang_korea": 28,
+            "barat": 1,
             "seafood": 0,
             "kopi_minuman": 0,
             "manis_roti": 1,
-            "lainnya": 7,
+            "lainnya": 6,
             "tanpa_jawaban": 0
           },
           "barat": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 3,
+            "nusantara": 5,
             "sunda": 0,
             "padang": 0,
             "chinese": 0,
             "jepang_korea": 0,
-            "barat": 8,
+            "barat": 9,
             "seafood": 0,
             "kopi_minuman": 2,
-            "manis_roti": 1,
-            "lainnya": 12,
+            "manis_roti": 2,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "seafood": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 14,
-            "sunda": 1,
+            "nusantara": 13,
+            "sunda": 0,
             "padang": 0,
             "chinese": 0,
             "jepang_korea": 0,
             "barat": 0,
-            "seafood": 7,
+            "seafood": 8,
             "kopi_minuman": 3,
             "manis_roti": 0,
-            "lainnya": 7,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "kopi_minuman": {
@@ -2410,635 +1804,29 @@
           },
           "lainnya": {
             "ayam": 0,
-            "mie": 0,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 1,
-            "barat": 9,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 32,
-            "tanpa_jawaban": 0
-          }
-        },
-        "latency": {
-          "batchP50s": 26.793,
-          "batchP95s": 49.643,
-          "secondsPer1000": 866.9037328094265
-        },
-        "cost": {
-          "inputTokensPerItem": 45.15520628683716,
-          "outputTokensPerItem": 61.81335952848714,
-          "usdPer1000": 0.16807996070726897
-        }
-      },
-      {
-        "label": "ollama/qwen2.5:3b",
-        "n": 323,
-        "accuracy": 0.1021671826625387,
-        "accuracyCI": [
-          0.06811145510835913,
-          0.13622291021671826
-        ],
-        "macroF1": 0.10071018412015509,
-        "macroF1CI": [
-          0.06336114502781169,
-          0.1351957606414643
-        ],
-        "failureRate": 0.34365325077399383,
-        "write": {
-          "written": 68,
-          "coverage": 0.21052631578947367,
-          "precision": 0.29411764705882354
-        },
-        "writeHigh": {
-          "written": 17,
-          "coverage": 0.05263157894736842,
-          "precision": 0.47058823529411764
-        },
-        "perClass": [
-          {
-            "slot": "ayam",
-            "support": 22,
-            "precision": 0.5,
-            "recall": 0.045454545454545456,
-            "f1": 0.08333333333333334
-          },
-          {
-            "slot": "mie",
-            "support": 12,
-            "precision": 0.2,
-            "recall": 0.08333333333333333,
-            "f1": 0.11764705882352941
-          },
-          {
-            "slot": "nusantara",
-            "support": 40,
-            "precision": 0.25806451612903225,
-            "recall": 0.2,
-            "f1": 0.22535211267605634
-          },
-          {
-            "slot": "sunda",
-            "support": 6,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "padang",
-            "support": 9,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "chinese",
-            "support": 39,
-            "precision": 0.14285714285714285,
-            "recall": 0.02564102564102564,
-            "f1": 0.043478260869565216
-          },
-          {
-            "slot": "jepang_korea",
-            "support": 38,
-            "precision": 1,
-            "recall": 0.02631578947368421,
-            "f1": 0.05128205128205127
-          },
-          {
-            "slot": "barat",
-            "support": 26,
-            "precision": 0.23076923076923078,
-            "recall": 0.11538461538461539,
-            "f1": 0.15384615384615388
-          },
-          {
-            "slot": "seafood",
-            "support": 32,
-            "precision": 0.3333333333333333,
-            "recall": 0.03125,
-            "f1": 0.05714285714285714
-          },
-          {
-            "slot": "kopi_minuman",
-            "support": 23,
-            "precision": 0.15384615384615385,
-            "recall": 0.08695652173913043,
-            "f1": 0.1111111111111111
-          },
-          {
-            "slot": "manis_roti",
-            "support": 29,
-            "precision": 1,
-            "recall": 0.13793103448275862,
-            "f1": 0.2424242424242424
-          },
-          {
-            "slot": "lainnya",
-            "support": 47,
-            "precision": 0.08333333333333333,
-            "recall": 0.23404255319148937,
-            "f1": 0.1229050279329609
-          }
-        ],
-        "confusion": {
-          "ayam": {
-            "ayam": 1,
-            "mie": 0,
-            "nusantara": 2,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 11,
-            "tanpa_jawaban": 7
-          },
-          "mie": {
-            "ayam": 0,
             "mie": 1,
-            "nusantara": 3,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 5,
-            "tanpa_jawaban": 2
-          },
-          "nusantara": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 8,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 20,
-            "tanpa_jawaban": 11
-          },
-          "sunda": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 0,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 2,
-            "tanpa_jawaban": 4
-          },
-          "padang": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 2,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 3,
-            "tanpa_jawaban": 4
-          },
-          "chinese": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 1,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 1,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 21,
-            "tanpa_jawaban": 11
-          },
-          "jepang_korea": {
-            "ayam": 1,
-            "mie": 2,
-            "nusantara": 2,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 3,
-            "jepang_korea": 1,
-            "barat": 2,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 15,
-            "tanpa_jawaban": 12
-          },
-          "barat": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 1,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 2,
-            "jepang_korea": 0,
-            "barat": 3,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 12,
-            "tanpa_jawaban": 7
-          },
-          "seafood": {
-            "ayam": 0,
-            "mie": 0,
             "nusantara": 5,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 4,
-            "seafood": 1,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 13,
-            "tanpa_jawaban": 9
-          },
-          "kopi_minuman": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 2,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 2,
-            "manis_roti": 0,
-            "lainnya": 11,
-            "tanpa_jawaban": 8
-          },
-          "manis_roti": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 0,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 4,
-            "manis_roti": 4,
-            "lainnya": 8,
-            "tanpa_jawaban": 13
-          },
-          "lainnya": {
-            "ayam": 0,
-            "mie": 2,
-            "nusantara": 2,
-            "sunda": 1,
-            "padang": 0,
-            "chinese": 1,
-            "jepang_korea": 0,
-            "barat": 4,
-            "seafood": 1,
-            "kopi_minuman": 2,
-            "manis_roti": 0,
-            "lainnya": 11,
-            "tanpa_jawaban": 23
-          }
-        },
-        "latency": {
-          "batchP50s": 68.537,
-          "batchP95s": 75.92,
-          "secondsPer1000": 5359.013752455803
-        },
-        "cost": {
-          "inputTokensPerItem": 90.23772102161101,
-          "outputTokensPerItem": 33.353634577603096,
-          "usdPer1000": null
-        }
-      },
-      {
-        "label": "ollama/qwen2.5:7b",
-        "n": 323,
-        "accuracy": 0.30340557275541796,
-        "accuracyCI": [
-          0.25386996904024767,
-          0.35294117647058826
-        ],
-        "macroF1": 0.2564648498063058,
-        "macroF1CI": [
-          0.20728400842601435,
-          0.304786491949061
-        ],
-        "failureRate": 0,
-        "write": {
-          "written": 221,
-          "coverage": 0.6842105263157895,
-          "precision": 0.35294117647058826
-        },
-        "writeHigh": {
-          "written": 115,
-          "coverage": 0.3560371517027864,
-          "precision": 0.46956521739130436
-        },
-        "perClass": [
-          {
-            "slot": "ayam",
-            "support": 22,
-            "precision": 0.8333333333333334,
-            "recall": 0.22727272727272727,
-            "f1": 0.35714285714285715
-          },
-          {
-            "slot": "mie",
-            "support": 12,
-            "precision": 0.5,
-            "recall": 0.16666666666666666,
-            "f1": 0.25
-          },
-          {
-            "slot": "nusantara",
-            "support": 40,
-            "precision": 0.23655913978494625,
-            "recall": 0.55,
-            "f1": 0.33082706766917297
-          },
-          {
-            "slot": "sunda",
-            "support": 6,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "padang",
-            "support": 9,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "chinese",
-            "support": 39,
-            "precision": 0.3333333333333333,
-            "recall": 0.15384615384615385,
-            "f1": 0.21052631578947367
-          },
-          {
-            "slot": "jepang_korea",
-            "support": 38,
-            "precision": 0.7391304347826086,
-            "recall": 0.4473684210526316,
-            "f1": 0.5573770491803278
-          },
-          {
-            "slot": "barat",
-            "support": 26,
-            "precision": 0.23809523809523808,
-            "recall": 0.38461538461538464,
-            "f1": 0.2941176470588235
-          },
-          {
-            "slot": "seafood",
-            "support": 32,
-            "precision": 0.5555555555555556,
-            "recall": 0.15625,
-            "f1": 0.24390243902439024
-          },
-          {
-            "slot": "kopi_minuman",
-            "support": 23,
-            "precision": 0.16666666666666666,
-            "recall": 0.13043478260869565,
-            "f1": 0.14634146341463414
-          },
-          {
-            "slot": "manis_roti",
-            "support": 29,
-            "precision": 0.5263157894736842,
-            "recall": 0.3448275862068966,
-            "f1": 0.4166666666666667
-          },
-          {
-            "slot": "lainnya",
-            "support": 47,
-            "precision": 0.20930232558139536,
-            "recall": 0.3829787234042553,
-            "f1": 0.2706766917293233
-          }
-        ],
-        "confusion": {
-          "ayam": {
-            "ayam": 5,
-            "mie": 0,
-            "nusantara": 7,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 2,
-            "jepang_korea": 0,
-            "barat": 1,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 3,
-            "lainnya": 3,
-            "tanpa_jawaban": 0
-          },
-          "mie": {
-            "ayam": 0,
-            "mie": 2,
-            "nusantara": 3,
-            "sunda": 1,
-            "padang": 0,
-            "chinese": 1,
-            "jepang_korea": 2,
-            "barat": 1,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 2,
-            "tanpa_jawaban": 0
-          },
-          "nusantara": {
-            "ayam": 1,
-            "mie": 0,
-            "nusantara": 22,
-            "sunda": 1,
-            "padang": 1,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 2,
-            "seafood": 0,
-            "kopi_minuman": 2,
-            "manis_roti": 1,
-            "lainnya": 10,
-            "tanpa_jawaban": 0
-          },
-          "sunda": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 3,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 2,
-            "tanpa_jawaban": 0
-          },
-          "padang": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 4,
-            "tanpa_jawaban": 0
-          },
-          "chinese": {
-            "ayam": 0,
-            "mie": 1,
-            "nusantara": 10,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 6,
-            "jepang_korea": 1,
-            "barat": 4,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 1,
-            "lainnya": 13,
-            "tanpa_jawaban": 0
-          },
-          "jepang_korea": {
-            "ayam": 0,
-            "mie": 1,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 3,
-            "jepang_korea": 17,
-            "barat": 6,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 4,
-            "tanpa_jawaban": 0
-          },
-          "barat": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 3,
-            "sunda": 0,
-            "padang": 1,
-            "chinese": 1,
-            "jepang_korea": 1,
-            "barat": 10,
-            "seafood": 0,
-            "kopi_minuman": 2,
-            "manis_roti": 2,
-            "lainnya": 6,
-            "tanpa_jawaban": 0
-          },
-          "seafood": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 20,
             "sunda": 0,
             "padang": 0,
             "chinese": 0,
             "jepang_korea": 0,
             "barat": 2,
-            "seafood": 5,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 5,
-            "tanpa_jawaban": 0
-          },
-          "kopi_minuman": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 1,
-            "jepang_korea": 0,
-            "barat": 3,
             "seafood": 0,
-            "kopi_minuman": 3,
+            "kopi_minuman": 1,
             "manis_roti": 0,
-            "lainnya": 11,
-            "tanpa_jawaban": 0
-          },
-          "manis_roti": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 2,
-            "jepang_korea": 1,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 10,
-            "lainnya": 8,
-            "tanpa_jawaban": 0
-          },
-          "lainnya": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 6,
-            "sunda": 0,
-            "padang": 1,
-            "chinese": 2,
-            "jepang_korea": 1,
-            "barat": 13,
-            "seafood": 4,
-            "kopi_minuman": 0,
-            "manis_roti": 2,
-            "lainnya": 18,
+            "lainnya": 38,
             "tanpa_jawaban": 0
           }
         },
         "latency": {
-          "batchP50s": 130.476,
-          "batchP95s": 173.663,
-          "secondsPer1000": 13776.70137524555
+          "batchP50s": 5.715,
+          "batchP95s": 6.866,
+          "secondsPer1000": 147.50098231827033
         },
         "cost": {
-          "inputTokensPerItem": 90.23772102161101,
-          "outputTokensPerItem": 43.62475442043211,
-          "usdPer1000": null
+          "inputTokensPerItem": 46.074656188605005,
+          "outputTokensPerItem": 60.312377210216084,
+          "usdPer1000": 0.16460333988212172
         }
       }
     ],
@@ -3636,48 +2424,48 @@
       {
         "label": "gemini/gemini-3.5-flash-lite",
         "n": 497,
-        "accuracy": 0.635814889336016,
+        "accuracy": 0.6519114688128773,
         "accuracyCI": [
-          0.5955734406438632,
-          0.676056338028169
+          0.6096579476861167,
+          0.6961770623742455
         ],
-        "macroF1": 0.6491776676205542,
+        "macroF1": 0.6635191377315487,
         "macroF1CI": [
-          0.5990468647172276,
-          0.6917013637820117
+          0.6159419309966909,
+          0.7059938632868129
         ],
         "failureRate": 0,
         "write": {
-          "written": 372,
-          "coverage": 0.7484909456740443,
-          "precision": 0.7231182795698925
+          "written": 367,
+          "coverage": 0.738430583501006,
+          "precision": 0.7329700272479565
         },
         "writeHigh": {
-          "written": 254,
-          "coverage": 0.5110663983903421,
-          "precision": 0.8188976377952756
+          "written": 249,
+          "coverage": 0.5010060362173038,
+          "precision": 0.8393574297188755
         },
         "perClass": [
           {
             "slot": "ayam",
             "support": 48,
-            "precision": 0.918918918918919,
-            "recall": 0.7083333333333334,
-            "f1": 0.8000000000000002
+            "precision": 0.9210526315789473,
+            "recall": 0.7291666666666666,
+            "f1": 0.8139534883720931
           },
           {
             "slot": "mie",
             "support": 50,
-            "precision": 0.7755102040816326,
-            "recall": 0.76,
-            "f1": 0.7676767676767676
+            "precision": 0.7872340425531915,
+            "recall": 0.74,
+            "f1": 0.7628865979381443
           },
           {
             "slot": "nusantara",
             "support": 49,
-            "precision": 0.35365853658536583,
-            "recall": 0.5918367346938775,
-            "f1": 0.44274809160305345
+            "precision": 0.345679012345679,
+            "recall": 0.5714285714285714,
+            "f1": 0.4307692307692308
           },
           {
             "slot": "sunda",
@@ -3696,58 +2484,58 @@
           {
             "slot": "chinese",
             "support": 50,
-            "precision": 0.92,
-            "recall": 0.46,
-            "f1": 0.6133333333333333
+            "precision": 0.9230769230769231,
+            "recall": 0.48,
+            "f1": 0.631578947368421
           },
           {
             "slot": "jepang_korea",
             "support": 45,
-            "precision": 0.8974358974358975,
+            "precision": 0.9459459459459459,
             "recall": 0.7777777777777778,
-            "f1": 0.8333333333333333
+            "f1": 0.8536585365853658
           },
           {
             "slot": "barat",
             "support": 49,
-            "precision": 0.6923076923076923,
-            "recall": 0.5510204081632653,
-            "f1": 0.6136363636363635
+            "precision": 0.875,
+            "recall": 0.5714285714285714,
+            "f1": 0.691358024691358
           },
           {
             "slot": "seafood",
             "support": 50,
-            "precision": 0.92,
-            "recall": 0.46,
-            "f1": 0.6133333333333333
+            "precision": 0.9230769230769231,
+            "recall": 0.48,
+            "f1": 0.631578947368421
           },
           {
             "slot": "kopi_minuman",
             "support": 48,
-            "precision": 0.6296296296296297,
+            "precision": 0.6181818181818182,
             "recall": 0.7083333333333334,
-            "f1": 0.6666666666666667
+            "f1": 0.6601941747572815
           },
           {
             "slot": "manis_roti",
             "support": 33,
-            "precision": 0.8064516129032258,
+            "precision": 0.78125,
             "recall": 0.7575757575757576,
-            "f1": 0.7812499999999999
+            "f1": 0.7692307692307692
           },
           {
             "slot": "lainnya",
             "support": 50,
-            "precision": 0.3404255319148936,
-            "recall": 0.64,
-            "f1": 0.4444444444444445
+            "precision": 0.37623762376237624,
+            "recall": 0.76,
+            "f1": 0.5033112582781457
           }
         ],
         "confusion": {
           "ayam": {
-            "ayam": 34,
-            "mie": 1,
-            "nusantara": 9,
+            "ayam": 35,
+            "mie": 0,
+            "nusantara": 8,
             "sunda": 1,
             "padang": 0,
             "chinese": 1,
@@ -3756,20 +2544,20 @@
             "seafood": 0,
             "kopi_minuman": 0,
             "manis_roti": 0,
-            "lainnya": 2,
+            "lainnya": 3,
             "tanpa_jawaban": 0
           },
           "mie": {
             "ayam": 0,
-            "mie": 38,
-            "nusantara": 3,
+            "mie": 37,
+            "nusantara": 4,
             "sunda": 0,
             "padang": 0,
             "chinese": 0,
-            "jepang_korea": 3,
+            "jepang_korea": 2,
             "barat": 0,
             "seafood": 0,
-            "kopi_minuman": 1,
+            "kopi_minuman": 2,
             "manis_roti": 1,
             "lainnya": 4,
             "tanpa_jawaban": 0
@@ -3777,22 +2565,22 @@
           "nusantara": {
             "ayam": 3,
             "mie": 0,
-            "nusantara": 29,
+            "nusantara": 28,
             "sunda": 2,
             "padang": 0,
             "chinese": 0,
             "jepang_korea": 0,
-            "barat": 1,
+            "barat": 0,
             "seafood": 2,
             "kopi_minuman": 4,
             "manis_roti": 2,
-            "lainnya": 6,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "sunda": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 2,
+            "nusantara": 1,
             "sunda": 3,
             "padang": 0,
             "chinese": 0,
@@ -3801,14 +2589,14 @@
             "seafood": 0,
             "kopi_minuman": 1,
             "manis_roti": 0,
-            "lainnya": 1,
+            "lainnya": 2,
             "tanpa_jawaban": 0
           },
           "padang": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 2,
-            "sunda": 0,
+            "nusantara": 1,
+            "sunda": 1,
             "padang": 13,
             "chinese": 0,
             "jepang_korea": 0,
@@ -3821,23 +2609,23 @@
           },
           "chinese": {
             "ayam": 0,
-            "mie": 9,
-            "nusantara": 9,
+            "mie": 8,
+            "nusantara": 8,
             "sunda": 0,
             "padang": 0,
-            "chinese": 23,
+            "chinese": 24,
             "jepang_korea": 0,
             "barat": 0,
             "seafood": 0,
             "kopi_minuman": 1,
             "manis_roti": 0,
-            "lainnya": 8,
+            "lainnya": 9,
             "tanpa_jawaban": 0
           },
           "jepang_korea": {
             "ayam": 0,
             "mie": 1,
-            "nusantara": 0,
+            "nusantara": 1,
             "sunda": 0,
             "padang": 0,
             "chinese": 1,
@@ -3846,37 +2634,37 @@
             "seafood": 0,
             "kopi_minuman": 0,
             "manis_roti": 1,
-            "lainnya": 7,
+            "lainnya": 6,
             "tanpa_jawaban": 0
           },
           "barat": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 3,
+            "nusantara": 5,
             "sunda": 0,
             "padang": 0,
             "chinese": 0,
             "jepang_korea": 0,
-            "barat": 27,
+            "barat": 28,
             "seafood": 0,
             "kopi_minuman": 6,
-            "manis_roti": 1,
-            "lainnya": 12,
+            "manis_roti": 2,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "seafood": {
             "ayam": 0,
             "mie": 0,
-            "nusantara": 15,
-            "sunda": 2,
+            "nusantara": 14,
+            "sunda": 1,
             "padang": 0,
             "chinese": 0,
             "jepang_korea": 0,
             "barat": 0,
-            "seafood": 23,
+            "seafood": 24,
             "kopi_minuman": 3,
             "manis_roti": 0,
-            "lainnya": 7,
+            "lainnya": 8,
             "tanpa_jawaban": 0
           },
           "kopi_minuman": {
@@ -3911,583 +2699,7 @@
           },
           "lainnya": {
             "ayam": 0,
-            "mie": 0,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 1,
-            "barat": 10,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 32,
-            "tanpa_jawaban": 0
-          }
-        },
-        "latency": {
-          "batchP50s": 26.793,
-          "batchP95s": 49.643,
-          "secondsPer1000": 866.9037328094265
-        },
-        "cost": {
-          "inputTokensPerItem": 45.15520628683716,
-          "outputTokensPerItem": 61.81335952848714,
-          "usdPer1000": 0.16807996070726897
-        }
-      },
-      {
-        "label": "ollama/qwen2.5:3b",
-        "n": 497,
-        "accuracy": 0.20724346076458752,
-        "accuracyCI": [
-          0.17303822937625754,
-          0.2454728370221328
-        ],
-        "macroF1": 0.2379293415113831,
-        "macroF1CI": [
-          0.19670069176066374,
-          0.2748090176130076
-        ],
-        "failureRate": 0.34004024144869216,
-        "write": {
-          "written": 161,
-          "coverage": 0.323943661971831,
-          "precision": 0.5217391304347826
-        },
-        "writeHigh": {
-          "written": 77,
-          "coverage": 0.15492957746478872,
-          "precision": 0.6753246753246753
-        },
-        "perClass": [
-          {
-            "slot": "ayam",
-            "support": 48,
-            "precision": 0.75,
-            "recall": 0.1875,
-            "f1": 0.3
-          },
-          {
-            "slot": "mie",
-            "support": 50,
-            "precision": 0.8260869565217391,
-            "recall": 0.38,
-            "f1": 0.5205479452054794
-          },
-          {
-            "slot": "nusantara",
-            "support": 49,
-            "precision": 0.2222222222222222,
-            "recall": 0.20408163265306123,
-            "f1": 0.2127659574468085
-          },
-          {
-            "slot": "sunda",
-            "support": 7,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "padang",
-            "support": 18,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "chinese",
-            "support": 50,
-            "precision": 0.375,
-            "recall": 0.12,
-            "f1": 0.18181818181818182
-          },
-          {
-            "slot": "jepang_korea",
-            "support": 45,
-            "precision": 0.7142857142857143,
-            "recall": 0.1111111111111111,
-            "f1": 0.19230769230769232
-          },
-          {
-            "slot": "barat",
-            "support": 49,
-            "precision": 0.5,
-            "recall": 0.2653061224489796,
-            "f1": 0.3466666666666667
-          },
-          {
-            "slot": "seafood",
-            "support": 50,
-            "precision": 0.8333333333333334,
-            "recall": 0.2,
-            "f1": 0.3225806451612903
-          },
-          {
-            "slot": "kopi_minuman",
-            "support": 48,
-            "precision": 0.42857142857142855,
-            "recall": 0.25,
-            "f1": 0.3157894736842105
-          },
-          {
-            "slot": "manis_roti",
-            "support": 33,
-            "precision": 0.875,
-            "recall": 0.21212121212121213,
-            "f1": 0.3414634146341463
-          },
-          {
-            "slot": "lainnya",
-            "support": 50,
-            "precision": 0.08108108108108109,
-            "recall": 0.24,
-            "f1": 0.1212121212121212
-          }
-        ],
-        "confusion": {
-          "ayam": {
-            "ayam": 9,
-            "mie": 0,
-            "nusantara": 9,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 12,
-            "tanpa_jawaban": 17
-          },
-          "mie": {
-            "ayam": 0,
-            "mie": 19,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 1,
-            "lainnya": 9,
-            "tanpa_jawaban": 16
-          },
-          "nusantara": {
-            "ayam": 1,
-            "mie": 0,
-            "nusantara": 10,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 1,
-            "barat": 1,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 20,
-            "tanpa_jawaban": 15
-          },
-          "sunda": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 1,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 2,
-            "tanpa_jawaban": 4
-          },
-          "padang": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 2,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 3,
-            "tanpa_jawaban": 8
-          },
-          "chinese": {
-            "ayam": 0,
-            "mie": 2,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 6,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 1,
-            "kopi_minuman": 2,
-            "manis_roti": 0,
-            "lainnya": 23,
-            "tanpa_jawaban": 12
-          },
-          "jepang_korea": {
-            "ayam": 1,
-            "mie": 0,
-            "nusantara": 2,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 4,
-            "jepang_korea": 5,
-            "barat": 2,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 17,
-            "tanpa_jawaban": 14
-          },
-          "barat": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 1,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 5,
-            "jepang_korea": 0,
-            "barat": 13,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 14,
-            "tanpa_jawaban": 13
-          },
-          "seafood": {
-            "ayam": 1,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 1,
-            "barat": 5,
-            "seafood": 10,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 13,
-            "tanpa_jawaban": 15
-          },
-          "kopi_minuman": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 2,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 12,
-            "manis_roti": 0,
-            "lainnya": 14,
-            "tanpa_jawaban": 20
-          },
-          "manis_roti": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 0,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 5,
-            "manis_roti": 7,
-            "lainnya": 9,
-            "tanpa_jawaban": 12
-          },
-          "lainnya": {
-            "ayam": 0,
-            "mie": 2,
-            "nusantara": 2,
-            "sunda": 1,
-            "padang": 0,
-            "chinese": 1,
-            "jepang_korea": 0,
-            "barat": 5,
-            "seafood": 1,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 12,
-            "tanpa_jawaban": 23
-          }
-        },
-        "latency": {
-          "batchP50s": 68.537,
-          "batchP95s": 75.92,
-          "secondsPer1000": 5359.013752455803
-        },
-        "cost": {
-          "inputTokensPerItem": 90.23772102161101,
-          "outputTokensPerItem": 33.353634577603096,
-          "usdPer1000": null
-        }
-      },
-      {
-        "label": "ollama/qwen2.5:7b",
-        "n": 497,
-        "accuracy": 0.4688128772635815,
-        "accuracyCI": [
-          0.42655935613682094,
-          0.5110663983903421
-        ],
-        "macroF1": 0.4577299945233144,
-        "macroF1CI": [
-          0.41783693277479667,
-          0.49718440857377405
-        ],
-        "failureRate": 0,
-        "write": {
-          "written": 392,
-          "coverage": 0.7887323943661971,
-          "precision": 0.5433673469387755
-        },
-        "writeHigh": {
-          "written": 267,
-          "coverage": 0.5372233400402414,
-          "precision": 0.6741573033707865
-        },
-        "perClass": [
-          {
-            "slot": "ayam",
-            "support": 48,
-            "precision": 0.8571428571428571,
-            "recall": 0.625,
-            "f1": 0.7228915662650602
-          },
-          {
-            "slot": "mie",
-            "support": 50,
-            "precision": 0.8064516129032258,
-            "recall": 0.5,
-            "f1": 0.6172839506172839
-          },
-          {
-            "slot": "nusantara",
-            "support": 49,
-            "precision": 0.24074074074074073,
-            "recall": 0.5306122448979592,
-            "f1": 0.33121019108280253
-          },
-          {
-            "slot": "sunda",
-            "support": 7,
-            "precision": 0,
-            "recall": 0,
-            "f1": 0
-          },
-          {
-            "slot": "padang",
-            "support": 18,
-            "precision": 0.7272727272727273,
-            "recall": 0.4444444444444444,
-            "f1": 0.5517241379310345
-          },
-          {
-            "slot": "chinese",
-            "support": 50,
-            "precision": 0.4782608695652174,
-            "recall": 0.22,
-            "f1": 0.30136986301369867
-          },
-          {
-            "slot": "jepang_korea",
-            "support": 45,
-            "precision": 0.6875,
-            "recall": 0.4888888888888889,
-            "f1": 0.5714285714285714
-          },
-          {
-            "slot": "barat",
-            "support": 49,
-            "precision": 0.453125,
-            "recall": 0.5918367346938775,
-            "f1": 0.5132743362831858
-          },
-          {
-            "slot": "seafood",
-            "support": 50,
-            "precision": 0.7857142857142857,
-            "recall": 0.44,
-            "f1": 0.5641025641025641
-          },
-          {
-            "slot": "kopi_minuman",
-            "support": 48,
-            "precision": 0.5510204081632653,
-            "recall": 0.5625,
-            "f1": 0.5567010309278351
-          },
-          {
-            "slot": "manis_roti",
-            "support": 33,
-            "precision": 0.5555555555555556,
-            "recall": 0.45454545454545453,
-            "f1": 0.5
-          },
-          {
-            "slot": "lainnya",
-            "support": 50,
-            "precision": 0.20689655172413793,
-            "recall": 0.36,
-            "f1": 0.26277372262773724
-          }
-        ],
-        "confusion": {
-          "ayam": {
-            "ayam": 30,
-            "mie": 0,
-            "nusantara": 7,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 2,
-            "jepang_korea": 0,
-            "barat": 1,
-            "seafood": 1,
-            "kopi_minuman": 1,
-            "manis_roti": 3,
-            "lainnya": 3,
-            "tanpa_jawaban": 0
-          },
-          "mie": {
-            "ayam": 0,
-            "mie": 25,
-            "nusantara": 10,
-            "sunda": 1,
-            "padang": 0,
-            "chinese": 1,
-            "jepang_korea": 6,
-            "barat": 2,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 1,
-            "lainnya": 3,
-            "tanpa_jawaban": 0
-          },
-          "nusantara": {
-            "ayam": 4,
-            "mie": 0,
-            "nusantara": 26,
-            "sunda": 1,
-            "padang": 1,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 4,
-            "seafood": 0,
-            "kopi_minuman": 3,
-            "manis_roti": 1,
-            "lainnya": 9,
-            "tanpa_jawaban": 0
-          },
-          "sunda": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 1,
-            "manis_roti": 0,
-            "lainnya": 2,
-            "tanpa_jawaban": 0
-          },
-          "padang": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 6,
-            "sunda": 0,
-            "padang": 8,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 0,
-            "seafood": 0,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 4,
-            "tanpa_jawaban": 0
-          },
-          "chinese": {
-            "ayam": 0,
-            "mie": 4,
-            "nusantara": 11,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 11,
-            "jepang_korea": 1,
-            "barat": 4,
-            "seafood": 0,
-            "kopi_minuman": 4,
-            "manis_roti": 2,
-            "lainnya": 13,
-            "tanpa_jawaban": 0
-          },
-          "jepang_korea": {
-            "ayam": 0,
-            "mie": 2,
-            "nusantara": 4,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 4,
-            "jepang_korea": 22,
-            "barat": 5,
-            "seafood": 1,
-            "kopi_minuman": 3,
-            "manis_roti": 0,
-            "lainnya": 4,
-            "tanpa_jawaban": 0
-          },
-          "barat": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 3,
-            "sunda": 0,
-            "padang": 1,
-            "chinese": 1,
-            "jepang_korea": 1,
-            "barat": 29,
-            "seafood": 0,
-            "kopi_minuman": 5,
-            "manis_roti": 2,
-            "lainnya": 7,
-            "tanpa_jawaban": 0
-          },
-          "seafood": {
-            "ayam": 1,
-            "mie": 0,
-            "nusantara": 20,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 0,
-            "jepang_korea": 0,
-            "barat": 2,
-            "seafood": 22,
-            "kopi_minuman": 0,
-            "manis_roti": 0,
-            "lainnya": 5,
-            "tanpa_jawaban": 0
-          },
-          "kopi_minuman": {
-            "ayam": 0,
-            "mie": 0,
+            "mie": 1,
             "nusantara": 5,
             "sunda": 0,
             "padang": 0,
@@ -4495,51 +2707,21 @@
             "jepang_korea": 0,
             "barat": 3,
             "seafood": 0,
-            "kopi_minuman": 27,
-            "manis_roti": 1,
-            "lainnya": 12,
-            "tanpa_jawaban": 0
-          },
-          "manis_roti": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 5,
-            "sunda": 0,
-            "padang": 0,
-            "chinese": 2,
-            "jepang_korea": 1,
-            "barat": 0,
-            "seafood": 0,
             "kopi_minuman": 3,
-            "manis_roti": 15,
-            "lainnya": 7,
-            "tanpa_jawaban": 0
-          },
-          "lainnya": {
-            "ayam": 0,
-            "mie": 0,
-            "nusantara": 7,
-            "sunda": 0,
-            "padang": 1,
-            "chinese": 2,
-            "jepang_korea": 1,
-            "barat": 14,
-            "seafood": 4,
-            "kopi_minuman": 1,
-            "manis_roti": 2,
-            "lainnya": 18,
+            "manis_roti": 0,
+            "lainnya": 38,
             "tanpa_jawaban": 0
           }
         },
         "latency": {
-          "batchP50s": 130.476,
-          "batchP95s": 173.663,
-          "secondsPer1000": 13776.70137524555
+          "batchP50s": 5.715,
+          "batchP95s": 6.866,
+          "secondsPer1000": 147.50098231827033
         },
         "cost": {
-          "inputTokensPerItem": 90.23772102161101,
-          "outputTokensPerItem": 43.62475442043211,
-          "usdPer1000": null
+          "inputTokensPerItem": 46.074656188605005,
+          "outputTokensPerItem": 60.312377210216084,
+          "usdPer1000": 0.16460333988212172
         }
       }
     ]
@@ -5147,65 +3329,16 @@
     {
       "a": "keyword",
       "b": "gemini/gemini-3.5-flash-lite",
-      "aOnly": 22,
+      "aOnly": 15,
       "bOnly": 159,
-      "pValue": 8.295326068067881e-27
-    },
-    {
-      "a": "keyword",
-      "b": "ollama/qwen2.5:3b",
-      "aOnly": 116,
-      "bOnly": 30,
-      "pValue": 3.917818466976065e-13
-    },
-    {
-      "a": "keyword",
-      "b": "ollama/qwen2.5:7b",
-      "aOnly": 47,
-      "bOnly": 97,
-      "pValue": 0.00003755709704208427
+      "pValue": 1.535670025874764e-31
     },
     {
       "a": "naive-bayes (α=0.3)",
       "b": "gemini/gemini-3.5-flash-lite",
-      "aOnly": 49,
-      "bOnly": 88,
-      "pValue": 0.0010910236162357848
-    },
-    {
-      "a": "naive-bayes (α=0.3)",
-      "b": "ollama/qwen2.5:3b",
-      "aOnly": 200,
-      "bOnly": 16,
-      "pValue": 1.2523864367767802e-41
-    },
-    {
-      "a": "naive-bayes (α=0.3)",
-      "b": "ollama/qwen2.5:7b",
-      "aOnly": 93,
-      "bOnly": 45,
-      "pValue": 0.00005373076047265099
-    },
-    {
-      "a": "gemini/gemini-3.5-flash-lite",
-      "b": "ollama/qwen2.5:3b",
-      "aOnly": 232,
-      "bOnly": 9,
-      "pValue": 3.8244525208957175e-57
-    },
-    {
-      "a": "gemini/gemini-3.5-flash-lite",
-      "b": "ollama/qwen2.5:7b",
-      "aOnly": 105,
-      "bOnly": 18,
-      "pValue": 3.964170474749922e-16
-    },
-    {
-      "a": "ollama/qwen2.5:3b",
-      "b": "ollama/qwen2.5:7b",
-      "aOnly": 19,
-      "bOnly": 155,
-      "pValue": 1.0478136547928363e-27
+      "aOnly": 43,
+      "bOnly": 89,
+      "pValue": 0.0000769235848869751
     }
   ]
 }

@@ -270,11 +270,21 @@ function geminiProvider(model?: string): Provider {
       // Free tier punya batas permintaan per menit. 429 dan 503 dicoba ulang
       // dengan jeda yang melebar, bukan langsung dianggap gagal.
       for (let attempt = 1; attempt <= 5; attempt += 1) {
-        const response = await fetch(GEMINI_ENDPOINT, {
-          method: "POST",
-          headers: { "content-type": "application/json", "x-goog-api-key": key },
-          body: request,
-        });
+        let response: Response;
+        try {
+          response = await fetch(GEMINI_ENDPOINT, {
+            method: "POST",
+            headers: { "content-type": "application/json", "x-goog-api-key": key },
+            body: request,
+          });
+        } catch (error) {
+          // Jaringan putus sesaat: perlakukan seperti server sibuk, bukan
+          // alasan membatalkan seluruh run.
+          const waitSeconds = 20 * attempt;
+          console.warn(`  Gemini tidak terjangkau (${(error as Error).message}), tunggu ${waitSeconds}s…`);
+          await sleep(waitSeconds * 1000);
+          continue;
+        }
 
         if (response.status === 429 || response.status === 503) {
           const retryAfter = Number(response.headers.get("retry-after"));

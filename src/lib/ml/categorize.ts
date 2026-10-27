@@ -89,11 +89,11 @@ const SLOT_GUIDE: Record<CuisineSlot, string> = {
   padang: "nasi Padang, masakan Minang",
   chinese: "masakan Tionghoa, dimsum, capcay",
   jepang_korea: "masakan Jepang atau Korea",
-  barat: "burger, pizza, steak, pasta, roti lapis, masakan Eropa dan Amerika",
+  barat: "burger, pizza, steak, pasta, roti lapis, masakan Eropa dan Amerika. BUKAN kebab, shawarma, burrito, atau taco",
   seafood: "ikan, udang, kerang, seafood sebagai menu utama",
   kopi_minuman: "kedai kopi, kafe, warkop, minuman sebagai jualan utama",
   manis_roti: "roti, kue, martabak, dessert, es krim",
-  lainnya: "masakan asing tanpa slot sendiri (Thai, India, Meksiko, Timur Tengah), atau tidak bisa ditentukan dari nama",
+  lainnya: "masakan asing tanpa slot sendiri: Timur Tengah dan Turki (kebab, shawarma), Meksiko (burrito, taco), Thai (tom yum, suki Thai), India (kari India); atau tidak bisa ditentukan dari nama",
 };
 
 /**

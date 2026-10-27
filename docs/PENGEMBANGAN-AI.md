@@ -436,6 +436,51 @@ metode, kebingungan terbesar sama: `chinese` ↔ `mie` (bakmi, kwetiau),
 Model yang lebih besar tidak akan menghapusnya; definisi slot yang lebih tegas
 bisa.
 
+Tabel di atas memakai prompt `05555da87498`. Qwen tidak dijalankan ulang
+dengan prompt sesudahnya, jadi `ml/eval/results.test.md` yang sekarang hanya
+memuat keyword, Naive Bayes, dan Gemini.
+
+### Iterasi prompt: kebab bukan masakan Barat
+
+Kurasi Bandung pertama menulis 14 tempat ke slot yang salah — kebab dan
+burrito ke `barat`, suki Thai ke `jepang_korea` — pola `lainnya` ↔ `barat` yang
+sama dengan confusion matrix di atas. Perbaikannya di prompt, bukan di SQL:
+`SLOT_GUIDE` untuk `barat` kini menyebut "BUKAN kebab, shawarma, burrito, atau
+taco", dan `lainnya` menyebut contoh masakan Turki, Meksiko, Thai, dan India
+(prompt `5988fb42f0d5`).
+
+Mengukurnya butuh data yang tepat. Split dev hanya punya 12 nama `lainnya` dan
+nol kasus `lainnya` → `barat`, jadi dev tidak bisa menunjukkan perbaikan ini.
+Dipakai tiga ukuran, semuanya sebelum test disentuh:
+
+| Ukuran | Prompt lama | Prompt baru |
+|---|---|---|
+| Set terarah: 91 nama kebab/Meksiko/Thai/India dari train+dev | 59/91 benar, 16 → `barat` | **74/91**, **0** → `barat` |
+| Set terarah, ditulis di ambang `tinggi` → benar | 31 → 11 (35%) | 8 → 7 (88%) |
+| Subset train, 578 nama (LLM tidak pernah dilatih di sini) | macro-F1 0,679, `tinggi` 85,9% | 0,684, 87,2% |
+| Subset dev, 402 nama | macro-F1 0,676, `tinggi` 83,6% | 0,673, 83,6% |
+
+Lalu sekali di test (509 nama):
+
+| | Prompt lama | Prompt baru |
+|---|---|---|
+| Akurasi (95% CI) | 64,0% (60,1–68,2) | 65,4% (61,1–69,4) |
+| Macro-F1 | 0,651 | 0,664 |
+| Ditulis ≥ `tinggi` → presisi | 51,5% → 82,4% | 49,7% → 84,2% |
+| `lainnya` → `barat` | 10 | 3 |
+
+**McNemar lama vs baru di test: 9 lawan 16, p = 0,23 — tidak signifikan.**
+Perbaikan ini membereskan kasus yang disasar tanpa merusak kelas lain, tapi
+tidak terbukti menaikkan akurasi secara umum.
+
+**Efeknya tidak lokal.** Di kurasi Bandung, mengubah dua definisi slot
+mengubah 119 keputusan dari 516: 65 hilang, 54 baru. Sebagian membaik
+(semua kebab, burrito, dan Raa Cha hilang; Yoshinoya ke `jepang_korea`;
+Simpang Raya ke `padang`), sebagian memburuk (beberapa warung Sunda yang
+benar jatuh di bawah ambang `tinggi`, Batagor ke `manis_roti`, Macdonald ke
+`ayam`). Itu alasan perubahan prompt harus diukur ulang di set yang tetap,
+dan alasan SQL kurasi tetap direview manusia.
+
 ### Batasan
 
 - **Slot `sunda` hampir tidak terukur**: hanya 36 nama di seluruh dataset, 7 di

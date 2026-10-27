@@ -8,6 +8,7 @@
  *   npx tsx scripts/eval-categorize.ts --provider=gemini
  *   npx tsx scripts/eval-categorize.ts --provider=ollama --limit=20   # coba dulu
  *   npx tsx scripts/eval-categorize.ts --split=dev             # untuk mengutak-atik prompt
+ *   npx tsx scripts/eval-categorize.ts --split=train           # dev tambahan kalau kelasnya terlalu tipis di dev
  *
  * Alur:
  *   1. ml/eval/osm-cuisine.json → dataset (label, dedup, split) lewat
@@ -387,7 +388,9 @@ async function main(): Promise<void> {
   if (existsSync(envFile)) process.loadEnvFile(envFile);
 
   const split = (arg("split") ?? "test") as Split;
-  if (split !== "test" && split !== "dev") throw new Error("--split harus test atau dev.");
+  // train boleh dipakai mengutak-atik prompt: LLM tidak pernah dilatih di sana.
+  // Angka naive-bayes di train tidak berarti apa-apa — ia dilatih di situ.
+  if (!["test", "dev", "train"].includes(split)) throw new Error("--split harus test, dev, atau train.");
   const perClass = Number(arg("per-class") ?? 50);
 
   const snapshot = JSON.parse(
