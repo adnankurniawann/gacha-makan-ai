@@ -7,7 +7,7 @@
  *
  * Aturan yang dipegang sama dengan konteks cuaca: spin tidak pernah gagal
  * karena fitur ini. Bundle yang hilang, rusak, terlalu tipis, atau query
- * riwayat yang gagal — semuanya jatuh kembali ke `weighted_budget_v1` dengan
+ * riwayat yang gagal — semuanya jatuh kembali ke `SPIN_POLICY` dengan
  * satu peringatan di log, bukan error ke pengguna.
  *
  * Pembagian kelompok per pengguna, bukan per permintaan, supaya pengalaman
@@ -60,7 +60,7 @@ function loadBundle(): BundleState {
     cached = { error: error instanceof Error ? error.message : String(error) };
   }
   if ("error" in cached) {
-    console.warn(`[bandit] Tidak menyajikan, kembali ke weighted_budget_v1: ${cached.error}`);
+    console.warn(`[bandit] Tidak menyajikan, kembali ke acak berbobot: ${cached.error}`);
   }
   return cached;
 }
@@ -156,7 +156,8 @@ export async function prepareBandit(): Promise<BanditContext | null> {
 export interface BanditCandidate {
   id: string;
   category: string | null;
-  price_tier: number;
+  /** `null` kalau belum diketahui; fitur harganya jadi netral, bukan ditebak. */
+  price_tier: number | null;
   /** Meter. */
   distance: number;
 }

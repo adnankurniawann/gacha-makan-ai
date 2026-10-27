@@ -15,19 +15,27 @@
  * Change this string whenever the selection rule changes, so rows from the old
  * and new behaviour stay separable.
  */
-export const SPIN_POLICY = "weighted_budget_v1";
+export const SPIN_POLICY = "weighted_budget_v2";
 
 /**
  * Calculates spin weights from candidate items and the user's budget.
  *
  * The weight is `max(1, budget - price_tier)` so every candidate keeps a
  * minimum chance while cheaper items still get a larger share.
+ *
+ * A place whose price is unknown (`null`) gets the minimum weight, 1 — the
+ * same as a place priced exactly at the budget. Nothing says it is cheap, so
+ * it is treated as the riskiest fit rather than given a guessed price. This
+ * rule is what changed from `weighted_budget_v1`, which never saw unknown
+ * prices because the database filtered them out.
  */
-export function calculateSpinWeights<T extends { price_tier: number }>(
+export function calculateSpinWeights<T extends { price_tier: number | null }>(
   items: T[],
   budget: number
 ): number[] {
-  return items.map((item) => Math.max(1, budget - item.price_tier));
+  return items.map((item) =>
+    item.price_tier === null ? 1 : Math.max(1, budget - item.price_tier)
+  );
 }
 
 /**

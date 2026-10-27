@@ -267,8 +267,8 @@ export async function POST(request: Request): Promise<Response> {
     const onlyOpen = only_open ?? true;
 
     // ------------------------------------------------------------------
-    // 4. Fetch eligible restaurants (hygiene >= 50, price_tier <= budget,
-    //    distance <= radius)
+    // 4. Fetch eligible restaurants (hygiene >= 50, price_tier <= budget
+    //    atau belum diketahui, distance <= radius)
     // ------------------------------------------------------------------
     // Disiapkan bersamaan dengan query kandidat. Selesai seketika tanpa
     // jaringan kalau BANDIT_ROLLOUT=0, dan tidak pernah melempar.
@@ -375,7 +375,8 @@ export async function POST(request: Request): Promise<Response> {
     //
     //    Bandit kalau pengguna ini masuk kelompok perlakuan dan bundlenya
     //    layak; selain itu, atau kalau bandit gagal karena alasan apa pun,
-    //    acak berbobot max(1, budget - price_tier) seperti biasa. Keduanya
+    //    acak berbobot max(1, budget - price_tier), bobot 1 untuk harga yang
+    //    belum diketahui (calculateSpinWeights). Keduanya
     //    mencatat peluang pilihannya sendiri sebagai policy_score.
     // ------------------------------------------------------------------
     // Dibaca dari cache saja. Kalau dingin, tercatat null — spin tidak

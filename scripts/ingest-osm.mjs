@@ -53,6 +53,14 @@ const AREAS = {
     label: "ITB Ganesha, Dago, Cisitu, Tubagus Ismail, Sangkuriang",
     bbox: [-6.905, 107.595, -6.86, 107.63],
   },
+  // Kotak di sekeliling Kota Bandung. Sedikit melewati batas kota (Cimahi
+  // timur, Lembang selatan), dan memang tidak perlu persis: yang menentukan
+  // tempat muncul atau tidak adalah radius dari pengguna, bukan batas
+  // administrasi.
+  bandung: {
+    label: "Kota Bandung",
+    bbox: [-6.975, 107.54, -6.835, 107.74],
+  },
 };
 
 const OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter";
@@ -231,9 +239,9 @@ export function buildSql(area, inserts, enrichments) {
       `-- ${inserts.length} tempat baru`,
       "--",
       "-- price_tier sengaja null: OpenStreetMap praktis tidak pernah punya harga,",
-      "-- dan menebaknya berarti membohongi filter budget. Selama null, baris ini",
-      "-- TIDAK akan muncul di hasil spin — ia menunggu di restaurant_curation_queue",
-      "-- sampai ada yang mengisi harganya.",
+      "-- dan menebaknya berarti membohongi filter budget. Baris ini tetap muncul",
+      "-- di spin sebagai \"harga belum diketahui\" (migrasi 20261027000001) dan",
+      "-- menunggu harganya diisi lewat restaurant_curation_queue.",
       "-- ---------------------------------------------------------------------------",
       "insert into public.restaurants",
       "  (name, category, price_tier, location, hygiene_score, is_verified_safe,",
@@ -513,8 +521,8 @@ async function main() {
   console.log(`Review dulu : ${reviewPath}`);
   console.log(`Lalu jalankan: ${sqlPath}\n`);
   console.log(
-    "Ingat: price_tier baris baru masih null, jadi belum muncul di spin.\n" +
-      "Isi lewat restaurant_curation_queue sebelum berharap katalognya bertambah.",
+    "Ingat: price_tier baris baru masih null. Mereka muncul di spin sebagai\n" +
+      "\"harga belum diketahui\" setelah migrasi 20261027000001 dijalankan.",
   );
 }
 

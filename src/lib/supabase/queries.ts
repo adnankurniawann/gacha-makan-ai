@@ -18,7 +18,8 @@ export interface Restaurant {
   id: string;
   name: string;
   category: string | null;
-  price_tier: number;
+  /** Harga dalam rupiah, atau `null` kalau belum diketahui — jangan ditebak. */
+  price_tier: number | null;
   location: unknown; // PostGIS geography — parsed by the Query Layer
   hygiene_score: number;
   is_verified_safe: boolean;
@@ -30,7 +31,8 @@ export interface RestaurantWithDistance {
   id: string;
   name: string;
   category: string | null;
-  price_tier: number;
+  /** Harga dalam rupiah, atau `null` kalau belum diketahui — jangan ditebak. */
+  price_tier: number | null;
   hygiene_score: number;
   distance: number; // integer meters, rounded
   /**
@@ -48,7 +50,8 @@ interface EligibleRestaurantRecord {
   id: string;
   name: string;
   category: string | null;
-  price_tier: number;
+  /** Harga dalam rupiah, atau `null` kalau belum diketahui — jangan ditebak. */
+  price_tier: number | null;
   hygiene_score: number;
   distance: number;
   is_open: boolean | null;
@@ -97,7 +100,8 @@ export interface RestaurantWithCoords {
   id: string;
   name: string;
   category: string | null;
-  price_tier: number;
+  /** Harga dalam rupiah, atau `null` kalau belum diketahui — jangan ditebak. */
+  price_tier: number | null;
   hygiene_score: number;
   is_verified_safe: boolean;
   lat: number;
@@ -452,7 +456,7 @@ export async function getRestaurantById(
 /**
  * Returns restaurants eligible for the gacha spin, filtered by:
  *   - hygiene_score >= 50 (absolute safety filter)
- *   - price_tier <= budget
+ *   - price_tier <= budget, atau price_tier belum diketahui (null)
  *   - distance from user location <= radiusMeters (computed in PostGIS)
  *
  * The query is delegated to a Supabase SQL function so the distance filter is

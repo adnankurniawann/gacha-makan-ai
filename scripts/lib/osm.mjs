@@ -375,9 +375,17 @@ const CUISINE_MAP = {
   regional: "Nusantara",
 };
 
+/**
+ * Kategori kalau tag cuisine tidak menolong.
+ *
+ * `fast_food` sengaja jadi "Restoran", bukan "Cepat Saji": `toCuisineSlot`
+ * memetakan "cepat saji" ke `barat`, padahal fast_food di OSM Indonesia
+ * kebanyakan martabak, mi tektek, gerai ayam, dan minuman. Label "Restoran"
+ * jatuh ke `lainnya`, jadi barisnya ikut dikurasi alih-alih diam-diam salah.
+ */
 const AMENITY_FALLBACK = {
   restaurant: "Restoran",
-  fast_food: "Cepat Saji",
+  fast_food: "Restoran",
   cafe: "Kopi",
   food_court: "Foodcourt",
   ice_cream: "Manis",

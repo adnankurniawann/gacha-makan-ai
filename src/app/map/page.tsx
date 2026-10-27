@@ -7,6 +7,8 @@ import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
+import { formatPrice } from "@/utils/price";
+
 const RestaurantMap = dynamic(
   () =>
     import("@/components/map/restaurant-map").then(
@@ -442,7 +444,7 @@ function MapPageContent() {
                         <span>{restaurant.category ?? "Umum"}</span>
                         <span>•</span>
                         <span>
-                          Rp {restaurant.price_tier.toLocaleString("id-ID")}
+                          {formatPrice(restaurant.price_tier)}
                         </span>
                         <span>•</span>
                         <span
@@ -494,7 +496,7 @@ function MapPageContent() {
                   {statusLabel(selectedRestaurant.hygiene_status)}
                 </span>
                 <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-600">
-                  Rp {selectedRestaurant.price_tier.toLocaleString("id-ID")}
+                  {formatPrice(selectedRestaurant.price_tier)}
                 </span>
                 <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-600">
                   {selectedRestaurant.category ?? "Umum"}

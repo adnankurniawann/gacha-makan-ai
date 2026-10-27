@@ -31,6 +31,15 @@ describe("calculateSpinWeights", () => {
 
     expect(weights).toEqual([15000, 5000]);
   });
+
+  it("gives a place with an unknown price the minimum weight, not a guess", () => {
+    const weights = calculateSpinWeights(
+      [{ price_tier: 5000 }, { price_tier: null }],
+      20000
+    );
+
+    expect(weights).toEqual([15000, 1]);
+  });
 });
 
 describe("weightedRandom", () => {

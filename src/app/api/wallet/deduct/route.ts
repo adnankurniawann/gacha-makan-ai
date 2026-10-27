@@ -4,6 +4,17 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 export async function POST(request: Request) {
   try {
     const { amount } = await request.json();
+
+    // Tempat yang harganya belum diketahui mengirim null. Tanpa pemeriksaan
+    // ini, `saldo - null` dihitung sebagai `saldo - 0` dan tercatat sebagai
+    // potongan yang berhasil.
+    if (typeof amount !== "number" || !Number.isInteger(amount) || amount <= 0) {
+      return NextResponse.json(
+        { error: "Jumlah harus bilangan bulat positif" },
+        { status: 400 }
+      );
+    }
+
     const supabase = await createSupabaseServerClient();
     
     // Pastikan user sudah login

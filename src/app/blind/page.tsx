@@ -7,12 +7,13 @@ import { Dices, MapPin, RotateCw, ShieldCheck, UtensilsCrossed } from "lucide-re
 import { AppHeader } from "@/components/home/app-header";
 import { BottomNav } from "@/components/home/bottom-nav";
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { formatPrice, isKnownPrice } from "@/utils/price";
 
 type SpinResult = {
   id: string;
   name: string;
   category: string | null;
-  price_tier: number;
+  price_tier: number | null;
   distance: number;
   hygiene_score: number;
 };
@@ -121,6 +122,14 @@ export default function BlindPage() {
     if (!result) return;
     setIsConfirming(true);
     setConfirmMessage(null);
+
+    // Harga yang belum diketahui tidak dipotong dari saldo — memotong angka
+    // tebakan sama saja dengan mengarang pengeluaran.
+    if (!isKnownPrice(result.price_tier)) {
+      setConfirmMessage("Selamat makan! Harganya belum diketahui, jadi saldo tidak dipotong.");
+      setIsConfirming(false);
+      return;
+    }
 
     try {
       const res = await fetch("/api/wallet/deduct", {
@@ -293,7 +302,7 @@ export default function BlindPage() {
                       <div className="grid grid-cols-2 gap-3 mt-8 relative z-10">
                         <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex flex-col justify-center">
                           <p className="mb-1 text-xs font-medium text-slate-500">Budget Terpakai</p>
-                          <p className="text-lg font-bold text-slate-800">Rp {result.price_tier.toLocaleString("id-ID")}</p>
+                          <p className="text-lg font-bold text-slate-800">{formatPrice(result.price_tier)}</p>
                         </div>
                         <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex flex-col justify-center">
                           <p className="mb-1 text-xs font-medium text-slate-500">Jarak Tempuh</p>
@@ -323,7 +332,11 @@ export default function BlindPage() {
                               disabled={isConfirming}
                               className="w-full bg-rose-500 text-white py-4 rounded-xl text-center text-sm font-bold shadow-md shadow-rose-500/30 transition-all hover:bg-rose-600 active:scale-[0.98] disabled:opacity-70 flex justify-center items-center gap-2"
                             >
-                              {isConfirming ? "Memproses..." : `Jadi ke sini (- Rp ${result.price_tier.toLocaleString("id-ID")})`}
+                              {isConfirming
+                                ? "Memproses..."
+                                : isKnownPrice(result.price_tier)
+                                  ? `Jadi ke sini (- ${formatPrice(result.price_tier)})`
+                                  : "Jadi ke sini"}
                             </button>
 
                             <div className="flex flex-col sm:flex-row gap-4">

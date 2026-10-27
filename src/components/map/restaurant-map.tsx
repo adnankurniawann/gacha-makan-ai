@@ -16,7 +16,7 @@ export type RestaurantMapItem = {
   id: string;
   name: string;
   category: string | null;
-  price_tier: number;
+  price_tier: number | null;
   hygiene_score: number;
   hygiene_status: "RED" | "GREEN";
   lat: number;

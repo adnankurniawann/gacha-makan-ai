@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Check, Share2 } from "lucide-react";
 
+import { isKnownPrice } from "@/utils/price";
+
 /**
  * Membagikan hasil gacha ke grup WA/Line.
  *
@@ -22,7 +24,7 @@ export function ShareResultButton({
   restaurantId: string;
   name: string;
   distanceMeters: number;
-  priceTier: number;
+  priceTier: number | null;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -33,9 +35,12 @@ export function ShareResultButton({
         ? `${(distanceMeters / 1000).toFixed(1)} km`
         : `${Math.round(distanceMeters)} m`;
 
+    // Harga yang belum diketahui tidak ditulis sama sekali di pesan bagikan;
+    // "harga belum diketahui" di grup chat cuma jadi gangguan.
+    const price = isKnownPrice(priceTier) ? ` · Rp${priceTier.toLocaleString("id-ID")}` : "";
     const text =
-      `🎲 Gacha Makan hari ini: ${name} · ${distance} · ` +
-      `Rp${priceTier.toLocaleString("id-ID")}\ncoba punyamu →`;
+      `🎲 Gacha Makan hari ini: ${name} · ${distance}${price}` +
+      `\ncoba punyamu →`;
 
     // Web Share API membuka lembar bagikan bawaan HP, yang sudah berisi WA dan
     // Line. Di desktop biasanya tidak ada, jadi jatuh ke salin tautan.

@@ -108,7 +108,7 @@ diterima**. Tidak merespons adalah sinyal, dan jumlahnya paling banyak.
 |---|---|
 | `hour_local`, `day_of_week`, `is_weekend`, `distance_km` | Konteks, dibekukan saat penayangan |
 | `is_raining` | Cuaca; `null` berarti **tidak tahu**, bukan "tidak hujan" |
-| `policy` | Kebijakan yang memilih: `weighted_budget_v1` atau `thompson_v1` |
+| `policy` | Kebijakan yang memilih: `weighted_budget_v1`, `weighted_budget_v2`, atau `thompson_v1` |
 | `policy_score` | Peluang kebijakan itu memilih warung ini — wajib untuk evaluasi |
 | `candidate_ids`, `candidate_distances_m` | Seluruh kandidat saat itu, bukan cuma pemenangnya |
 | `action`, `acted_at` | Label: `accepted`, `saved`, `respun`, atau `ignored` |
@@ -139,6 +139,26 @@ Konsekuensinya: replay polos — "terima baris kalau pilihan kebijakan baru sama
 dengan yang tercatat" — **mewarisi bias harga itu.** Karena itu `policy_score`
 dicatat sejak sebelum trafik datang. Kolom yang tidak dicatat saat penayangan
 tidak bisa ditambahkan belakangan.
+
+### `weighted_budget_v2`: harga yang belum diketahui
+
+Tempat dari OpenStreetMap tidak punya harga (`price_tier` null). Sejak migrasi
+`20261027000001_harga_belum_diketahui.sql` mereka ikut jadi kandidat, tampil
+sebagai "harga belum diketahui", dan mendapat **bobot 1** — sama dengan tempat
+yang harganya persis di batas budget. Tidak ada yang menunjukkan tempat itu
+murah, jadi ia diperlakukan sebagai pilihan paling berisiko, bukan diberi harga
+tebakan. Bobot median atau rata-rata akan terlihat lebih "wajar" tapi sama
+saja dengan menebak harga.
+
+Karena aturan pemilihannya berubah, namanya ikut berubah: baris lama tetap
+`weighted_budget_v1`, baris baru `weighted_budget_v2`. Evaluasi off-policy
+memakai `policy_score` per baris, jadi keduanya tetap bisa dipakai bersama.
+
+Akibat lain yang disengaja:
+- "Jadi ke sini" tidak memotong saldo kalau harganya belum diketahui, dan
+  `/api/wallet/deduct` menolak jumlah yang bukan bilangan bulat positif
+- Fitur harga bandit untuk tempat seperti itu netral (0), bukan ditebak
+- Pesan bagikan tidak menyebut harga sama sekali kalau belum diketahui
 
 ### Jebakan di `spin_events_labeled`
 
@@ -722,8 +742,13 @@ yang paling menarik dikerjakan.
 ### Tahap 1 — Bereskan data (bisa sekarang)
 
 - [x] Evaluasi pendekatan kategorisasi di test set OSM
-- [ ] Ingest Bandung dari OSM. Harga yang tidak diketahui tampil sebagai
-      "harga belum diketahui", tidak ditebak
+- [x] Harga yang tidak diketahui tampil sebagai "harga belum diketahui",
+      tidak ditebak (`weighted_budget_v2`)
+- [ ] Ingest Bandung dari OSM: `node scripts/ingest-osm.mjs --area=bandung`
+      menghasilkan 1.870 tempat baru, 948 di antaranya jatuh ke `lainnya`.
+      `fast_food` tanpa cuisine sekarang berlabel "Restoran", bukan "Cepat
+      Saji" yang dipetakan ke `barat` — dari sampel, kebanyakan bukan masakan
+      Barat (martabak, mi tektek, gerai ayam)
 - [x] Konfirmasi ambang `tinggi` untuk Gemini di split dev (presisi 83,6%)
 - [ ] Jalankan `ml:categorize -- --provider=gemini --min-confidence=tinggi`,
       review, tempel SQL-nya

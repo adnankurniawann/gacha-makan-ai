@@ -27,12 +27,13 @@ import {
   saveFilters,
 } from "@/lib/spin-session";
 import { ShareResultButton } from "@/components/spin/share-result-button";
+import { formatPrice, isKnownPrice } from "@/utils/price";
 
 type SpinResult = {
   id: string;
   name: string;
   category: string | null;
-  price_tier: number;
+  price_tier: number | null;
   distance: number;
   hygiene_score: number;
   /** `null` berarti jam bukanya belum terdata, bukan berarti tutup. */
@@ -277,6 +278,14 @@ export default function SpinPage() {
 
     setIsConfirming(true);
     setConfirmMessage(null);
+
+    // Harga yang belum diketahui tidak dipotong dari saldo — memotong angka
+    // tebakan sama saja dengan mengarang pengeluaran.
+    if (!isKnownPrice(result.price_tier)) {
+      setConfirmMessage("Selamat makan! Harganya belum diketahui, jadi saldo tidak dipotong.");
+      setIsConfirming(false);
+      return;
+    }
 
     try {
       const res = await fetch("/api/wallet/deduct", {
@@ -565,7 +574,7 @@ export default function SpinPage() {
                       </h3>
                       <div className="flex flex-wrap gap-2.5 mt-3">
                         <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700">
-                          Rp {result.price_tier.toLocaleString("id-ID")}
+                          {formatPrice(result.price_tier)}
                         </span>
                         <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700">
                           <MapPin className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" /> {formatMeters(result.distance)}
@@ -609,7 +618,11 @@ export default function SpinPage() {
                               disabled={isConfirming}
                               className="w-full bg-rose-500 text-white py-3.5 rounded-xl text-center text-sm font-bold shadow-md shadow-rose-500/30 transition-all hover:bg-rose-600 active:scale-[0.98] disabled:opacity-70 flex justify-center items-center gap-2"
                             >
-                              {isConfirming ? "Memproses..." : `Jadi ke sini (- Rp ${result.price_tier.toLocaleString("id-ID")})`}
+                              {isConfirming
+                                ? "Memproses..."
+                                : isKnownPrice(result.price_tier)
+                                  ? `Jadi ke sini (- ${formatPrice(result.price_tier)})`
+                                  : "Jadi ke sini"}
                             </button>
                       
                             {/* Simpan buat nanti — jawaban ketiga, bukan cuma

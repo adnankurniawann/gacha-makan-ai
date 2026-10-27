@@ -9,6 +9,7 @@ import {
   similarity,
   toCandidate,
 } from "./osm.mjs";
+import { toCuisineSlot } from "../../src/lib/ml/taxonomy";
 
 describe("normalizeName", () => {
   it("membuang kata jenis usaha dan nama daerah yang tidak membedakan apa pun", () => {
@@ -200,6 +201,11 @@ describe("categoryFromTags", () => {
 
   it("jatuh ke amenity kalau cuisine tidak menolong", () => {
     expect(categoryFromTags({ amenity: "cafe", cuisine: "entahapa" })).toBe("Kopi");
+  });
+
+  it("fast_food tanpa cuisine tidak dianggap masakan Barat", () => {
+    const category = categoryFromTags({ amenity: "fast_food" });
+    expect(toCuisineSlot(category)).toBe("lainnya");
   });
 
   it("mengembalikan null daripada menebak", () => {

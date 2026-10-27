@@ -29,7 +29,7 @@ vi.mock("@/utils/gacha", () => ({
   calculateSpinWeights: calculateSpinWeightsMock,
   weightedRandomIndex: weightedRandomIndexMock,
   selectionPropensity: selectionPropensityMock,
-  SPIN_POLICY: "weighted_budget_v1",
+  SPIN_POLICY: "weighted_budget_v2",
 }));
 
 vi.mock("@/lib/weather", () => ({
@@ -188,7 +188,7 @@ describe("POST /api/spin", () => {
         userLng: 107.77,
         distanceMeters: 420,
         candidateCount: 2,
-        policy: "weighted_budget_v1",
+        policy: "weighted_budget_v2",
         // Peluang draw ini. Tanpa angka ini, log tidak bisa dipakai untuk
         // evaluasi off-policy yang tak bias.
         policyScore: 0.5,
@@ -407,7 +407,7 @@ describe("POST /api/spin", () => {
       );
     });
 
-    it("kembali ke weighted_budget_v1 kalau bandit gagal memilih", async () => {
+    it("kembali ke acak berbobot kalau bandit gagal memilih", async () => {
       getEligibleRestaurantsMock.mockResolvedValue(candidates);
       prepareBanditMock.mockResolvedValue({ marker: "ctx" });
       chooseWithBanditMock.mockReturnValue(null);
@@ -419,7 +419,7 @@ describe("POST /api/spin", () => {
 
       expect(response.status).toBe(200);
       expect(recordSpinEventMock).toHaveBeenCalledWith(
-        expect.objectContaining({ policy: "weighted_budget_v1", policyScore: 0.5 }),
+        expect.objectContaining({ policy: "weighted_budget_v2", policyScore: 0.5 }),
       );
     });
 

@@ -53,7 +53,7 @@ sudah berjalan.
 | Styling | Tailwind CSS 4, primitif shadcn |
 | Huruf & ikon | Plus Jakarta Sans, lucide-react |
 | Animasi | Framer Motion (dimuat setelah halaman siap) |
-| Uji | Vitest — **377 tes** |
+| Uji | Vitest — **387 tes** |
 | ML & AI | Bandit TypeScript sendiri; LLM (Ollama lokal, Gemini, atau Claude) untuk kurasi kategori, dengan harness evaluasi |
 
 Tidak ada layanan terpisah. Bahkan model rekomendasinya dirancang muat di
@@ -176,7 +176,7 @@ npm run dev
 
 ```bash
 npm run dev                                     # server pengembangan
-npm test                                        # 377 tes
+npm test                                        # 387 tes
 npm run lint                                    # eslint
 npm run build                                   # build produksi
 
