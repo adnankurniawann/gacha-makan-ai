@@ -73,18 +73,18 @@ export default async function RiwayatPage() {
         <AppHeader session={false} />
         <div className="mx-auto max-w-md px-4 pt-10 text-center md:px-6">
           <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50">
-            <History className="h-6 w-6 text-rose-500" aria-hidden="true" />
+            <History className="h-6 w-6 text-rose-600" aria-hidden="true" />
           </span>
           <h1 className="mt-4 text-xl font-semibold tracking-tight text-slate-900">
             Belum ada yang tercatat
           </h1>
-          <p className="mt-2 text-sm leading-relaxed text-slate-500">
+          <p className="mt-2 text-sm leading-relaxed text-slate-600">
             Setiap kali kamu spin, hasilnya muncul di sini — termasuk tempat
             yang kamu simpan buat nanti.
           </p>
           <Link
             href="/spin"
-            className="mt-6 inline-block rounded-xl bg-rose-500 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-rose-600"
+            className="mt-6 inline-block rounded-xl bg-rose-600 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-rose-700"
           >
             Spin pertama kamu
           </Link>
@@ -157,7 +157,7 @@ export default async function RiwayatPage() {
               </p>
               <Link
                 href="/spin"
-                className="shrink-0 rounded-lg bg-rose-500 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-rose-600"
+                className="shrink-0 rounded-lg bg-rose-600 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-rose-700"
               >
                 Spin
               </Link>

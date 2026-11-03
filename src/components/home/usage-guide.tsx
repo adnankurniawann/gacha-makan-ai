@@ -99,7 +99,7 @@ export function UsageGuide({
         className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-left transition-colors hover:bg-slate-50"
       >
         <span className="text-sm font-semibold text-slate-600">Cara pakai</span>
-        <span className="text-xs font-medium text-rose-500">Lihat</span>
+        <span className="text-xs font-medium text-rose-600">Lihat</span>
       </button>
     );
   }
@@ -133,7 +133,7 @@ export function UsageGuide({
       <ol className="mt-3 grid gap-2.5 sm:grid-cols-3">
         {STEPS.map((step) => (
           <li key={step.n} className="flex items-start gap-2.5">
-            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-50 text-[11px] font-semibold text-rose-500">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-50 text-[11px] font-semibold text-rose-700">
               {step.n}
             </span>
             <span className="min-w-0">

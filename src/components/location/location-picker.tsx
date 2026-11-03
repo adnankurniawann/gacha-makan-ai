@@ -121,11 +121,11 @@ export function LocationPicker({
     return (
       <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3">
         <span className="min-w-0">
-          <span className="block text-[10px] font-bold uppercase tracking-wide text-slate-400">
+          <span className="block text-[11px] font-bold uppercase tracking-wide text-slate-500">
             Cari di sekitar
           </span>
           <span className="flex items-center gap-1.5 truncate text-sm font-medium text-slate-700">
-            <MapPin className="h-3.5 w-3.5 shrink-0 text-rose-500" aria-hidden="true" />
+            <MapPin className="h-3.5 w-3.5 shrink-0 text-rose-600" aria-hidden="true" />
             {describeLocation(value)}
           </span>
         </span>
@@ -158,7 +158,7 @@ export function LocationPicker({
               type="button"
               onClick={requestGps}
               disabled={isLocating}
-              className="w-full rounded-lg bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white transition-transform active:scale-95 hover:bg-rose-600 disabled:opacity-60"
+              className="w-full rounded-lg bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition-transform active:scale-95 hover:bg-rose-700 disabled:opacity-60"
             >
               {isLocating ? "Mencari lokasi…" : "Pakai lokasi saya"}
             </button>
@@ -184,7 +184,7 @@ export function LocationPicker({
 
           {AREA_CITIES.map((city) => (
             <div key={city} className="mt-3">
-              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">{city}</p>
+              <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">{city}</p>
               <div className="mt-1.5 flex flex-wrap gap-2">
                 {AREA_PRESETS.filter((area) => area.city === city).map((area) => {
                   const isActive = value?.areaId === area.id;
@@ -194,9 +194,9 @@ export function LocationPicker({
                       type="button"
                       onClick={() => chooseArea(area.id)}
                       aria-pressed={isActive}
-                      className={`rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors ${
+                      className={`min-h-11 rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors ${
                         isActive
-                          ? "bg-rose-500 text-white"
+                          ? "bg-rose-600 text-white"
                           : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
                       }`}
                     >
@@ -213,7 +213,7 @@ export function LocationPicker({
               type="button"
               onClick={requestGps}
               disabled={isLocating}
-              className="mt-3 text-xs font-semibold text-rose-500 underline underline-offset-2 disabled:opacity-60"
+              className="mt-3 text-xs font-semibold text-rose-600 underline underline-offset-2 disabled:opacity-60"
             >
               {isLocating ? "Mencari lokasi…" : "Atau pakai lokasi saya"}
             </button>

@@ -35,7 +35,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
           Simpan punyamu
         </h1>
-        <p className="mt-2 text-[15px] leading-relaxed text-slate-500">
+        <p className="mt-2 text-[15px] leading-relaxed text-slate-600">
           Riwayat spin dan daftar simpanan ikut terbawa, bahkan kalau kamu ganti
           HP.
         </p>
@@ -51,14 +51,14 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <AuthPanel className="border-0 bg-transparent p-0 shadow-none" />
         </div>
 
-        <p className="mt-4 text-xs leading-relaxed text-slate-400">
+        <p className="mt-4 text-xs leading-relaxed text-slate-600">
           Tanpa password. Kami kirim satu link ke emailmu, tinggal dibuka. Email
           apa pun bisa — tidak harus email kampus.
         </p>
 
         <Link
           href="/spin"
-          className="mt-8 block text-center text-sm font-medium text-slate-500 transition-colors hover:text-slate-800"
+          className="mt-6 block py-3 text-center text-sm font-medium text-slate-600 transition-colors hover:text-slate-800"
         >
           Nanti aja, mau spin dulu
         </Link>

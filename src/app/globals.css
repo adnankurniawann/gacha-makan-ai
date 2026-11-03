@@ -22,8 +22,8 @@
   --popover: #ffffff;
   --popover-foreground: #1e293b;
 
-  /* rose-500: warna aksi aplikasi ini, bukan hitam */
-  --primary: #f43f5e;
+  /* rose-600: warna aksi aplikasi ini, bukan hitam. Bukan 500: teks putih di atas rose-500 cuma 3,75:1, di bawah batas AA. */
+  --primary: #e11d48;
   --primary-foreground: #ffffff;
 
   --secondary: #f1f5f9;
@@ -208,32 +208,37 @@
   }
 }
 
-* {
-  box-sizing: border-box;
-}
+/* Di dalam @layer base, bukan lepas. Aturan tanpa layer selalu menang
+   melawan utilitas Tailwind 4 (yang ada di @layer utilities) — `a { color:
+   inherit }` dulu membuat semua tautan ber-`text-white` jadi gelap. */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  /* Bobot dasar 400. Sebelumnya banyak elemen mewarisi bobot tebal dan
-     seluruh halaman terasa berteriak. Keluarga huruf dan antialiasing diatur
-     lewat kelas `font-sans antialiased` di <body>. */
-  font-weight: 400;
-}
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    /* Bobot dasar 400. Sebelumnya banyak elemen mewarisi bobot tebal dan
+       seluruh halaman terasa berteriak. Keluarga huruf dan antialiasing diatur
+       lewat kelas `font-sans antialiased` di <body>. */
+    font-weight: 400;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
 }

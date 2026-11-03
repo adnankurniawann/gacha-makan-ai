@@ -6,6 +6,7 @@ import { BottomNav } from "@/components/home/bottom-nav";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { Search } from "lucide-react";
 
 import { formatHygieneScore } from "@/utils/hygiene";
 import { formatPrice } from "@/utils/price";
@@ -137,11 +138,9 @@ function MapPageContent() {
         return resolveSelectedRestaurant(nextRestaurants, targetId);
       });
     } catch (fetchError) {
-      setError(
-        fetchError instanceof Error
-          ? fetchError.message
-          : "Failed to fetch restaurants",
-      );
+      // Pesan server teknis dan berbahasa Inggris; cukup untuk konsol.
+      console.error("[map] loadRestaurants", fetchError);
+      setError("Data restoran gagal dimuat. Cek koneksi kamu, lalu coba lagi.");
     } finally {
       setIsLoading(false);
     }
@@ -271,6 +270,7 @@ function MapPageContent() {
   return (
     <main className="min-h-screen bg-slate-100 pb-24 font-sans text-slate-800 md:pb-12">
       <AppHeader session={false} />
+      <h1 className="sr-only">Peta restoran</h1>
 
       <div className="mx-auto max-w-6xl w-full px-4 md:px-8 pt-6 flex flex-col lg:grid lg:grid-cols-[1.1fr_0.9fr] gap-6 lg:gap-8">
         {/* KOLOM KIRI: FILTER & PETA */}
@@ -283,9 +283,10 @@ function MapPageContent() {
                   Cari Restoran
                 </span>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                    🔍
-                  </span>
+                  <Search
+                    className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+                    aria-hidden="true"
+                  />
                   <input
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
@@ -296,8 +297,8 @@ function MapPageContent() {
               </label>
 
               <div className="flex gap-4">
-                <div className="space-y-1.5">
-                  <span className="block text-sm font-semibold text-slate-700">
+                <label className="space-y-1.5">
+                  <span className="block whitespace-nowrap text-sm font-semibold text-slate-700">
                     Auto-refresh
                   </span>
                   <select
@@ -314,13 +315,13 @@ function MapPageContent() {
                     <option value="5000">5s</option>
                     <option value="10000">10s</option>
                   </select>
-                </div>
+                </label>
 
                 <div className="space-y-1.5">
                   <span className="block text-sm font-semibold text-slate-700">
                     Status
                   </span>
-                  <div className="flex bg-slate-100 p-1 rounded-xl">
+                  <div className="flex bg-slate-100 p-1 rounded-xl" role="group" aria-label="Status kebersihan">
                     {[
                       ["ALL", "Semua"],
                       ["GREEN", "Aman"],
@@ -332,10 +333,11 @@ function MapPageContent() {
                         onClick={() =>
                           setStatusFilter(value as typeof statusFilter)
                         }
-                        className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                        aria-pressed={statusFilter === value}
+                        className={`min-h-9 whitespace-nowrap px-2.5 py-1.5 text-xs sm:px-3 font-semibold rounded-lg transition-all ${
                           statusFilter === value
                             ? "bg-white text-slate-800 shadow-sm"
-                            : "text-slate-500 hover:text-slate-700"
+                            : "text-slate-600 hover:text-slate-800"
                         }`}
                       >
                         {label}
@@ -346,7 +348,7 @@ function MapPageContent() {
               </div>
             </div>
 
-            <p className="text-xs font-medium text-slate-500">
+            <p className={`text-xs font-medium text-slate-500 ${isLoading ? "invisible" : ""}`}>
               Ditemukan{" "}
               <span className="font-bold text-slate-800">
                 {sortedRestaurants.length}
@@ -362,8 +364,18 @@ function MapPageContent() {
                 Memuat peta restoran...
               </div>
             ) : error ? (
-              <div className="flex h-full items-center justify-center bg-rose-50 px-6 text-center text-sm font-medium text-rose-600">
+              <div
+                role="alert"
+                className="flex h-full flex-col items-center justify-center gap-3 bg-rose-50 px-6 text-center text-sm font-medium text-rose-700"
+              >
                 {error}
+                <button
+                  type="button"
+                  onClick={() => void loadRestaurants(restaurantIdFromUrl)}
+                  className="min-h-11 rounded-xl bg-rose-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-rose-700"
+                >
+                  Coba lagi
+                </button>
               </div>
             ) : (
               <RestaurantMap
@@ -406,7 +418,7 @@ function MapPageContent() {
 
           {/* Modal Picker (Muncul kalau ditekan di Mobile) */}
           {isPickerOpen ? (
-            <div className="fixed inset-0 z-50 flex items-end bg-slate-900/40 backdrop-blur-sm lg:hidden">
+            <div role="dialog" aria-modal="true" aria-label="Daftar restoran" className="fixed inset-0 z-50 flex items-end bg-slate-900/40 backdrop-blur-sm lg:hidden">
               <div className="w-full rounded-t-3xl border-t border-slate-200 bg-white p-5 shadow-2xl">
                 <div className="mb-4 flex items-center justify-between">
                   <p className="text-base font-bold text-slate-900">
@@ -415,7 +427,7 @@ function MapPageContent() {
                   <button
                     type="button"
                     onClick={() => setIsPickerOpen(false)}
-                    className="rounded-full bg-slate-100 px-4 py-1.5 text-xs font-semibold text-slate-600 active:scale-95 transition-transform"
+                    className="min-h-11 rounded-full bg-slate-100 px-5 text-sm font-semibold text-slate-600 active:scale-95 transition-transform"
                   >
                     Tutup
                   </button>
@@ -487,7 +499,7 @@ function MapPageContent() {
               Memuat data dari server...
             </div>
           ) : error ? (
-            <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-600">
+            <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
               {error}
             </div>
           ) : selectedRestaurant ? (

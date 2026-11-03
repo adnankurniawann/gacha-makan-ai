@@ -36,7 +36,7 @@ export function Hero() {
 
       <div className="relative flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:gap-4 sm:p-9">
         <div className="min-w-0 flex-1">
-          <p className="rise-in text-[11px] font-semibold uppercase tracking-[0.15em] text-rose-500">
+          <p className="rise-in text-[11px] font-semibold uppercase tracking-[0.15em] text-rose-600">
             Jatinangor
           </p>
 
@@ -67,7 +67,7 @@ export function Hero() {
                 sudah menjelaskan tujuannya. */}
             <Link
               href="/spin"
-              className="inline-flex items-center rounded-xl bg-rose-500 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-rose-500/25 transition-all hover:bg-rose-600 active:scale-[0.98]"
+              className="inline-flex items-center rounded-xl bg-rose-600 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-rose-500/25 transition-all hover:bg-rose-700 active:scale-[0.98]"
             >
               Spin sekarang
             </Link>

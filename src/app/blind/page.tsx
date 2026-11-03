@@ -100,11 +100,13 @@ export default function BlindPage() {
 
       const payload = (await response.json()) as {
         data?: SpinResult;
-        error?: string;
+        message?: string;
       };
 
       if (!response.ok) {
-        nextError = payload.error ?? "Blind spin gagal dijalankan.";
+        // `message` ramah dan berbahasa Indonesia; `error` teks teknis.
+        nextError =
+          payload.message ?? "Blind spin gagal. Coba lagi sebentar ya.";
       } else {
         nextResult = payload.data ?? null;
       }
@@ -153,7 +155,7 @@ export default function BlindPage() {
 
   return (
     <MotionProvider>
-          <main className="min-h-screen bg-slate-100 pb-24 font-sans text-slate-800 selection:bg-rose-500 selection:text-white md:pb-12">
+          <main className="min-h-screen bg-slate-100 pb-24 font-sans text-slate-800 selection:bg-rose-600 selection:text-white md:pb-12">
             {/* Background Decor */}
             <div className="absolute top-0 inset-x-0 h-[400px] bg-gradient-to-b from-slate-200/50 via-slate-50 to-transparent z-0 pointer-events-none"></div>
 
@@ -168,9 +170,9 @@ export default function BlindPage() {
             
                   {/* Judul & Info */}
                   <div>
-                    <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+                    <h1 className="text-xl font-bold text-slate-900 tracking-tight">
                       Mode Uji Nyali
-                    </h2>
+                    </h1>
                     <p className="text-sm font-medium leading-relaxed text-slate-500 mt-2">
                       Nggak usah pusing mikirin budget atau jarak. Biar sistem yang acak preset gaya makanmu hari ini.
                     </p>
@@ -253,13 +255,13 @@ export default function BlindPage() {
 
                   {/* Daftar Preset (Biar visualnya penuh) */}
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3 ml-1">
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3 ml-1">
                       Kemungkinan Preset
                     </p>
                     <div className="grid grid-cols-2 gap-2">
                       {BLIND_PRESETS.map((preset) => (
                         <div key={preset.label} className="rounded-lg border border-slate-200 bg-white p-2.5 text-center shadow-sm">
-                          <p className="text-[10px] font-bold text-slate-700">{preset.label}</p>
+                          <p className="text-xs font-bold text-slate-700">{preset.label}</p>
                         </div>
                       ))}
                     </div>
@@ -291,7 +293,7 @@ export default function BlindPage() {
                       </div>
 
                       <div className="relative z-10">
-                        <div className="inline-block px-3 py-1.5 bg-slate-800 text-white rounded-md text-[10px] font-bold uppercase tracking-widest mb-5 shadow-sm">
+                        <div className="inline-block px-3 py-1.5 bg-slate-800 text-white rounded-md text-[11px] font-bold uppercase tracking-widest mb-5 shadow-sm">
                           ✨ Kejutan Terpilih
                         </div>
                         <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
@@ -331,7 +333,7 @@ export default function BlindPage() {
                             <button
                               onClick={handleConfirmFood}
                               disabled={isConfirming}
-                              className="w-full bg-rose-500 text-white py-4 rounded-xl text-center text-sm font-bold shadow-md shadow-rose-500/30 transition-all hover:bg-rose-600 active:scale-[0.98] disabled:opacity-70 flex justify-center items-center gap-2"
+                              className="w-full bg-rose-600 text-white py-4 rounded-xl text-center text-sm font-bold shadow-md shadow-rose-500/30 transition-all hover:bg-rose-700 active:scale-[0.98] disabled:opacity-70 flex justify-center items-center gap-2"
                             >
                               {isConfirming
                                 ? "Memproses..."
@@ -343,9 +345,9 @@ export default function BlindPage() {
                             <div className="flex flex-col sm:flex-row gap-4">
                               <Link
                                 href={`/map?restaurant_id=${encodeURIComponent(result.id)}`}
-                                className="flex-1 flex items-center justify-center gap-2 bg-slate-900 py-4 rounded-xl text-sm font-semibold !text-white shadow-md transition-all hover:bg-slate-800 active:scale-[0.98]"
+                                className="flex-1 flex items-center justify-center gap-2 bg-slate-900 py-4 rounded-xl text-sm font-semibold text-white shadow-md transition-all hover:bg-slate-800 active:scale-[0.98]"
                               >
-                                <MapPin className="h-4 w-4" aria-hidden="true" /> <span className="!text-white">Lihat di peta</span>
+                                <MapPin className="h-4 w-4" aria-hidden="true" /> Lihat di peta
                               </Link>
                               <button
                                 type="button"

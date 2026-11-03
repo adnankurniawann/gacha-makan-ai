@@ -73,7 +73,7 @@ export default async function Home() {
             </div>
             <Link
               href="/spin"
-              className="shrink-0 rounded-xl bg-rose-500 px-6 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-rose-500/25 transition-all hover:bg-rose-600 active:scale-[0.98]"
+              className="shrink-0 rounded-xl bg-rose-600 px-6 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-rose-500/25 transition-all hover:bg-rose-700 active:scale-[0.98]"
             >
               Spin
             </Link>
@@ -127,7 +127,7 @@ export default async function Home() {
           <Suspense fallback={<RestaurantStatsSkeleton />}>
             <RestaurantStatsCards />
           </Suspense>
-          <p className="mt-2 px-1 text-[11px] leading-relaxed text-slate-400">
+          <p className="mt-2 px-1 text-xs leading-relaxed text-slate-600">
             Katalog masih terus dikurasi. Kalau warung langgananmu belum ada,
             laporkan lewat peta.
           </p>

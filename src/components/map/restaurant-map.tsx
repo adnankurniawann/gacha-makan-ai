@@ -180,13 +180,13 @@ export function RestaurantMap({
         })}
       </MapContainer>
 
-      <div className="pointer-events-none absolute bottom-2 left-2 z-[1000] rounded-lg border border-slate-200/80 bg-white/90 px-2.5 py-1.5 text-[10px] font-medium text-slate-600 shadow-sm backdrop-blur">
+      <div className="pointer-events-none absolute bottom-2 left-2 z-[1000] rounded-lg border border-slate-200/80 bg-white/90 px-2.5 py-1.5 text-[11px] font-medium text-slate-600 shadow-sm backdrop-blur">
         <span className="mr-2 inline-flex items-center gap-1">
           <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
           Aman
         </span>
         <span className="mr-2 inline-flex items-center gap-1">
-          <span className="inline-block h-2 w-2 rounded-full bg-rose-500" />
+          <span className="inline-block h-2 w-2 rounded-full bg-rose-600" />
           Red Flag
         </span>
         <span className="inline-flex items-center gap-1">

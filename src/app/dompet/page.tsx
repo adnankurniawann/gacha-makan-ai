@@ -56,7 +56,7 @@ export default async function DompetPage() {
             <h1 className="text-lg font-semibold tracking-tight text-slate-900">
               Dompet makan
             </h1>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-600">
               Jatah bulanan dan sisanya.
             </p>
           </div>
@@ -77,7 +77,7 @@ export default async function DompetPage() {
             </div>
             <Link
               href="/riwayat"
-              className="shrink-0 rounded-lg border border-slate-200 px-3.5 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+              className="flex min-h-11 shrink-0 items-center rounded-lg border border-slate-200 px-4 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50"
             >
               Lihat riwayat
             </Link>
@@ -106,8 +106,8 @@ export default async function DompetPage() {
               Sesi belum siap
             </p>
             <p className="mt-1 text-xs leading-relaxed text-amber-800">
-              Buka halaman spin sekali, lalu balik ke sini. Kalau tetap begini,
-              Anonymous sign-ins di Supabase kemungkinan belum aktif.
+              Buka halaman spin sekali, lalu balik ke sini. Kalau masih begini,
+              cek koneksi kamu dan coba lagi.
             </p>
           </Card>
         )}

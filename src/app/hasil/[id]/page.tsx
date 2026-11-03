@@ -48,7 +48,7 @@ export default async function HasilPage({ params }: Params) {
 
         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50">
-            <Dices className="h-5 w-5 text-rose-500" aria-hidden="true" />
+            <Dices className="h-5 w-5 text-rose-600" aria-hidden="true" />
           </span>
           <h1 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900">
             {restaurant.name}
@@ -69,7 +69,7 @@ export default async function HasilPage({ params }: Params) {
 
         <Link
           href="/spin"
-          className="mt-5 block w-full rounded-xl bg-rose-500 px-5 py-3.5 text-center text-sm font-bold text-white shadow-md shadow-rose-500/30 transition-transform active:scale-[0.98] hover:bg-rose-600"
+          className="mt-5 block w-full rounded-xl bg-rose-600 px-5 py-3.5 text-center text-sm font-bold text-white shadow-md shadow-rose-500/30 transition-transform active:scale-[0.98] hover:bg-rose-700"
         >
           Coba punyamu
         </Link>

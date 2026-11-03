@@ -15,7 +15,7 @@ export default function Loading() {
     >
       <header className="sticky top-0 z-50 flex items-center justify-between border-b border-slate-200/60 bg-white/80 px-4 py-3 shadow-sm backdrop-blur-lg md:px-8">
         <h1 className="text-xl font-bold tracking-tight text-slate-900 md:text-2xl">
-          Gacha<span className="text-rose-500">Makan</span>
+          Gacha<span className="text-rose-600">Makan</span>
         </h1>
         <div className="h-9 w-9 animate-pulse rounded-full bg-slate-200" />
       </header>

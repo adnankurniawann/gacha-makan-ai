@@ -94,20 +94,24 @@ export function AuthPanel({ className }: { className?: string }) {
             "nama@kampus.ac.id" terbaca seperti syarat, dan orang yang tidak
             punya email kampus akan mengira ia tidak boleh ikut. Email apa pun
             bisa dipakai. */}
+        <label htmlFor="auth-email" className="text-sm font-medium text-slate-700">
+          Email
+        </label>
         <input
+          id="auth-email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="email kamu"
           autoComplete="email"
           required
-          className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-[15px] text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
+          className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-[15px] text-slate-800 outline-none transition placeholder:text-slate-500 focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg bg-rose-500 px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full rounded-lg bg-rose-600 px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Mengirim…" : anonymous ? "Simpan akun" : "Kirim link"}
         </button>
@@ -116,6 +120,7 @@ export function AuthPanel({ className }: { className?: string }) {
       {/* Pesan Error / Sukses */}
       {message && (
         <div
+          role={message.isError ? "alert" : "status"}
           className={`mt-3 rounded-lg px-4 py-3 text-sm ${
             message.isError
               ? "border border-rose-200 bg-rose-50 text-rose-700"

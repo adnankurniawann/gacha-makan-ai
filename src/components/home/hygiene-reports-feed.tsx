@@ -53,7 +53,7 @@ function ReportItem({
     <Link
       href={`/map?restaurant_id=${encodeURIComponent(report.restaurant_id)}`}
       className={`group flex gap-3.5 items-start px-5 py-4 transition-colors hover:bg-slate-50/50 ${
-        isLast ? "" : "border-b border-slate-50"
+        isLast ? "" : "border-b border-slate-100"
       }`}
     >
       <div
@@ -70,25 +70,25 @@ function ReportItem({
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <h4
+        <h3
           className={`truncate text-sm font-semibold text-slate-800 ${
             isRedFlag ? "group-hover:text-red-600" : "group-hover:text-emerald-600"
           }`}
         >
           {report.restaurant_name}
-        </h4>
+        </h3>
         <p className="mt-1 text-xs font-normal leading-relaxed text-slate-500 line-clamp-3">
           {getReportPreview(report)}
         </p>
         <p
-          className={`mt-2 text-[10px] font-medium uppercase tracking-wide ${
-            isRedFlag ? "text-red-400" : "text-emerald-500"
+          className={`mt-2 text-[11px] font-medium uppercase tracking-wide ${
+            isRedFlag ? "text-red-600" : "text-emerald-700"
           }`}
         >
           {formatRelativeTime(report.created_at)}
         </p>
         {!isRedFlag && report.is_verified_safe ? (
-          <div className="mt-2 inline-block rounded-md border border-emerald-100 bg-emerald-50 px-2 py-1 text-[9px] font-semibold uppercase tracking-widest text-emerald-600">
+          <div className="mt-2 inline-block rounded-md border border-emerald-100 bg-emerald-50 px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-700">
             Verified
           </div>
         ) : null}
@@ -100,9 +100,6 @@ function ReportItem({
 export function HygieneReportsFeedSkeleton() {
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
-      <div className="animate-pulse border-b border-slate-50 bg-slate-50/50 px-5 py-4">
-        <div className="h-4 w-32 rounded bg-slate-200" />
-      </div>
       <div className="flex flex-col">
       {[0, 1].map((index) => (
         <div
@@ -123,22 +120,21 @@ export function HygieneReportsFeedSkeleton() {
 }
 
 export async function HygieneReportsFeed() {
-  const reports = await getRecentHygieneReports(5);
+  // Judul dan tautan peta sudah ada di SectionHeader beranda; di sini cukup isinya.
+  let reports: RecentHygieneReport[];
+  try {
+    reports = await getRecentHygieneReports(5);
+  } catch (error) {
+    console.error("[HygieneReportsFeed]", error);
+    return (
+      <p className="rounded-xl border border-slate-200 bg-white px-4 py-5 text-center text-sm text-slate-500">
+        Laporan terbaru gagal dimuat. Muat ulang halaman sebentar lagi.
+      </p>
+    );
+  }
 
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-slate-50 bg-slate-50/50 px-5 py-4">
-        <h3 className="text-sm font-semibold tracking-tight text-slate-800">
-          Laporan Higienitas
-        </h3>
-        <Link
-          href="/map"
-          className="text-xs font-medium uppercase tracking-wider text-rose-500 transition-colors hover:text-rose-600"
-        >
-          Lihat Peta
-        </Link>
-      </div>
-
       {reports.length === 0 ? (
         <div className="px-5 py-8 text-center">
           <p className="text-sm font-medium text-slate-600">
@@ -149,7 +145,7 @@ export async function HygieneReportsFeed() {
           </p>
           <Link
             href="/map"
-            className="mt-4 inline-block text-xs font-semibold text-rose-500 hover:text-rose-600"
+            className="mt-4 inline-block text-xs font-semibold text-rose-600 hover:text-rose-700"
           >
             Buka peta
           </Link>

@@ -1,6 +1,6 @@
 import { AlertTriangle, ShieldCheck, Store } from "lucide-react";
 
-import { getRestaurantStats } from "@/lib/supabase/queries";
+import { getRestaurantStats, type RestaurantStats } from "@/lib/supabase/queries";
 
 /**
  * Ringkasan isi katalog.
@@ -40,7 +40,7 @@ const CARDS = [
     hint: "ada laporan masuk",
     icon: AlertTriangle,
     surface: "bg-rose-50 border-rose-200",
-    badge: "bg-white text-rose-500 border-rose-200",
+    badge: "bg-white text-rose-600 border-rose-200",
     value: "text-rose-600",
   },
 ] as const;
@@ -63,7 +63,19 @@ export function RestaurantStatsSkeleton() {
 }
 
 export async function RestaurantStatsCards() {
-  const stats = await getRestaurantStats();
+  // Angka katalog cuma pelengkap. Kalau gagal, cukup bagian ini yang bilang
+  // begitu — bukan seluruh beranda (dan tombol spin-nya) yang diganti layar error.
+  let stats: RestaurantStats;
+  try {
+    stats = await getRestaurantStats();
+  } catch (error) {
+    console.error("[RestaurantStatsCards]", error);
+    return (
+      <p className="rounded-xl border border-slate-200 bg-white px-4 py-5 text-center text-sm text-slate-500">
+        Angka katalog gagal dimuat. Muat ulang halaman sebentar lagi.
+      </p>
+    );
+  }
   const values: Record<string, number> = {
     total: stats.total,
     safe: stats.safe,

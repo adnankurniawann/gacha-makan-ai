@@ -35,13 +35,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" suppressHydrationWarning>
-      <head>
-        {/* Link Font Awesome supaya icon <i className="fa-solid ..."> muncul */}
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        />
-      </head>
       {/* font-sans: tumpukan font sistem bawaan Tailwind — tidak ada berkas
           font yang diunduh, jadi teks langsung tampil di 4G yang goyah. */}
       <body className="min-h-screen font-sans antialiased">

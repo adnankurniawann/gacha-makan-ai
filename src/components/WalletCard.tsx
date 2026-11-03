@@ -176,7 +176,7 @@ export default function WalletCard({
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-lg bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-600"
+                className="shrink-0 rounded-lg bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-700"
               >
                 Simpan
               </button>

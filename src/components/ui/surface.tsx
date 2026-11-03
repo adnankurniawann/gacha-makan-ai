@@ -49,7 +49,7 @@ export function SectionHeader({
       {action && actionHref && (
         <Link
           href={actionHref}
-          className="shrink-0 text-xs font-medium text-rose-500 transition-colors hover:text-rose-600"
+          className="-my-3 shrink-0 py-3 text-xs font-medium text-rose-700 transition-colors hover:text-rose-800"
         >
           {action}
         </Link>
@@ -71,7 +71,7 @@ export function IconTile({
   tone?: "rose" | "sky" | "amber" | "slate" | "emerald";
 }) {
   const tones: Record<string, string> = {
-    rose: "bg-rose-50 text-rose-500",
+    rose: "bg-rose-50 text-rose-600",
     sky: "bg-sky-50 text-sky-500",
     amber: "bg-amber-50 text-amber-600",
     slate: "bg-slate-100 text-slate-600",
@@ -115,7 +115,7 @@ export function MenuRow({
     <>
       <span
         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
-          danger ? "bg-rose-50 text-rose-500" : "bg-slate-100 text-slate-500"
+          danger ? "bg-rose-50 text-rose-600" : "bg-slate-100 text-slate-500"
         }`}
       >
         <Icon className="h-4 w-4" aria-hidden="true" />
@@ -127,7 +127,7 @@ export function MenuRow({
           {label}
         </span>
         {hint && (
-          <span className="mt-0.5 block truncate text-xs text-slate-400">
+          <span className="mt-0.5 block truncate text-xs text-slate-500">
             {hint}
           </span>
         )}

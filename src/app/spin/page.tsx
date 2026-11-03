@@ -71,12 +71,6 @@ function formatMeters(value: number): string {
     : `${Math.round(value)} m`;
 }
 
-function hygieneLabel(score: number): string {
-  if (score >= 85) return "AMAN";
-  if (score >= 50) return "PERLU DICEK";
-  return "TIDAK AMAN";
-}
-
 export default function SpinPage() {
   const [budget, setBudget] = useState(20000);
   const [radius, setRadius] = useState(1500);
@@ -202,9 +196,10 @@ export default function SpinPage() {
         suggestions?: SpinSuggestions;
       };
       if (!response.ok) {
-        // `message` sudah ramah dan berbahasa Indonesia; `error` adalah teks
-        // teknis yang hanya berguna kalau message tidak ada.
-        nextError = payload.message ?? payload.error ?? "Spin gagal dijalankan.";
+        // `message` sudah ramah dan berbahasa Indonesia; `error` teks teknis
+        // berbahasa Inggris, jadi tidak ditampilkan.
+        nextError =
+          payload.message ?? "Spin gagal. Coba lagi sebentar ya.";
         nextSuggestions =
           payload.suggestions &&
           (payload.suggestions.radius !== null ||
@@ -333,31 +328,16 @@ export default function SpinPage() {
 
   return (
     <MotionProvider>
-          <main className="relative min-h-screen overflow-hidden bg-slate-100 pb-24 font-sans text-slate-900 selection:bg-rose-500 selection:text-white md:pb-10">
+          <main className="relative min-h-screen overflow-hidden bg-slate-100 pb-24 font-sans text-slate-900 selection:bg-rose-600 selection:text-white md:pb-10">
             {/* Background Decor */}
             {/* Header yang sama dengan seluruh halaman lain, supaya jalan ke
                 peta dan riwayat selalu ada di tempat yang sama. */}
             <AppHeader session={false} />
+            <h1 className="sr-only">Spin makan</h1>
 
             <div className="relative z-10 mx-auto max-w-6xl w-full px-4 md:px-8 pt-6 flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8">
               {/* KOLOM KIRI: FILTERS */}
               <div className="lg:col-span-5 flex flex-col gap-6">
-                {/* Active Filter Summary */}
-                <div className="flex divide-x divide-slate-100 rounded-xl border border-slate-200 bg-white">
-                  <div className="flex-1 px-4 py-3.5">
-                    <p className="text-xs text-slate-500">Budget</p>
-                    <p className="mt-0.5 text-lg font-semibold tabular-nums text-slate-900">
-                      Rp {budget.toLocaleString("id-ID")}
-                    </p>
-                  </div>
-                  <div className="flex-1 px-4 py-3.5">
-                    <p className="text-xs text-slate-500">Radius</p>
-                    <p className="mt-0.5 text-lg font-semibold tabular-nums text-slate-900">
-                      {radius} m
-                    </p>
-                  </div>
-                </div>
-
                 {/* Control Panel - Dengan Slider Custom Berwarna */}
                 <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-6">
                   {/* Slider Budget Custom */}
@@ -366,13 +346,13 @@ export default function SpinPage() {
                       <span className="text-sm font-semibold text-slate-700">
                         Budget Maksimal
                       </span>
-                      <span className="text-sm font-bold text-rose-500">
+                      <span className="text-sm font-bold text-rose-600">
                         Rp {budget.toLocaleString("id-ID")}
                       </span>
                     </div>
                     <div className="relative w-full h-2.5 bg-slate-100 rounded-full mt-3">
                       <div
-                        className="absolute top-0 left-0 h-full bg-rose-500 rounded-full"
+                        className="absolute top-0 left-0 h-full bg-rose-600 rounded-full"
                         style={{ width: `${budgetPercent}%` }}
                       ></div>
                       <input
@@ -382,10 +362,13 @@ export default function SpinPage() {
                         step="1000"
                         value={budget}
                         onChange={(e) => setBudget(Number(e.target.value))}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                        aria-label="Budget maksimal"
+                        aria-valuetext={`Rp ${budget.toLocaleString("id-ID")}`}
+                        // Jalurnya cuma 10px; area sentuhnya dibuat 44px.
+                        className="peer absolute inset-x-0 top-1/2 h-11 w-full -translate-y-1/2 opacity-0 cursor-pointer z-10"
                       />
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-rose-500 rounded-full shadow-md border-[3px] border-white pointer-events-none transition-transform"
+                        className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-rose-600 rounded-full shadow-md border-[3px] border-white pointer-events-none transition-transform peer-focus-visible:ring-4 peer-focus-visible:ring-rose-300"
                         style={{ left: `calc(${budgetPercent}% - 10px)` }}
                       ></div>
                     </div>
@@ -397,7 +380,7 @@ export default function SpinPage() {
                       <span className="text-sm font-semibold text-slate-700">
                         Radius Pencarian
                       </span>
-                      <span className="text-sm font-bold text-sky-500">
+                      <span className="text-sm font-bold text-sky-700">
                         {radius} meter
                       </span>
                     </div>
@@ -413,10 +396,12 @@ export default function SpinPage() {
                         step="250"
                         value={radius}
                         onChange={(e) => setRadius(Number(e.target.value))}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                        aria-label="Radius pencarian"
+                        aria-valuetext={`${radius} meter`}
+                        className="peer absolute inset-x-0 top-1/2 h-11 w-full -translate-y-1/2 opacity-0 cursor-pointer z-10"
                       />
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-sky-500 rounded-full shadow-md border-[3px] border-white pointer-events-none transition-transform"
+                        className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-sky-500 rounded-full shadow-md border-[3px] border-white pointer-events-none transition-transform peer-focus-visible:ring-4 peer-focus-visible:ring-sky-300"
                         style={{ left: `calc(${radiusPercent}% - 10px)` }}
                       ></div>
                     </div>
@@ -429,7 +414,7 @@ export default function SpinPage() {
                       <span className="block text-sm font-semibold text-slate-700">
                         Cuma yang buka sekarang
                       </span>
-                      <span className="block text-[11px] leading-snug text-slate-400">
+                      <span className="block text-xs leading-snug text-slate-500">
                         Yang jam bukanya belum terdata tetap ikut muncul
                       </span>
                     </span>
@@ -450,8 +435,13 @@ export default function SpinPage() {
               </div>
 
               {/* KOLOM KANAN: SPIN ACTION & RESULT */}
-              <div className="lg:col-span-7 flex flex-col gap-6">
-                <div className="relative flex min-h-[360px] flex-col items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white p-6 md:p-10">
+              {/* Di HP kolom ini tampil duluan: tombol spin dan hasilnya harus kelihatan
+                  tanpa scroll. Filternya tersimpan, jadi jarang perlu diubah. */}
+              <div className="order-first lg:order-none lg:col-span-7 flex flex-col gap-6">
+                <div className="relative flex min-h-[280px] flex-col items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white p-6 md:p-10">
+                  {/* Cincin dipusatkan ke tombol, bukan ke kartu — kalau tidak,
+                      ia bergeser dan menimpa pesan error di bawah tombol. */}
+                  <div className="relative flex items-center justify-center">
                   {/* Animasi Ring Cincin */}
                   <m.div
                     key={isSpinning ? "spinning" : "idle"}
@@ -483,6 +473,7 @@ export default function SpinPage() {
 
                   {/* Tombol Spin */}
                   <m.button
+                    type="button"
                     onClick={handleSpin}
                     disabled={isSpinning}
                     animate={isSpinning ? { scale: [0.95, 1, 0.95] } : { scale: 1 }}
@@ -491,7 +482,7 @@ export default function SpinPage() {
                         ? { repeat: Infinity, duration: 1 }
                         : { duration: 0.2 }
                     }
-                    className="relative z-10 flex h-40 w-40 flex-col items-center justify-center rounded-full border-4 border-white bg-rose-500 text-2xl font-semibold text-white shadow-xl shadow-rose-500/30 transition-all hover:bg-rose-600 active:scale-95 disabled:opacity-90 sm:h-44 sm:w-44"
+                    className="relative z-10 flex h-40 w-40 flex-col items-center justify-center rounded-full border-4 border-white bg-rose-600 text-2xl font-semibold text-white shadow-xl shadow-rose-500/30 transition-all hover:bg-rose-700 active:scale-95 disabled:opacity-90 sm:h-44 sm:w-44"
                   >
                     <m.div
                       animate={isSpinning ? { rotate: 1080 } : { rotate: 0 }}
@@ -506,6 +497,7 @@ export default function SpinPage() {
                     </m.div>
                     SPIN!
                   </m.button>
+                  </div>
 
                   {error && (
                     <m.div
@@ -557,7 +549,8 @@ export default function SpinPage() {
                   )}
                 </div>
 
-                {/* RESULT AREA */}
+                {/* RESULT AREA — aria-live supaya pembaca layar ikut tahu hasilnya. */}
+                <div aria-live="polite">
                 <AnimatePresence mode="wait">
                   {result ? (
                     <m.div
@@ -567,7 +560,7 @@ export default function SpinPage() {
                       exit={{ opacity: 0, y: 10, scale: 0.98 }}
                       className="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-5"
                     >
-                      <p className="text-xs font-medium text-rose-500">
+                      <p className="text-xs font-medium text-rose-600">
                         Hasil buat kamu
                       </p>
                       <h3 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-[1.75rem]">
@@ -617,7 +610,7 @@ export default function SpinPage() {
                             <button
                               onClick={handleConfirmFood}
                               disabled={isConfirming}
-                              className="w-full bg-rose-500 text-white py-3.5 rounded-xl text-center text-sm font-bold shadow-md shadow-rose-500/30 transition-all hover:bg-rose-600 active:scale-[0.98] disabled:opacity-70 flex justify-center items-center gap-2"
+                              className="w-full bg-rose-600 text-white py-3.5 rounded-xl text-center text-sm font-bold shadow-md shadow-rose-500/30 transition-all hover:bg-rose-700 active:scale-[0.98] disabled:opacity-70 flex justify-center items-center gap-2"
                             >
                               {isConfirming
                                 ? "Memproses..."
@@ -653,10 +646,10 @@ export default function SpinPage() {
                             <div className="flex flex-col sm:flex-row gap-3">
                               <Link
                                 href={`/map?restaurant_id=${encodeURIComponent(result.id)}`}
-                                className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-slate-800 py-3.5 text-sm font-semibold !text-white shadow-sm transition-all hover:bg-slate-900 active:scale-[0.98]"
+                                className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-slate-800 py-3.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-slate-900 active:scale-[0.98]"
                               >
                                 <MapPin className="h-4 w-4" aria-hidden="true" />{" "}
-                                <span className="!text-white">Lihat di Peta</span>
+                                Lihat di Peta
                               </Link>
                               <button
                                 onClick={handleSpin}
@@ -689,14 +682,15 @@ export default function SpinPage() {
                       animate={{ opacity: 1 }}
                       className="flex min-h-[180px] flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center"
                     >
-                      <Dices className="mb-3 h-8 w-8 text-slate-300" aria-hidden="true" />
-                      <p className="text-sm font-medium text-slate-400 max-w-sm leading-relaxed">
-                        Belum ada hasil spin takdir. Silakan atur budget dan radius
-                        pencarian, lalu tekan tombol SPIN di atas!
+                      <Dices className="mb-3 h-8 w-8 text-slate-400" aria-hidden="true" />
+                      <p className="text-sm font-medium text-slate-500 max-w-sm leading-relaxed">
+                        Belum ada hasil. Tekan SPIN, atau atur dulu budget,
+                        radius, dan lokasi di panel filter.
                       </p>
                     </m.div>
                   )}
                 </AnimatePresence>
+                </div>
               </div>
             </div>
             <BottomNav />

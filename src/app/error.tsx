@@ -42,7 +42,7 @@ export default function Error({
           <button
             type="button"
             onClick={reset}
-            className="w-full rounded-xl bg-rose-500 px-5 py-3 text-sm font-semibold text-white transition-transform active:scale-95 hover:bg-rose-600"
+            className="w-full rounded-xl bg-rose-600 px-5 py-3 text-sm font-semibold text-white transition-transform active:scale-95 hover:bg-rose-700"
           >
             Coba lagi
           </button>
@@ -55,7 +55,7 @@ export default function Error({
         </div>
 
         {error.digest && (
-          <p className="mt-6 font-mono text-[10px] uppercase tracking-widest text-slate-300">
+          <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-slate-500">
             ref {error.digest}
           </p>
         )}

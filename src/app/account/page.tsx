@@ -256,6 +256,7 @@ export default function AccountPage() {
   return (
     <main className="min-h-screen bg-slate-100 pb-24 font-sans text-slate-800 md:pb-10">
       <AppHeader session={false} />
+      <h1 className="sr-only">Akun</h1>
 
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-4 pt-3 md:px-6">
         {isLoading ? (
@@ -268,7 +269,7 @@ export default function AccountPage() {
             {/* Kartu profil. Rata, tanpa lingkaran blur dekoratif dan tanpa
                 nama sebesar judul halaman. */}
             <Card className="flex items-center gap-3.5">
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-rose-500 text-base font-semibold text-white">
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-rose-600 text-base font-semibold text-white">
                 {isAnonymous ? (
                   initials
                 ) : (
@@ -300,7 +301,7 @@ export default function AccountPage() {
               {isAnonymous && (
                 <Link
                   href="/login"
-                  className="shrink-0 rounded-lg bg-rose-500 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-rose-600"
+                  className="shrink-0 rounded-lg bg-rose-600 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-rose-700"
                 >
                   Masuk
                 </Link>
@@ -324,7 +325,7 @@ export default function AccountPage() {
             {!isAnonymous && session ? (
               <div className="grid grid-cols-2 gap-3">
                 <Card>
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                     Bergabung
                   </p>
                   <p className="mt-1 text-sm font-semibold text-slate-800">
@@ -332,7 +333,7 @@ export default function AccountPage() {
                   </p>
                 </Card>
                 <Card>
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                     Terakhir masuk
                   </p>
                   <p className="mt-1 text-sm font-semibold text-slate-800">
@@ -424,7 +425,7 @@ export default function AccountPage() {
                         type="file"
                         accept="image/*"
                         onChange={handleAvatarFileChange}
-                        className="rounded-lg border border-dashed border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-rose-500 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-white"
+                        className="rounded-lg border border-dashed border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-rose-600 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-white"
                       />
                       {/* Kolom URL dipertahankan untuk yang sudah terlanjur
                           memakainya, tapi tidak lagi sejajar dengan unggahan:
@@ -439,6 +440,7 @@ export default function AccountPage() {
                           }))
                         }
                         placeholder="atau tempel URL foto"
+                        aria-label="URL foto profil"
                         className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-700 outline-none transition focus:border-rose-400"
                       />
                     </label>
@@ -446,7 +448,7 @@ export default function AccountPage() {
                     <button
                       type="submit"
                       disabled={isSavingProfile}
-                      className="mt-1 rounded-lg bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="mt-1 rounded-lg bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {isSavingProfile
                         ? isUploadingAvatar
