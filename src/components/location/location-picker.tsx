@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 
 import {
+  AREA_CITIES,
   AREA_PRESETS,
   DEFAULT_AREA,
   describeLocation,
@@ -181,26 +182,31 @@ export function LocationPicker({
             </p>
           )}
 
-          <div className="mt-3 flex flex-wrap gap-2">
-            {AREA_PRESETS.map((area) => {
-              const isActive = value?.areaId === area.id;
-              return (
-                <button
-                  key={area.id}
-                  type="button"
-                  onClick={() => chooseArea(area.id)}
-                  aria-pressed={isActive}
-                  className={`rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors ${
-                    isActive
-                      ? "bg-rose-500 text-white"
-                      : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                  }`}
-                >
-                  {area.label}
-                </button>
-              );
-            })}
-          </div>
+          {AREA_CITIES.map((city) => (
+            <div key={city} className="mt-3">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">{city}</p>
+              <div className="mt-1.5 flex flex-wrap gap-2">
+                {AREA_PRESETS.filter((area) => area.city === city).map((area) => {
+                  const isActive = value?.areaId === area.id;
+                  return (
+                    <button
+                      key={area.id}
+                      type="button"
+                      onClick={() => chooseArea(area.id)}
+                      aria-pressed={isActive}
+                      className={`rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors ${
+                        isActive
+                          ? "bg-rose-500 text-white"
+                          : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                      }`}
+                    >
+                      {area.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
 
           {permission !== "denied" && (
             <button

@@ -7,15 +7,19 @@
  * setara, dan pilihan terakhir selalu diingat supaya tidak perlu diulang.
  */
 
+export const AREA_CITIES = ["Jatinangor", "Bandung"] as const;
+
 export interface AreaPreset {
   id: string;
   label: string;
+  /** Dipakai untuk mengelompokkan pilihan; "Kampus" saja ambigu antar kota. */
+  city: (typeof AREA_CITIES)[number];
   lat: number;
   lng: number;
 }
 
 /**
- * Titik acuan area di sekitar Jatinangor.
+ * Titik acuan area di sekitar Jatinangor dan Bandung.
  *
  * PERHATIAN: koordinat ini perkiraan pusat kawasan, bukan hasil survei. Untuk
  * radius pencarian 500–5000 m selisih beberapa ratus meter tidak mengubah
@@ -23,11 +27,16 @@ export interface AreaPreset {
  * terutama kalau nanti radius terkecil diperkecil lagi.
  */
 export const AREA_PRESETS: readonly AreaPreset[] = [
-  { id: "kampus", label: "Kampus", lat: -6.9262, lng: 107.7717 },
-  { id: "sayang", label: "Sayang", lat: -6.9328, lng: 107.7695 },
-  { id: "hegarmanah", label: "Hegarmanah", lat: -6.9295, lng: 107.778 },
-  { id: "cikeruh", label: "Cikeruh", lat: -6.935, lng: 107.7745 },
-  { id: "cibeusi", label: "Cibeusi", lat: -6.9218, lng: 107.769 },
+  { id: "kampus", label: "Kampus", city: "Jatinangor", lat: -6.9262, lng: 107.7717 },
+  { id: "sayang", label: "Sayang", city: "Jatinangor", lat: -6.9328, lng: 107.7695 },
+  { id: "hegarmanah", label: "Hegarmanah", city: "Jatinangor", lat: -6.9295, lng: 107.778 },
+  { id: "cikeruh", label: "Cikeruh", city: "Jatinangor", lat: -6.935, lng: 107.7745 },
+  { id: "cibeusi", label: "Cibeusi", city: "Jatinangor", lat: -6.9218, lng: 107.769 },
+  { id: "dago", label: "ITB & Dago", city: "Bandung", lat: -6.8915, lng: 107.6107 },
+  { id: "dipatiukur", label: "Dipatiukur", city: "Bandung", lat: -6.8925, lng: 107.617 },
+  { id: "setiabudhi", label: "Setiabudhi", city: "Bandung", lat: -6.8607, lng: 107.594 },
+  { id: "braga", label: "Braga", city: "Bandung", lat: -6.9175, lng: 107.6091 },
+  { id: "buahbatu", label: "Buah Batu", city: "Bandung", lat: -6.9452, lng: 107.6339 },
 ];
 
 /** Dipakai kalau belum ada pilihan apa pun. */
@@ -128,7 +137,8 @@ export function findArea(areaId: string | undefined): AreaPreset | null {
 export function describeLocation(choice: LocationChoice | null): string {
   if (choice === null) return "Belum dipilih";
   if (choice.source === "gps") return "Lokasi kamu sekarang";
-  return findArea(choice.areaId)?.label ?? "Area pilihan";
+  const area = findArea(choice.areaId);
+  return area ? `${area.label}, ${area.city}` : "Area pilihan";
 }
 
 export type PermissionState = "granted" | "denied" | "prompt" | "unknown";

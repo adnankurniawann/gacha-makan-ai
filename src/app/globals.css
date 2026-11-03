@@ -71,19 +71,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --font-sans: var(--font-jakarta);
-  --font-mono: var(--font-jakarta);
-
-  --animate-border-beam: border-beam calc(var(--duration) * 1s) infinite linear;
-}
-
-/* Dipakai BorderBeam. Sengaja hanya keyframe ini yang diambil dari CSS
-   bawaannya — puluhan animasi lain di sana tidak dipakai satu pun komponen
-   di aplikasi ini, dan CSS yang tidak terpakai tetap harus diunduh. */
-@keyframes border-beam {
-  100% {
-    offset-distance: 100%;
-  }
 }
 
 /* --- Bola gacha di hero ---------------------------------------------------
@@ -233,11 +220,10 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
   /* Bobot dasar 400. Sebelumnya banyak elemen mewarisi bobot tebal dan
-     seluruh halaman terasa berteriak. */
+     seluruh halaman terasa berteriak. Keluarga huruf dan antialiasing diatur
+     lewat kelas `font-sans antialiased` di <body>. */
   font-weight: 400;
-  -webkit-font-smoothing: antialiased;
 }
 
 a {

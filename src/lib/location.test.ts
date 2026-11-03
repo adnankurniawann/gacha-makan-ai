@@ -99,7 +99,7 @@ describe("findArea dan describeLocation", () => {
     );
     expect(
       describeLocation({ source: "area", lat: 0, lng: 0, areaId: "sayang" }),
-    ).toBe("Sayang");
+    ).toBe("Sayang, Jatinangor");
     // Area yang sudah dihapus dari daftar tidak boleh membuat UI kosong.
     expect(
       describeLocation({ source: "area", lat: 0, lng: 0, areaId: "hilang" }),
@@ -108,12 +108,19 @@ describe("findArea dan describeLocation", () => {
 });
 
 describe("AREA_PRESETS", () => {
-  it("semua koordinatnya masuk akal untuk Jatinangor", () => {
+  it("tiap area berada di kotak kotanya", () => {
+    // Kotak Bandung sama dengan preset `bandung` di scripts/ingest-osm.mjs:
+    // area di luarnya tidak punya data untuk dicari.
+    const boxes = {
+      Jatinangor: { south: -7.0, north: -6.8, west: 107.6, east: 107.9 },
+      Bandung: { south: -6.975, north: -6.835, west: 107.54, east: 107.74 },
+    };
     for (const area of AREA_PRESETS) {
-      expect(area.lat).toBeGreaterThan(-7.0);
-      expect(area.lat).toBeLessThan(-6.8);
-      expect(area.lng).toBeGreaterThan(107.6);
-      expect(area.lng).toBeLessThan(107.9);
+      const box = boxes[area.city];
+      expect(area.lat).toBeGreaterThan(box.south);
+      expect(area.lat).toBeLessThan(box.north);
+      expect(area.lng).toBeGreaterThan(box.west);
+      expect(area.lng).toBeLessThan(box.east);
     }
   });
 
